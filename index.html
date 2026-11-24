@@ -1088,6 +1088,8 @@ async function ytLyrics(t) {
       lines = lines.map(l => l.ko ? l : { ...l, ko: matchKo(norm(l.jp), map, pairs) });
     } else lines = ko.map(([en, k, s]) => ({ t: s, jp: en, ko: k })); // lrclib에 없는 곡: 적어 둔 순서 · 시간대로
   }
+  // lrcSkip: lrclib 가사에서 빼고 싶은 줄 번호(0부터). 번역을 붙인 다음에 빼요
+  if (t.lrcSkip && fromLrc) lines = lines.filter((_, i) => !t.lrcSkip.includes(i));
   if (!lines.length) { $('#lyr').hidden = true; return; } // 가사를 못 찾으면 가사창은 안 띄워요
   const timed = lines.every(l => typeof l.t === 'number');
   renderLyr(t, lines);
