@@ -7,6 +7,7 @@
 //   - line: 이 곡을 고른 이유가 된 가사 한 줄 (한국어로). 페어 화면 곡 목록에 제목 아래로 보여요
 //           예) { title: '...', artist: '...', url: '...', line: '마음에 든 한 줄' }//   - 유튜브 곡 가사는 lrclib.net에서 자동으로 불러와요 (못 찾으면 가사창이 안 떠요)
 //   - lrcId: lrclib에서 쓸 가사 번호를 콕 집어요 (자동으로 고른 가사가 이상할 때. lrclib.net/api/get/번호)
+//   - lrcShift: 영상 앞에 인트로가 있어 가사가 일찍 넘어가면, 가사 시간을 이만큼(초) 미뤄요 (예: 12.5)
 //   - lrcArtist: 가사 찾을 때만 쓰는 가수 이름 (lrclib에 일본어 이름으로만 있을 때 등). 화면엔 artist가 보여요
 //   - src : 대신 음악 파일 경로를 적으면 (예: 'assets/music/song.mp3') 플레이어에서 바로 재생돼요
 //
@@ -79,8 +80,8 @@ window.PLAYLISTS = {
     tracks: [
       { title: '너의 궤도', artist: 'dossi', url: 'https://youtu.be/3JeNVo6wxaw' },
       { title: 'ブルー', artist: 'indrop (feat. vallyutaite)', url: 'https://youtu.be/ZnwbiJR_488', line: '이렇게나 아름다운 하늘인데 나만이 이곳에 홀로' },
-      { title: '飛行船', artist: '優里', url: 'https://youtu.be/38xNKy9e-0A' },
-      { title: 'パレード', artist: 'ヨルシカ', url: 'https://youtu.be/RoBOoFgdlvU' },
+      { title: '飛行船', artist: '優里', url: 'https://youtu.be/38xNKy9e-0A', lrcId: 16173399, lrcShift: 12.5 },
+      { title: 'パレード', artist: 'ヨルシカ', url: 'https://youtu.be/RoBOoFgdlvU', lrcId: 9098176 },
     ],
   },
 };
