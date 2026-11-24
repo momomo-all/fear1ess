@@ -1,0 +1,35 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>매드독 — 야코매드독</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Rubik+Dirt&family=IBM+Plex+Mono:wght@400;500&family=Gowun+Batang:wght@400;700&display=swap">
+  <link rel="stylesheet" href="site.css">
+</head>
+<body class="arrive char-page char-maddog">
+  <main class="char">
+    <!-- 왼쪽 1/3: 이름과 소개 -->
+    <section class="char-info">
+      <h1 class="char-name">매드독<span class="he" lang="en">MAD DOG</span></h1>
+      <!-- 본명은 비밀: 검은 줄을 눌러야 보여요 -->
+      <p class="char-code">S급 센티넬 · 본명 <button class="reveal" type="button" id="realName" aria-label="본명: 기밀, 눌러서 열람">한지후</button></p>
+      <p class="char-line">“내가 길들여졌다고 생각하면 곤란한데.”</p>
+      <p class="char-desc">매드독의 자세한 소개는 다음 단계에서 채워져요.</p>
+      <a class="char-back" href="index.html" onclick="if (window.top !== window) { location.replace(this.href); return false; }"><svg viewBox="0 0 12 20" aria-hidden="true"><path d="M10 2 2 10l8 8" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg>들여우와 들개</a>
+    </section>
+    <!-- 오른쪽 2/3: 그림 -->
+    <figure class="char-art">
+      <img src="../../assets/pairs/yako-maddog/maddog-char.webp" alt="검은 셔츠와 하네스 차림에 목줄이 달린 초커를 하고, 몸을 숙인 채 붉은 눈으로 이쪽을 보며 씩 웃는 은발의 매드독" width="1216" height="832">
+    </figure>
+  </main>
+  <script>
+    document.getElementById('realName').addEventListener('click', function () {
+      this.classList.add('open');
+      this.removeAttribute('aria-label');
+    }, { once: true });
+  </script>
+</body>
+</html>

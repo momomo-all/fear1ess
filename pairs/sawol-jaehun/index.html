@@ -1,0 +1,182 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>전장의 사월, 봄의 하늘 — 사월재훈</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Hahmlet:wght@300;500;700&family=Orbit&family=Chakra+Petch:wght@400;500&family=Gowun+Batang:wght@400;700&family=Nanum+Myeongjo:wght@400;700;800&family=Nanum+Gothic+Coding:wght@400;700&display=swap">
+  <link rel="preload" as="image" href="../../assets/pairs/sawol-jaehun/bg.webp">
+  <link rel="stylesheet" href="site.css">
+</head>
+<body data-world="idle" class="opening">
+
+  <!-- 평소: 화면을 꽉 채운 흑백 그림 (영화 타이틀 시퀀스)
+       스포트라이트가 비추면 그 안만 컬러 그림이 드러나요 -->
+  <div class="world world-idle" aria-hidden="true">
+    <img class="still mono" src="../../assets/pairs/sawol-jaehun/bg.webp" alt="" width="1216" height="832">
+    <img class="still color" src="../../assets/pairs/sawol-jaehun/bg.webp" alt="" width="1216" height="832">
+    <div class="shade"></div>
+  </div>
+
+  <!-- 전장: 발키리 전술 단말기 -->
+  <div class="world world-hud" aria-hidden="true">
+    <div class="hud-grid"></div>
+    <div class="hud-corner tl"></div><div class="hud-corner tr"></div><div class="hud-corner bl"></div><div class="hud-corner br"></div>
+
+    <div class="hud-id">
+      <b>VALKYRIE</b>
+      <span>TACTICAL AIR DOMINANCE</span>
+      <span>FEARLESS · 제4기동폭격부대</span>
+    </div>
+
+    <div class="hud-heading">
+      <div class="hud-heading-track">
+        <span>330</span><span>340</span><span>350</span><span>N</span><span>010</span><span>020</span><span>030</span><span>040</span><span>050</span><span>E</span><span>070</span><span>080</span>
+        <span>330</span><span>340</span><span>350</span><span>N</span><span>010</span><span>020</span><span>030</span><span>040</span><span>050</span><span>E</span><span>070</span><span>080</span>
+      </div>
+      <i class="hud-caret"></i>
+    </div>
+
+    <div class="hud-tape hud-alt">
+      <div class="hud-tape-ticks"></div>
+      <div class="hud-readout"><small>ALT</small><b id="hudAlt">2,000</b><small>M</small></div>
+    </div>
+    <div class="hud-tape hud-spd">
+      <div class="hud-tape-ticks"></div>
+      <div class="hud-readout"><small>MACH</small><b id="hudMach">0.84</b></div>
+    </div>
+
+    <div class="hud-status">
+      <span>DRONE POD <b>24/24</b></span>
+      <span>RAILGUN <b>READY</b></span>
+      <span>GUIDE LINK <b class="hud-warn">S · PAIRED</b></span>
+    </div>
+    <div class="hud-coord" id="hudCoord">N 37°33'12" · E 126°58'40"</div>
+  </div>
+
+  <!-- 봄: 파스텔 하늘 -->
+  <div class="world world-spring" aria-hidden="true">
+    <div class="sky-sun"></div>
+    <canvas class="sky-petals" id="petals"></canvas>
+  </div>
+
+  <!-- 그림 속 두 사람 얼굴: 이름과 똑같이 반응해요 -->
+  <p class="sr-only">벽에 기댄 이사월에게 다가서는 서재훈</p>
+  <a class="face-hit hit-sawol" href="sawol.html" tabindex="-1" aria-hidden="true" data-for="wSawol"></a>
+  <a class="face-hit hit-jaehun" href="jaehun.html" tabindex="-1" aria-hidden="true" data-for="wHaneul"></a>
+
+  <!-- 조준: 그림 속 이사월을 잠가요 (그림 위에 떠야 해서 밖에 둬요) -->
+  <div class="hud-lock" id="hudLock" aria-hidden="true">
+    <i class="lk tl"></i><i class="lk tr"></i><i class="lk bl"></i><i class="lk br"></i>
+    <span class="hud-lock-label">TGT LOCK — 이사월 · GUIDE S</span>
+  </div>
+  <div class="hud-mark" id="hudMark" aria-hidden="true"><i></i><i></i><i></i></div>
+
+  <main class="stage">
+    <h1 class="phrase">
+      <span class="line l1">전장의 <a class="word" href="sawol.html" data-world="hud" data-tone="sawol" data-who="SOL" data-line="괜찮아요, 제가 여기에 있어요!" id="wSawol" aria-label="사월 — 이사월 캐릭터 보기">사월</a></span>
+      <span class="line l2">봄의 <a class="word" href="jaehun.html" data-world="spring" data-tone="jaehun" data-who="MUSTANG" data-line="그 정도로 놀랄 일인가?" id="wHaneul" aria-label="하늘 — 서재훈 캐릭터 보기">하늘</a></span>
+    </h1>
+
+  </main>
+
+  <!-- FEARLESS 공문: 두 사람을 공식 전담 페어로 지정 (내려오면 직인이 쿵) -->
+  <section class="notice-wrap" id="notice">
+    <div class="notice-grid">
+    <article class="notice" aria-labelledby="noticeTitle">
+      <header class="nt-head">
+        <p class="nt-org">FEARLESS</p>
+        <p class="nt-meta"><span>문서번호 FL-SG-0401</span><span>보존기간 영구</span><span class="nt-secret">대외비</span></p>
+      </header>
+
+      <h2 class="nt-title" id="noticeTitle">전담 페어 지정 통보</h2>
+
+      <dl class="nt-rows">
+        <div><dt>발신</dt><dd>FEARLESS 지부</dd></div>
+        <div><dt>제목</dt><dd>S급 센티넬–가이드 전담 페어 지정의 건</dd></div>
+      </dl>
+
+      <ol class="nt-body">
+        <li>귀하의 노고에 감사드립니다.</li>
+        <li>지부는 아래 인원의 가이딩 적합도 검사 결과에 따라, 두 사람을 <strong>공식 전담 페어</strong>로 지정하였음을 통보합니다.
+          <table class="nt-table">
+            <thead><tr><th scope="col">구분</th><th scope="col">코드네임</th><th scope="col">성명</th><th scope="col">등급</th></tr></thead>
+            <tbody>
+              <tr><td>센티넬</td><td class="nt-code">MUSTANG</td><td>서재훈</td><td>S</td></tr>
+              <tr><td>가이드</td><td class="nt-code">SOL</td><td>이사월</td><td>S</td></tr>
+            </tbody>
+          </table>
+        </li>
+        <li>지정 사항
+          <ol class="nt-sub">
+            <li>전담 가이드는 해당 센티넬의 출격 전후 가이딩을 전담한다.</li>
+            <li>전담 가이드는 센티넬 MUSTANG의 현장 출동 시 즉시 동행할 수 있도록 대기한다.</li>
+            <li>페어의 해제는 지부의 승인 없이 할 수 없다.</li>
+          </ol>
+        </li>
+      </ol>
+      <p class="nt-end">끝.</p>
+
+      <footer class="nt-foot">
+        <p class="nt-sign">FEARLESS 지부장 K
+          <span class="nt-stamp" id="ntStamp" aria-label="직인: FEARLESS 승인">
+            <svg viewBox="0 0 120 120" aria-hidden="true">
+              <defs>
+                <filter id="ink" x="-10%" y="-10%" width="120%" height="120%">
+                  <feTurbulence type="fractalNoise" baseFrequency=".9" numOctaves="2" seed="4" result="n"/>
+                  <feDisplacementMap in="SourceGraphic" in2="n" scale="3.2"/>
+                </filter>
+              </defs>
+              <g filter="url(#ink)" fill="none" stroke="currentColor">
+                <rect x="8" y="8" width="104" height="104" rx="6" stroke-width="5"/>
+                <rect x="16" y="16" width="88" height="88" rx="3" stroke-width="1.6"/>
+                <text x="60" y="52" text-anchor="middle" fill="currentColor" stroke="none" font-size="19" font-weight="700" letter-spacing="1">FEAR</text>
+                <text x="60" y="73" text-anchor="middle" fill="currentColor" stroke="none" font-size="19" font-weight="700" letter-spacing="1">LESS</text>
+                <text x="60" y="94" text-anchor="middle" fill="currentColor" stroke="none" font-size="13" font-weight="700" letter-spacing="3">승 인</text>
+              </g>
+            </svg>
+          </span>
+        </p>
+      </footer>
+    </article>
+
+    <!-- 공문 옆: 함께한 날과 두 사람의 메시지 (내용은 chat.js에서 고쳐요) -->
+    <aside class="side">
+      <div class="dday" aria-live="polite">
+        <p class="dd-num" id="ddNum">D+0</p>
+        <p class="dd-since" id="ddSince"></p>
+      </div>
+      <div class="chat" id="chat" aria-label="두 사람의 메시지 기록">
+        <p class="chat-head" id="chatHead"></p>
+        <div class="chat-log" id="chatLog"></div>
+      </div>
+    </aside>
+    </div>
+  </section>
+
+
+  <!-- 캐릭터에게 가기 전, 영화 컷신처럼 대사가 먼저 떠요 -->
+  <div class="scene" id="scene" tabindex="-1" role="dialog" aria-modal="true" aria-labelledby="sceneLine" hidden>
+    <div class="scene-light"></div>
+    <i class="scene-bar top"></i>
+    <i class="scene-bar bottom"></i>
+    <div class="scene-body">
+      <p class="scene-line" id="sceneLine"></p>
+      <p class="scene-who" id="sceneWho"><span class="sign-bar"><i></i></span><span class="sign-text" id="signText">AWAITING SIGNATURE…</span></p>
+    </div>
+    <p class="scene-skip">눌러서 넘기기</p>
+  </div>
+
+  <script src="chat.js"></script>
+  <!-- 승인 뒤 글자 연출: 엔진 + 인물별 설정 -->
+  <script src="bloom-engine.js"></script>
+  <script src="bloom-sawol.js"></script>
+  <script src="bloom-jaehun.js"></script>
+  <script src="site.js"></script>
+  <!-- FL-OS 단말기: 오른쪽 아래 버튼 (내용은 flos-data.js에서 고쳐요) -->
+  <script src="flos-data.js"></script>
+  <script src="../../js/flos.js"></script>
+</body>
+</html>

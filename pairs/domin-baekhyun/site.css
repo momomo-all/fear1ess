@@ -1,0 +1,514 @@
+/* ───────────────── 도민백현: 萬象의 視線 ───────────────── */
+:root {
+  --serif: "Nanum Myeongjo", "Batang", serif;
+  --hanja: "Noto Serif KR", "Nanum Myeongjo", serif;
+  --orbit: "Michroma", "Chakra Petch", sans-serif;
+  --mono: "Share Tech Mono", "Nanum Gothic Coding", monospace;
+  --hud: "Chakra Petch", sans-serif;
+  --ease-out: cubic-bezier(.16, 1, .3, 1);
+
+  /* 궤도 위의 밤: 깊은 남색 */
+  --paper: #eef0f4;
+  --ink: #141a2e;
+  --ink-sub: #5a6178;
+  /* 도민(TOMA): 붉은 머리, 초록 눈 */
+  --hair: #f0472e;
+  /* 백현(CHERVIL): 검은 코트, 방독면의 초록 불빛 */
+  --filter: #4dff7c;
+}
+
+* { box-sizing: border-box; margin: 0; }
+html { background: var(--paper); scrollbar-width: thin; scrollbar-color: #9aa1b4 transparent; }
+html, body { min-height: 100%; }
+body {
+  font-family: var(--serif);
+  color: var(--ink);
+  -webkit-font-smoothing: antialiased;
+  -webkit-tap-highlight-color: transparent;
+  overflow-x: hidden;
+}
+::selection { background: rgba(77, 255, 124, .28); }
+.sr-only { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
+
+/* ───────────────── 배경: 지구가 내려다보이는 궤도 ───────────────── */
+.world { position: fixed; inset: 0; overflow: hidden; pointer-events: none; background: #050817; }
+.still {
+  position: absolute; inset: 0;
+  width: 100%; height: 100%;
+  object-fit: cover; object-position: 35% 30%;
+  user-select: none;
+  filter: saturate(1.02);
+  transition: filter .8s ease;
+}
+.opening .still { animation: drift 5s .2s var(--ease-out) both; }
+@keyframes drift { from { transform: scale(1.08) rotate(-1.2deg); } }
+.lit-on .still { filter: saturate(.8) brightness(.8); }
+
+/* 빛이 닿은 사람만 남기고 나머지는 우주의 남색으로 가라앉아요 */
+.veil {
+  position: absolute; inset: 0;
+  background: rgba(4, 7, 24, .55);
+  -webkit-mask-image: radial-gradient(circle var(--spot, 240px) at var(--px, 50%) var(--py, 50%), transparent 35%, #000 100%);
+  mask-image: radial-gradient(circle var(--spot, 240px) at var(--px, 50%) var(--py, 50%), transparent 35%, #000 100%);
+  opacity: 0;
+  transition: opacity .6s ease;
+}
+.lit-on .veil { opacity: 1; }
+[data-world="baekhyun"] .veil { background: rgba(2, 14, 8, .6); }
+
+.shade {
+  position: absolute; inset: 0;
+  background:
+    radial-gradient(ellipse at 0% 100%, rgba(4, 7, 24, .7), transparent 50%),
+    radial-gradient(ellipse at 100% 100%, rgba(4, 7, 24, .6), transparent 48%),
+    radial-gradient(ellipse at 100% 0%, rgba(4, 7, 24, .5), transparent 42%);
+}
+.sky { position: absolute; inset: 0; width: 100%; height: 100%; }
+
+/* CHERVIL: 방독면의 초록 조준선이 백현에게 잠겨요 */
+.scope {
+  position: absolute; left: 0; top: 0;
+  width: var(--scope, 300px); height: var(--scope, 300px);
+  overflow: visible;
+  fill: none; stroke: var(--filter);
+  filter: drop-shadow(0 0 6px rgba(77, 255, 124, .6));
+  transform: translate(calc(var(--bx, -999px) - 50%), calc(var(--by, -999px) - 50%)) scale(1.9) rotate(-25deg);
+  opacity: 0;
+  transition: opacity .25s, transform .4s ease-in;
+}
+[data-world="baekhyun"] .scope {
+  opacity: 1;
+  transform: translate(calc(var(--bx) - 50%), calc(var(--by) - 50%));
+  transition: opacity .3s, transform .7s cubic-bezier(.2, 1.3, .4, 1);
+}
+.scope circle, .scope path { stroke-width: 1.3; vector-effect: non-scaling-stroke; }
+.sc-dash { stroke-dasharray: 2 6; opacity: .7; }
+.sc-ring { animation: spin 12s linear infinite; transform-origin: 0 0; }
+.sc-tag { font-family: var(--mono); font-size: 10px; letter-spacing: .1em; fill: var(--filter); stroke: none; text-anchor: end; opacity: 0; }
+[data-world="baekhyun"] .sc-tag { animation: tagBlink .9s .5s steps(2) both; }
+@keyframes spin { to { transform: rotate(360deg); } }
+@keyframes tagBlink { 0% { opacity: 0; } 30% { opacity: 1; } 50% { opacity: .2; } 100% { opacity: 1; } }
+
+/* ───────────────── 얼굴 위 반응 영역 ───────────────── */
+.face-hit {
+  position: absolute; z-index: 2;
+  left: 0; top: 0;
+  width: var(--hs, 160px); height: var(--hs, 160px);
+  border-radius: 50%;
+  transform: translate(calc(var(--hx, -999px) - 50%), calc(var(--hy, -999px) - 50%));
+  cursor: pointer;
+}
+
+/* ───────────────── 두 이름: 넓게 펼쳐진 궤도 글씨 × 조준경 속 단말기 글씨 ───────────────── */
+.stage {
+  position: relative; z-index: 3;
+  height: 100svh; min-height: 560px;
+  pointer-events: none;
+}
+.name {
+  position: absolute;
+  display: grid; gap: 8px;
+  color: #eef1fb;
+  text-decoration: none;
+  text-shadow: 0 2px 18px rgba(4, 7, 24, .6);
+  pointer-events: auto;
+  cursor: pointer;
+  transition: color .5s ease, opacity .5s ease;
+}
+.name .nm { line-height: .95; }
+.name.domin .nm { font-family: var(--orbit); font-size: clamp(2.6rem, 6.8vw, 5.8rem); letter-spacing: .12em; }
+.name.baekhyun .nm { font-family: var(--mono); font-size: clamp(2.8rem, 7.2vw, 6.2rem); letter-spacing: .02em; }
+.name small { font-size: clamp(13px, 1.1vw, 15px); color: #c9cfe2; transition: color .5s ease; }
+.name.domin { left: clamp(24px, 6vw, 110px); bottom: clamp(48px, 10svh, 110px); }
+.name.baekhyun { right: clamp(24px, 6vw, 110px); bottom: clamp(48px, 10svh, 110px); text-align: right; justify-items: end; }
+.name:focus-visible { outline: 2px solid currentColor; outline-offset: 10px; border-radius: 4px; }
+.name .nm::after { /* 누를 수 있다는 가는 선 */
+  content: ""; display: block; height: 1.5px; margin-top: 10px;
+  background: currentColor; opacity: .35;
+  transform-origin: left; transform: scaleX(.35);
+  transition: transform .6s var(--ease-out), opacity .3s;
+}
+.name.baekhyun .nm::after { transform-origin: right; }
+.name:hover .nm::after, .name:focus-visible .nm::after, .name.lit .nm::after { transform: none; opacity: .9; }
+/* 백현 이름 앞에서 깜빡이는 커서 */
+.name.baekhyun .nm::before { content: "▮"; margin-right: .12em; font-size: .5em; vertical-align: .55em; color: var(--filter); opacity: 0; }
+[data-world="baekhyun"] .name.baekhyun .nm::before { animation: caret 1s steps(2) infinite; }
+@keyframes caret { 50% { opacity: 1; } }
+
+[data-world="domin"] .name.domin { color: #ff8a6c; }
+[data-world="domin"] .name.domin small { color: #ffc9b8; }
+[data-world="domin"] .name.baekhyun { opacity: .3; }
+[data-world="baekhyun"] .name.baekhyun { color: #8dffad; }
+[data-world="baekhyun"] .name.baekhyun small { color: #bfffd1; }
+[data-world="baekhyun"] .name.domin { opacity: .3; }
+
+/* 두 사람에게 꼭 맞는 한 줄 (오른쪽 위, 노을 진 하늘) */
+.lyric {
+  position: absolute; right: clamp(24px, 6vw, 110px); top: clamp(70px, 11svh, 130px);
+  display: grid; gap: 6px; justify-items: end; text-align: right;
+  color: #f2f4fb;
+  text-shadow: 0 1px 16px rgba(4, 7, 24, .75);
+}
+.lyric .sub { font-family: var(--orbit); font-size: clamp(10px, .9vw, 12px); letter-spacing: .28em; text-transform: uppercase; opacity: .85; }
+.lyric .ko { font-family: var(--hanja); font-weight: 900; font-size: clamp(30px, 3.6vw, 52px); letter-spacing: .08em; }
+.lyric em { font-style: normal; transition: color .6s ease, text-shadow .6s ease; }
+[data-world="domin"] .lyric .w-all { color: #ff9a7c; }
+[data-world="baekhyun"] .lyric .w-gaze { color: #8dffad; text-shadow: 0 0 18px rgba(77, 255, 124, .6); }
+
+/* ───────────────── 여는 장면: 캄캄한 우주에서 지구의 빛이 떠올라요 ───────────────── */
+.opening .world::after {
+  content: ""; position: absolute; inset: 0; background: #02030a;
+  animation: clear 3s .1s ease-out both;
+}
+@keyframes clear { 0%, 30% { opacity: 1; } 100% { opacity: 0; } }
+.opening .name { animation: nameIn 1.4s var(--ease-out) both; }
+.opening .name.domin { animation-delay: 1.9s; }
+.opening .name.baekhyun { animation-delay: 2.4s; }
+.opening .lyric > span { animation: nameIn 1.6s var(--ease-out) both; }
+.opening .lyric .sub { animation-delay: 3s; }
+.opening .lyric .ko { animation-delay: 3.4s; }
+@keyframes nameIn { from { opacity: 0; filter: blur(10px); transform: translateY(14px); } }
+
+/* ───────────────── 대사 연출 ───────────────── */
+.scene {
+  position: fixed; inset: 0; z-index: 30;
+  --bar: 11svh;
+  cursor: pointer;
+  overflow: hidden;
+  opacity: 0;
+  transition: opacity .35s ease;
+}
+.scene[hidden] { display: none; }
+.scene.on { opacity: 1; }
+.scene-bar {
+  position: absolute; left: 0; right: 0; z-index: 2;
+  height: var(--bar); background: var(--bar-bg, #000);
+  transform: scaleY(0);
+  transition: transform .7s .1s var(--ease-out);
+}
+.scene-bar.top { top: 0; transform-origin: top; }
+.scene-bar.bottom { bottom: 0; transform-origin: bottom; }
+.scene.on .scene-bar { transform: none; }
+.scene-light { position: absolute; inset: 0; z-index: 1; pointer-events: none; }
+.scene-body {
+  position: absolute; z-index: 3; left: 0; right: 0; top: 50%;
+  transform: translateY(-50%);
+  display: grid; justify-items: center; gap: clamp(14px, 2.4vh, 22px);
+  padding: 0 24px; text-align: center;
+}
+.scene-line {
+  font-weight: 800;
+  font-size: clamp(1.5rem, 3.6vw, 2.7rem);
+  line-height: 1.4;
+  text-wrap: balance;
+  max-width: 18em;
+}
+.scene-word { display: inline-block; white-space: nowrap; }
+.scene-word span { display: inline-block; white-space: pre; opacity: 0; animation-fill-mode: both; animation-delay: calc(.8s + var(--i) * 50ms); }
+.scene.on .scene-word span { animation-name: var(--char-in); animation-duration: .6s; animation-timing-function: var(--ease-out); }
+.scene.full .scene-word span { animation: none; opacity: 1; }
+.scene-who {
+  display: grid; justify-items: center; gap: 10px;
+  font-family: var(--hud); font-size: 13px; letter-spacing: .16em;
+  opacity: 0; transform: translateY(6px);
+  transition: opacity .5s, transform .7s var(--ease-out);
+}
+.scene.full .scene-who { opacity: 1; transform: none; }
+.sign-bar { position: relative; width: 168px; height: 2px; overflow: hidden; background: currentColor; opacity: .25; }
+.sign-bar i { position: absolute; inset: 0; background: currentColor; transform: scaleX(0); transform-origin: left; }
+.scene.signing .sign-bar { opacity: 1; background: color-mix(in srgb, currentColor 25%, transparent); }
+.scene.signing .sign-bar i { transform: scaleX(1); transition: transform 1.1s cubic-bezier(.6, 0, .2, 1); }
+.scene.signed .sign-text { animation: signIn .5s var(--ease-out) both; font-weight: 500; }
+@keyframes signIn { from { opacity: 0; letter-spacing: .4em; } }
+.scene-skip {
+  position: absolute; z-index: 3; left: 0; right: 0;
+  bottom: calc(var(--bar) / 2 - .6em);
+  text-align: center; font-size: 13px; letter-spacing: .06em;
+  color: var(--skip, rgba(255, 255, 255, .62));
+  opacity: 0; transition: opacity .4s 1.4s;
+}
+.scene.on .scene-skip { opacity: 1; }
+.scene::after { content: ""; position: absolute; inset: 0; z-index: 4; background: #fff; opacity: 0; transition: opacity .6s ease; pointer-events: none; }
+.scene.leave::after { opacity: 1; }
+
+/* 도민(TOMA): 별이 감기는 밤하늘, 글자는 먼 곳에서 날아와 박혀요 */
+.scene[data-tone="domin"] {
+  --char-in: charWarp; --bar-bg: #03040c;
+  background: radial-gradient(ellipse at 50% 120%, #3a1a2e, #0b0f26 55%, #04050f);
+  color: #f6f2ff;
+}
+.scene[data-tone="domin"] .scene-light {
+  /* 별 궤적: 점들이 가운데를 축으로 천천히 돌아요 */
+  inset: -50%;
+  background:
+    radial-gradient(circle at 20% 30%, #fff 0 1px, transparent 1.6px),
+    radial-gradient(circle at 70% 60%, #fff 0 1px, transparent 1.6px),
+    radial-gradient(circle at 40% 80%, #ffd8c8 0 1.2px, transparent 2px),
+    radial-gradient(circle at 85% 20%, #fff 0 .8px, transparent 1.4px);
+  background-size: 140px 140px, 210px 210px, 260px 260px, 90px 90px;
+  opacity: 0;
+}
+.scene[data-tone="domin"].on .scene-light { animation: sceneFade 1s ease both, spin 60s linear infinite; }
+.scene[data-tone="domin"] .scene-line { font-family: var(--serif); }
+.scene[data-tone="domin"] .scene-who { color: #ff8a6c; }
+@keyframes sceneFade { to { opacity: .7; } }
+@keyframes charWarp { from { opacity: 0; transform: scale(.2); filter: blur(6px); } to { opacity: 1; transform: none; filter: none; } }
+
+/* 백현(CHERVIL): 방독면 속 시야, 초록 주사선 위로 글자가 지직이며 떠요 */
+.scene[data-tone="baekhyun"] {
+  --char-in: charScan; --bar-bg: #000;
+  background:
+    repeating-linear-gradient(to bottom, rgba(77, 255, 124, .05) 0 1px, transparent 1px 4px),
+    radial-gradient(ellipse at 50% 50%, #0b2416, #020805 70%);
+  color: #d9ffe3;
+}
+.scene[data-tone="baekhyun"] .scene-light {
+  background: linear-gradient(to bottom, transparent, rgba(77, 255, 124, .16) 48%, rgba(160, 255, 190, .3) 50%, transparent 52%);
+  background-size: 100% 220%;
+  opacity: 0;
+}
+.scene[data-tone="baekhyun"].on .scene-light { opacity: 1; animation: scanDown 2.6s linear infinite; }
+.scene[data-tone="baekhyun"] .scene-line { font-family: var(--serif); text-shadow: 0 0 14px rgba(77, 255, 124, .45); }
+.scene[data-tone="baekhyun"] .scene-who { color: var(--filter); font-family: var(--mono); }
+@keyframes scanDown { from { background-position: 0 100%; } to { background-position: 0 -100%; } }
+@keyframes charScan {
+  0% { opacity: 0; color: var(--filter); transform: translateX(-.08em); }
+  30% { opacity: 1; }
+  45% { opacity: .3; transform: translateX(.06em); }
+  60% { opacity: 1; transform: none; }
+  100% { opacity: 1; color: inherit; }
+}
+
+/* ───────────────── 공문 옆 칸 (D-day, 메시지) ───────────────── */
+.notice-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 720px) minmax(0, 340px);
+  justify-content: center;
+  align-items: start;
+  gap: clamp(28px, 4vw, 56px);
+  max-width: 1160px;
+  margin: 0 auto;
+}
+.notice-grid .notice { margin: 0; }
+.side { position: sticky; top: 40px; display: grid; gap: 22px; }
+
+.dday { padding: 18px 22px 16px; border-top: 1px solid var(--dd-rule); border-bottom: 1px solid var(--dd-rule); color: var(--dd-ink); }
+.dd-num { font-family: var(--hud); font-size: clamp(40px, 4.6vw, 56px); line-height: 1; letter-spacing: .02em; font-variant-numeric: tabular-nums; }
+.dd-since { margin-top: 8px; font-size: 14px; color: var(--dd-sub); }
+
+/* 메시지: 휴대폰 없이 말풍선만 */
+.chat { font-family: -apple-system, BlinkMacSystemFont, "Pretendard Variable", Pretendard, "Apple SD Gothic Neo", sans-serif; }
+.chat-head { margin-bottom: 14px; text-align: center; font-size: 12px; color: #8e8e93; }
+.chat-head b { font-weight: 600; }
+.chat-log { display: flex; flex-direction: column; }
+.msg {
+  position: relative;
+  max-width: 78%;
+  padding: 8px 13px 9px;
+  border-radius: 18px;
+  margin-top: 3px;
+  font-size: 15px; line-height: 1.35;
+  color: #fff;
+  overflow-wrap: break-word;
+  opacity: 0; transform: translateY(10px) scale(.9);
+}
+.msg.them { align-self: flex-start; background: var(--them); color: var(--them-ink); box-shadow: var(--them-edge, none); transform-origin: 0 100%; }
+.msg.me { align-self: flex-end; background: var(--me); color: var(--me-ink); box-shadow: var(--me-edge, none); transform-origin: 100% 100%; }
+.msg.first { margin-top: 12px; }
+.msg-time { margin: 14px 0 4px; text-align: center; font-size: 11px; color: #8e8e93; opacity: 0; }
+.msg-read { align-self: flex-end; margin: 4px 4px 0 0; font-size: 11px; color: #8e8e93; opacity: 0; }
+.msg-read b { font-weight: 600; }
+.msg.tail::before, .msg.tail::after { content: ""; position: absolute; bottom: 0; height: 17px; }
+.msg.them.tail::before { left: -6px; width: 16px; background: var(--them); border-bottom-right-radius: 14px 12px; }
+.msg.them.tail::after { left: -10px; width: 10px; background: var(--chat-bg); border-bottom-right-radius: 9px; }
+.msg.me.tail::before { right: -6px; width: 16px; background: var(--me); border-bottom-left-radius: 14px 12px; }
+.msg.me.tail::after { right: -10px; width: 10px; background: var(--chat-bg); border-bottom-left-radius: 9px; }
+.chat.play .msg { animation: msgIn .45s cubic-bezier(.34, 1.4, .64, 1) both; animation-delay: calc(var(--k) * 280ms); }
+.chat.play .msg-time, .chat.play .msg-read { animation: msgFade .4s ease both; animation-delay: calc(var(--k) * 280ms); }
+@keyframes msgIn { to { opacity: 1; transform: none; } }
+.msg.typing { display: flex; gap: 5px; padding: 12px 14px; }
+.msg.typing i { width: 7px; height: 7px; border-radius: 50%; background: currentColor; opacity: .35; animation: typeDot 1.3s infinite; }
+.msg.typing i:nth-child(2) { animation-delay: .18s; }
+.msg.typing i:nth-child(3) { animation-delay: .36s; }
+@keyframes typeDot { 0%, 60%, 100% { opacity: .35; transform: none; } 30% { opacity: 1; transform: translateY(-3px); } }
+@keyframes msgFade { to { opacity: 1; } }
+
+@media (max-width: 1000px) {
+  .notice-grid { grid-template-columns: minmax(0, 720px); }
+  .side { position: static; max-width: 460px; width: 100%; margin: 0 auto; }
+}
+
+/* 도민백현 색: 도민(오른쪽)은 붉은 머리색, 백현(왼쪽)은 검은 코트 바탕에 방독면의 초록 불빛 글씨 */
+.chat { --me: #e8432f; --me-ink: #fff5f2; --them: #141a17; --them-ink: #7dffa0; --chat-bg: var(--paper); }
+.side { --dd-ink: #141a2e; --dd-sub: #5a6178; --dd-rule: rgba(20, 26, 46, .16); }
+.chat-head { color: #5a6178; }
+/* 아직 나눈 말이 없을 때 */
+.chat-empty { padding: 22px 12px; border: 1px dashed rgba(20, 26, 46, .2); border-radius: 16px; text-align: center; font-size: 13px; color: #8a8fa0; }
+
+/* ───────────────── FEARLESS 공문 ───────────────── */
+.notice-wrap {
+  position: relative; z-index: 2;
+  padding: clamp(80px, 14vh, 160px) 20px clamp(80px, 12vh, 140px);
+  background: linear-gradient(to bottom, rgba(232, 237, 241, 0), var(--paper) 18vh);
+}
+.notice {
+  --paper: #eeeadf;
+  --ink: #23201b;
+  --rule: #23201b;
+  --seal: #b8322a;
+  position: relative;
+  max-width: 720px;
+  margin: 0 auto;
+  padding: clamp(32px, 6vw, 64px) clamp(22px, 6vw, 68px) clamp(36px, 6vw, 60px);
+  background: var(--paper);
+  color: var(--ink);
+  box-shadow: 0 30px 50px -30px rgba(30, 40, 50, .45), 0 2px 6px rgba(30, 40, 50, .18);
+  font-family: "Nanum Myeongjo", "Batang", serif;
+  --type: "Nanum Gothic Coding", monospace;
+  line-height: 1.75;
+  transform-origin: 50% 85%;
+}
+.notice::before { /* 종이 결 */
+  content: ""; position: absolute; inset: 0; pointer-events: none; opacity: .35;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='p'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.6' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 .55 0 0 0 0 .5 0 0 0 0 .42 0 0 0 .18 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23p)'/%3E%3C/svg%3E");
+}
+.nt-head {
+  display: flex; flex-wrap: wrap; justify-content: space-between; align-items: end; gap: 8px 20px;
+  padding-bottom: 14px;
+  border-bottom: 3px double var(--rule);
+}
+.nt-org { font-weight: 800; font-size: 22px; letter-spacing: .32em; }
+.nt-meta { display: flex; flex-wrap: wrap; gap: 4px 14px; font-family: var(--type); font-size: 13px; }
+.nt-secret { padding: 0 8px; border: 1.5px solid var(--seal); color: var(--seal); font-weight: 700; letter-spacing: .1em; }
+.nt-title {
+  margin: clamp(26px, 4vw, 40px) 0 clamp(18px, 3vw, 28px);
+  text-align: center;
+  font-size: clamp(26px, 4vw, 36px); font-weight: 800; letter-spacing: .3em;
+}
+.nt-rows { display: grid; gap: 4px; padding: 14px 0; border-top: 1px solid var(--rule); border-bottom: 1px solid var(--rule); font-size: 16px; }
+.nt-rows div { display: grid; grid-template-columns: 4.5em 1fr; }
+.nt-rows dt { font-weight: 700; letter-spacing: .3em; }
+.nt-body { margin-top: 22px; padding-left: 1.6em; font-size: 16px; }
+.nt-body > li { margin-bottom: 12px; padding-left: .3em; }
+.nt-body strong { font-weight: 700; box-shadow: inset 0 -.35em 0 rgba(184, 50, 42, .16); }
+.nt-sub { margin-top: 6px; padding-left: 1.4em; list-style: hangul; }
+.nt-sub li { margin-bottom: 4px; }
+.nt-table { width: 100%; margin: 14px 0 6px; border-collapse: collapse; font-size: 15px; text-align: center; }
+.nt-table th, .nt-table td { padding: 8px 6px; border: 1px solid var(--rule); }
+.nt-table th { background: rgba(35, 32, 27, .08); font-weight: 700; }
+.nt-code { font-family: var(--type); font-weight: 700; letter-spacing: .05em; }
+/* 아직 아무도 모르는 칸: 타자기 물음표 */
+.nt-unknown { font-family: var(--type); font-weight: 700; color: var(--seal); letter-spacing: .1em; }
+.nt-end { margin-top: 6px; text-align: right; font-weight: 700; }
+.nt-foot { margin-top: clamp(34px, 6vw, 56px); text-align: center; }
+.nt-sign {
+  position: relative;
+  display: inline-block;
+  margin-top: 12px;
+  padding-right: 64px;
+  font-size: clamp(20px, 2.6vw, 26px); font-weight: 800; letter-spacing: .3em;
+  white-space: nowrap;
+}
+@media (max-width: 560px) {
+  .nt-sign { font-size: 18px; letter-spacing: .05em; padding-right: 48px; }
+  .nt-stamp { width: 80px; height: 80px; right: -14px; }
+  .nt-title { letter-spacing: .16em; }
+}
+.nt-stamp {
+  position: absolute; right: -18px; top: 50%;
+  width: 104px; height: 104px;
+  color: var(--seal);
+  transform: translateY(-50%) rotate(-9deg);
+  opacity: 0;
+  mix-blend-mode: multiply;
+}
+.nt-stamp svg { display: block; width: 100%; height: 100%; font-family: "Nanum Myeongjo", serif; }
+.stamped .nt-stamp { animation: stampDown .5s cubic-bezier(.2, 0, .3, 1) both; }
+.stamped.notice { animation: thud .45s .3s ease-out; }
+@keyframes stampDown {
+  0% { opacity: 0; transform: translateY(-50%) rotate(-16deg) scale(2.6); }
+  55% { opacity: .9; transform: translateY(-50%) rotate(-8deg) scale(.94); }
+  75% { transform: translateY(-50%) rotate(-9deg) scale(1.03); }
+  100% { opacity: .88; transform: translateY(-50%) rotate(-9deg) scale(1); }
+}
+@keyframes thud {
+  0%, 100% { transform: none; }
+  20% { transform: translateY(3px) scale(.996); }
+  45% { transform: translateY(-1px); }
+}
+
+.notice-wrap { background: linear-gradient(to bottom, rgba(238, 240, 244, 0), var(--paper) 18vh); }
+
+/* ───────────────── 세로 화면 ───────────────── */
+@media (max-aspect-ratio: 4/5) {
+  .still { object-position: 30% 30%; }
+  .name.domin .nm { font-size: clamp(2.2rem, 11vw, 3.6rem); }
+  .name.baekhyun .nm { font-size: clamp(2.4rem, 12vw, 3.8rem); }
+  .name.domin { bottom: 17svh; }
+  .name.baekhyun { bottom: 5svh; }
+  .lyric { top: 7svh; }
+  .lyric .ko { font-size: 28px; }
+}
+
+/* ───────────────── 움직임 줄이기 ───────────────── */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation-duration: .01ms !important; animation-iteration-count: 1 !important; transition-duration: .01ms !important; }
+  .scene-word span { animation: none !important; opacity: 1 !important; }
+  .stamped .nt-stamp { animation: none !important; opacity: .88; }
+  .stamped.notice { animation: none !important; }
+  .msg, .msg-time, .msg-read { opacity: 1 !important; transform: none !important; animation: none !important; }
+}
+
+/* ───────────────── 캐릭터 페이지 (그림이 화면의 2/3) ───────────────── */
+.arrive { animation: arrive .7s ease both; }
+@keyframes arrive { from { opacity: 0; } }
+html:has(body.char-page) { background: #fff; }
+.char {
+  min-height: 100svh;
+  display: grid;
+  grid-template-columns: 1fr 2fr;
+  align-items: center;
+  background: var(--c-bg);
+  color: var(--c-ink);
+}
+.char-info { display: grid; gap: 18px; align-content: center; padding: 96px clamp(24px, 4vw, 64px) 64px clamp(24px, 6vw, 96px); }
+.char-code { margin-top: -8px; font-family: var(--hud); font-size: 15px; letter-spacing: .04em; color: var(--c-accent); }
+.char-name { font-size: clamp(3rem, 6vw, 5.2rem); font-weight: 800; line-height: 1.05; letter-spacing: -.02em; }
+.char-name .he { display: block; margin-top: 6px; text-align: left; font-family: var(--serif); font-size: .38em; font-weight: 700; letter-spacing: .04em; color: var(--c-sub); }
+.char-line { font-size: clamp(17px, 1.5vw, 21px); font-weight: 700; line-height: 1.5; text-wrap: pretty; word-break: keep-all; }
+.char-line[lang="la"] { font-family: var(--latin); font-style: italic; font-weight: 600; font-size: clamp(20px, 1.8vw, 25px); }
+.char-line small { display: block; margin-top: 4px; font-family: var(--serif); font-style: normal; font-size: 14px; font-weight: 400; color: var(--c-sub); }
+.char-desc { font-size: 16px; line-height: 1.7; color: var(--c-sub); max-width: 24em; }
+.char-back { margin-top: 10px; display: inline-flex; align-items: center; gap: 8px; color: var(--c-ink); font-size: 15px; text-underline-offset: 5px; }
+.char-back svg { width: 8px; height: 13px; flex: none; }
+.char-back:focus-visible { outline: 2px solid currentColor; outline-offset: 6px; border-radius: 3px; }
+.char-art {
+  margin: 0; align-self: stretch; height: 100svh;
+  display: flex; justify-content: flex-end; overflow: hidden;
+  -webkit-mask-image: linear-gradient(to right, transparent, #000 var(--fade, 26%));
+  mask-image: linear-gradient(to right, transparent, #000 var(--fade, 26%));
+}
+.char-art img { display: block; height: 100%; width: auto; max-width: none; flex: none; }
+.char-info > * { animation: charIn .9s var(--ease-out) both; }
+.char-info > :nth-child(2) { animation-delay: .08s; }
+.char-info > :nth-child(3) { animation-delay: .16s; }
+.char-info > :nth-child(4) { animation-delay: .24s; }
+.char-info > :nth-child(5) { animation-delay: .32s; }
+.char-art img { animation: artIn 1.2s .1s var(--ease-out) both; }
+@keyframes charIn { from { opacity: 0; transform: translateX(-14px); } }
+@keyframes artIn { from { opacity: 0; transform: translateX(24px); } }
+@media (max-width: 760px) {
+  .char { grid-template-columns: 1fr; align-items: start; }
+  .char-art { order: -1; height: auto; justify-content: center; -webkit-mask-image: linear-gradient(to bottom, #000 72%, transparent); mask-image: linear-gradient(to bottom, #000 72%, transparent); }
+  .char-art img { width: 100%; height: auto; }
+  .char-info { margin-top: -24px; position: relative; padding: 0 24px 64px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .char-info > *, .char-art img { animation: none !important; }
+}
+
+/* 도민백현 캐릭터 페이지 색 */
+.char-page.char-domin { --c-ink: #17141a; --c-sub: #5f585a; --c-accent: #e2321e; }
+.char-page.char-domin .char-name .he { font-family: var(--orbit); font-weight: 400; letter-spacing: .14em; }
+.char-page.char-baekhyun { --c-ink: #121614; --c-sub: #59625c; --c-accent: #14a05a; }
+.char-page.char-baekhyun .char-name .he { font-family: var(--mono); font-weight: 400; letter-spacing: .04em; }

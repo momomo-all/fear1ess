@@ -1,0 +1,488 @@
+/* ───────────────── 요피엘버닝: 가장 아름다운 결점 ───────────────── */
+:root {
+  --serif: "Nanum Myeongjo", "Batang", serif;
+  --holy: "Cinzel", "Nanum Myeongjo", serif;
+  --latin: "Cormorant Garamond", "Nanum Myeongjo", serif;
+  --hud: "Chakra Petch", sans-serif;
+  --ease-out: cubic-bezier(.16, 1, .3, 1);
+
+  /* 밤의 설원: 얼어붙은 푸른 흑백 */
+  --paper: #e8edf1;
+  --ink: #18202b;
+  --ink-sub: #5a6676;
+  /* 요피엘: 새하얀 날개, 초록 눈 */
+  --pale: #f4fbf8;
+  --jade: #3f9a74;
+  /* 버닝(권재혁): 불타는 붉은 머리, 검은 전술복 */
+  --flame: #e2452a;
+  --flame-deep: #6e1608;
+  --coal: #15171c;
+}
+
+* { box-sizing: border-box; margin: 0; }
+html { background: var(--paper); scrollbar-width: thin; scrollbar-color: #98a3b1 transparent; }
+html, body { min-height: 100%; }
+body {
+  font-family: var(--serif);
+  color: var(--ink);
+  -webkit-font-smoothing: antialiased;
+  -webkit-tap-highlight-color: transparent;
+  overflow-x: hidden;
+}
+::selection { background: rgba(226, 69, 42, .25); }
+.sr-only { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
+
+/* ───────────────── 배경: 눈 내리는 밤의 설원 ───────────────── */
+@property --r { syntax: '<length>'; inherits: true; initial-value: 0px; }
+@property --fr { syntax: '<length>'; inherits: true; initial-value: 0px; }
+.world { position: fixed; inset: 0; overflow: hidden; pointer-events: none; background: #0a0e16; }
+.still {
+  position: absolute; inset: 0;
+  width: 100%; height: 100%;
+  object-fit: cover; object-position: 60% 30%;
+  user-select: none;
+}
+/* 평소: 얼어붙은 푸른 흑백 */
+.still.mono { filter: grayscale(1) sepia(.25) hue-rotate(180deg) saturate(.8) brightness(.78) contrast(1.08); transition: filter .8s ease; }
+.lit-on .still.mono { filter: grayscale(1) sepia(.25) hue-rotate(180deg) saturate(.8) brightness(.5) contrast(1.12); }
+
+/* 제 색이 남는 자리: 꽃 한 송이는 언제나, 빛이 닿으면 그 사람도 */
+.still.color {
+  --r: 0px;
+  -webkit-mask-image:
+    radial-gradient(circle max(1px, var(--fr)) at var(--fx, -99px) var(--fy, -99px), #000 30%, transparent 85%),
+    radial-gradient(circle max(1px, var(--r)) at var(--px, -99px) var(--py, -99px), #000 45%, transparent 100%);
+  mask-image:
+    radial-gradient(circle max(1px, var(--fr)) at var(--fx, -99px) var(--fy, -99px), #000 30%, transparent 85%),
+    radial-gradient(circle max(1px, var(--r)) at var(--px, -99px) var(--py, -99px), #000 45%, transparent 100%);
+  --fr: var(--flower, 60px);
+  transition: --r .45s cubic-bezier(.5, 0, .75, 0), --fr .8s ease;
+}
+.lit-on .still.color { --r: var(--spot, 240px); transition: --r 1.1s var(--ease-out), --fr .8s ease; }
+/* 꽃이 피어나는 첫 장면 */
+.opening .still.color { animation: bloom 2.6s 1s var(--ease-out) both; }
+@keyframes bloom { from { --fr: 0px; } }
+
+/* 가장자리를 눌러 이름이 잘 읽히게 */
+.shade {
+  position: absolute; inset: 0;
+  background:
+    radial-gradient(ellipse at 12% 92%, rgba(6, 10, 18, .6), transparent 50%),
+    radial-gradient(ellipse at 96% 8%, rgba(6, 10, 18, .45), transparent 40%),
+    linear-gradient(to top, rgba(6, 10, 18, .35), transparent 30%);
+}
+
+/* Yophiel: 요피엘에게서 차갑고 맑은 흰빛 */
+.glow-y {
+  position: absolute; inset: 0;
+  background: radial-gradient(circle at var(--px) var(--py), rgba(225, 255, 244, .45), rgba(140, 220, 200, .16) 26%, transparent 52%);
+  opacity: 0;
+  transform: scale(.6);
+  transform-origin: var(--px) var(--py);
+  transition: opacity .5s ease, transform .9s var(--ease-out);
+}
+[data-world="yophiel"] .glow-y { opacity: 1; transform: none; }
+
+/* Burning: 버닝에게서 불빛이 */
+.glow-b {
+  position: absolute; inset: 0;
+  background: radial-gradient(circle at var(--px) var(--py), rgba(255, 120, 60, .45), rgba(226, 69, 42, .2) 26%, transparent 55%);
+  opacity: 0;
+  transform: scale(.6);
+  transform-origin: var(--px) var(--py);
+  transition: opacity .5s ease, transform .9s var(--ease-out);
+}
+[data-world="burning"] .glow-b { opacity: 1; transform: none; }
+
+.snow { position: absolute; inset: 0; width: 100%; height: 100%; }
+
+/* ───────────────── 얼굴 위 반응 영역 ───────────────── */
+.face-hit {
+  position: absolute; z-index: 2;
+  left: 0; top: 0;
+  width: var(--hs, 160px); height: var(--hs, 160px);
+  border-radius: 50%;
+  transform: translate(calc(var(--hx, -999px) - 50%), calc(var(--hy, -999px) - 50%));
+  cursor: pointer;
+}
+
+/* ───────────────── 두 이름: 성스러운 비문체 × 거친 전술 글씨 ───────────────── */
+.stage {
+  position: relative; z-index: 3;
+  height: 100svh; min-height: 560px;
+  pointer-events: none;
+}
+.name {
+  position: absolute;
+  display: grid; gap: 6px;
+  color: #eef3f8;
+  text-decoration: none;
+  text-shadow: 0 2px 16px rgba(6, 10, 18, .55);
+  pointer-events: auto;
+  cursor: pointer;
+  transition: color .5s ease, opacity .5s ease;
+}
+.name .nm { line-height: .9; }
+.name.yophiel .nm { font-family: var(--holy); font-weight: 400; font-size: clamp(3rem, 8vw, 6.8rem); letter-spacing: .04em; }
+.name.burning .nm { font-family: var(--hud); font-weight: 700; font-size: clamp(3rem, 8.4vw, 7rem); letter-spacing: -.01em; }
+.name small { font-size: clamp(13px, 1.1vw, 15px); color: #c8d1dc; transition: color .5s ease; }
+.name.yophiel { left: clamp(24px, 6vw, 110px); bottom: clamp(48px, 10svh, 110px); }
+.name.burning { right: clamp(24px, 6vw, 110px); top: clamp(70px, 11svh, 130px); text-align: right; justify-items: end; }
+.name:focus-visible { outline: 2px solid currentColor; outline-offset: 10px; border-radius: 4px; }
+.name .nm::after { /* 누를 수 있다는 가는 선 */
+  content: ""; display: block; height: 1.5px; margin-top: 10px;
+  background: currentColor; opacity: .35;
+  transform-origin: left; transform: scaleX(.35);
+  transition: transform .6s var(--ease-out), opacity .3s;
+}
+.name.burning .nm::after { transform-origin: right; height: 3px; }
+.name:hover .nm::after, .name:focus-visible .nm::after, .name.lit .nm::after { transform: none; opacity: .9; }
+
+[data-world="yophiel"] .name.yophiel { color: #f2fffa; }
+[data-world="yophiel"] .name.yophiel small { color: #9fdcc4; }
+[data-world="yophiel"] .name.burning { opacity: .25; }
+[data-world="burning"] .name.burning { color: #ff8a5c; }
+[data-world="burning"] .name.burning small { color: #ffb08f; }
+[data-world="burning"] .name.yophiel { opacity: .4; }
+
+/* 두 사람에게 꼭 맞는 한 줄 (오른쪽 아래, 버닝의 검은 전술복 위) */
+.lyric {
+  position: absolute; right: clamp(24px, 6vw, 110px); bottom: clamp(48px, 10svh, 110px);
+  display: grid; gap: 4px; justify-items: end; text-align: right;
+  color: #e6ecf3;
+  text-shadow: 0 1px 14px rgba(6, 10, 18, .7);
+}
+.lyric .sub { font-family: var(--latin); font-style: italic; font-size: clamp(16px, 1.5vw, 21px); letter-spacing: .04em; opacity: .8; }
+.lyric .ko { font-weight: 800; font-size: clamp(22px, 2.4vw, 34px); letter-spacing: .04em; }
+.lyric em { font-style: normal; transition: color .6s ease; }
+/* 마우스를 올린 쪽 단어가 그 사람의 색으로: 아름다운은 요피엘, 결점은 버닝 */
+[data-world="yophiel"] .lyric .w-beauty { color: #b8f0da; }
+[data-world="burning"] .lyric .w-flaw { color: #ff8a5c; }
+
+/* ───────────────── 여는 장면: 캄캄한 밤에서 꽃 한 송이가 먼저 ───────────────── */
+.opening .world::after {
+  content: ""; position: absolute; inset: 0; background: #05070c;
+  animation: clear 2.8s .1s ease-out both;
+}
+@keyframes clear { 0%, 30% { opacity: 1; } 100% { opacity: 0; } }
+.opening .name { animation: nameIn 1.4s var(--ease-out) both; }
+.opening .name.yophiel { animation-delay: 1.8s; }
+.opening .name.burning { animation-delay: 2.3s; }
+.opening .lyric > span { animation: nameIn 1.6s var(--ease-out) both; }
+.opening .lyric .sub { animation-delay: 2.9s; }
+.opening .lyric .ko { animation-delay: 3.3s; }
+@keyframes nameIn { from { opacity: 0; filter: blur(10px); transform: translateY(14px); } }
+
+/* ───────────────── 대사 연출 ───────────────── */
+.scene {
+  position: fixed; inset: 0; z-index: 30;
+  --bar: 11svh;
+  cursor: pointer;
+  overflow: hidden;
+  opacity: 0;
+  transition: opacity .35s ease;
+}
+.scene[hidden] { display: none; }
+.scene.on { opacity: 1; }
+.scene-bar {
+  position: absolute; left: 0; right: 0; z-index: 2;
+  height: var(--bar); background: var(--bar-bg, #000);
+  transform: scaleY(0);
+  transition: transform .7s .1s var(--ease-out);
+}
+.scene-bar.top { top: 0; transform-origin: top; }
+.scene-bar.bottom { bottom: 0; transform-origin: bottom; }
+.scene.on .scene-bar { transform: none; }
+.scene-light { position: absolute; inset: 0; z-index: 1; pointer-events: none; }
+.scene-body {
+  position: absolute; z-index: 3; left: 0; right: 0; top: 50%;
+  transform: translateY(-50%);
+  display: grid; justify-items: center; gap: clamp(14px, 2.4vh, 22px);
+  padding: 0 24px; text-align: center;
+}
+.scene-line {
+  font-weight: 800;
+  font-size: clamp(1.5rem, 3.6vw, 2.7rem);
+  line-height: 1.4;
+  text-wrap: balance;
+  max-width: 18em;
+}
+.scene-word { display: inline-block; white-space: nowrap; }
+.scene-word span { display: inline-block; white-space: pre; opacity: 0; animation-fill-mode: both; animation-delay: calc(.8s + var(--i) * 50ms); }
+.scene.on .scene-word span { animation-name: var(--char-in); animation-duration: .6s; animation-timing-function: var(--ease-out); }
+.scene.full .scene-word span { animation: none; opacity: 1; }
+.scene-who {
+  display: grid; justify-items: center; gap: 10px;
+  font-family: var(--hud); font-size: 13px; letter-spacing: .16em;
+  opacity: 0; transform: translateY(6px);
+  transition: opacity .5s, transform .7s var(--ease-out);
+}
+.scene.full .scene-who { opacity: 1; transform: none; }
+.sign-bar { position: relative; width: 168px; height: 2px; overflow: hidden; background: currentColor; opacity: .25; }
+.sign-bar i { position: absolute; inset: 0; background: currentColor; transform: scaleX(0); transform-origin: left; }
+.scene.signing .sign-bar { opacity: 1; background: color-mix(in srgb, currentColor 25%, transparent); }
+.scene.signing .sign-bar i { transform: scaleX(1); transition: transform 1.1s cubic-bezier(.6, 0, .2, 1); }
+.scene.signed .sign-text { animation: signIn .5s var(--ease-out) both; font-weight: 500; }
+@keyframes signIn { from { opacity: 0; letter-spacing: .4em; } }
+.scene-skip {
+  position: absolute; z-index: 3; left: 0; right: 0;
+  bottom: calc(var(--bar) / 2 - .6em);
+  text-align: center; font-size: 13px; letter-spacing: .06em;
+  color: var(--skip, rgba(255, 255, 255, .62));
+  opacity: 0; transition: opacity .4s 1.4s;
+}
+.scene.on .scene-skip { opacity: 1; }
+.scene::after { content: ""; position: absolute; inset: 0; z-index: 4; background: #fff; opacity: 0; transition: opacity .6s ease; pointer-events: none; }
+.scene.leave::after { opacity: 1; }
+
+/* 요피엘: 게이트에서 쏟아지는 한 줄기 빛, 글자는 위에서 사뿐히 떨어져요 */
+.scene[data-tone="yophiel"] { --char-in: charFall; --bar-bg: #f4fbf8; --skip: rgba(30, 60, 50, .55); background: linear-gradient(to bottom, #f7fffc, #e3eef0); color: #1b2d29; }
+.scene[data-tone="yophiel"] .scene-light {
+  background: linear-gradient(to right, transparent 30%, rgba(190, 240, 220, .55) 46%, rgba(255, 255, 255, .9) 50%, rgba(190, 240, 220, .55) 54%, transparent 70%);
+  -webkit-mask-image: linear-gradient(to bottom, #000, transparent 85%);
+  mask-image: linear-gradient(to bottom, #000, transparent 85%);
+  transform-origin: top; opacity: 0;
+}
+.scene[data-tone="yophiel"].on .scene-light { animation: beamIn 1.6s .1s var(--ease-out) both; }
+.scene[data-tone="yophiel"] .scene-line { font-family: var(--latin); font-style: italic; font-weight: 600; font-size: clamp(1.8rem, 4.2vw, 3.2rem); }
+.scene[data-tone="yophiel"] .scene-who { color: var(--jade); }
+@keyframes beamIn { from { opacity: 0; transform: scaleY(0); } to { opacity: 1; transform: none; } }
+@keyframes charFall { from { opacity: 0; transform: translateY(-.7em); filter: blur(5px); } to { opacity: 1; transform: none; filter: none; } }
+
+/* 버닝: 숯처럼 검은 바탕, 아래에서 불길이 올라오고 글자는 탁탁 튀듯이 */
+.scene[data-tone="burning"] { --char-in: charSpark; background: #110c0b; color: #fff1ea; }
+.scene[data-tone="burning"] .scene-light {
+  background: radial-gradient(ellipse 80% 55% at 50% 112%, rgba(255, 110, 40, .55), rgba(200, 40, 20, .25) 45%, transparent 75%);
+  opacity: 0;
+}
+.scene[data-tone="burning"].on .scene-light { animation: flameUp 1.2s var(--ease-out) both, flicker 2.4s 1.2s ease-in-out infinite; }
+.scene[data-tone="burning"] .scene-line { font-family: var(--serif); }
+.scene[data-tone="burning"] .scene-who { color: #ff8a5c; }
+@keyframes flameUp { from { opacity: 0; transform: translateY(20%); } to { opacity: 1; transform: none; } }
+@keyframes flicker { 0%, 100% { opacity: 1; } 40% { opacity: .78; } 60% { opacity: .92; } }
+@keyframes charSpark { 0% { opacity: 0; transform: translateY(.25em); color: #ff8a5c; } 40% { opacity: 1; } 100% { opacity: 1; transform: none; } }
+
+/* ───────────────── 공문 옆 칸 (D-day, 메시지) ───────────────── */
+.notice-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 720px) minmax(0, 340px);
+  justify-content: center;
+  align-items: start;
+  gap: clamp(28px, 4vw, 56px);
+  max-width: 1160px;
+  margin: 0 auto;
+}
+.notice-grid .notice { margin: 0; }
+.side { position: sticky; top: 40px; display: grid; gap: 22px; }
+
+.dday { padding: 18px 22px 16px; border-top: 1px solid var(--dd-rule); border-bottom: 1px solid var(--dd-rule); color: var(--dd-ink); }
+.dd-num { font-family: var(--hud); font-size: clamp(40px, 4.6vw, 56px); line-height: 1; letter-spacing: .02em; font-variant-numeric: tabular-nums; }
+.dd-since { margin-top: 8px; font-size: 14px; color: var(--dd-sub); }
+
+/* 메시지: 휴대폰 없이 말풍선만 */
+.chat { font-family: -apple-system, BlinkMacSystemFont, "Pretendard Variable", Pretendard, "Apple SD Gothic Neo", sans-serif; }
+.chat-head { margin-bottom: 14px; text-align: center; font-size: 12px; color: #8e8e93; }
+.chat-head b { font-weight: 600; }
+.chat-log { display: flex; flex-direction: column; }
+.msg {
+  position: relative;
+  max-width: 78%;
+  padding: 8px 13px 9px;
+  border-radius: 18px;
+  margin-top: 3px;
+  font-size: 15px; line-height: 1.35;
+  color: #fff;
+  overflow-wrap: break-word;
+  opacity: 0; transform: translateY(10px) scale(.9);
+}
+.msg.them { align-self: flex-start; background: var(--them); color: var(--them-ink); box-shadow: var(--them-edge, none); transform-origin: 0 100%; }
+.msg.me { align-self: flex-end; background: var(--me); color: var(--me-ink); box-shadow: var(--me-edge, none); transform-origin: 100% 100%; }
+.msg.first { margin-top: 12px; }
+.msg-time { margin: 14px 0 4px; text-align: center; font-size: 11px; color: #8e8e93; opacity: 0; }
+.msg-read { align-self: flex-end; margin: 4px 4px 0 0; font-size: 11px; color: #8e8e93; opacity: 0; }
+.msg-read b { font-weight: 600; }
+.msg.tail::before, .msg.tail::after { content: ""; position: absolute; bottom: 0; height: 17px; }
+.msg.them.tail::before { left: -6px; width: 16px; background: var(--them); border-bottom-right-radius: 14px 12px; }
+.msg.them.tail::after { left: -10px; width: 10px; background: var(--chat-bg); border-bottom-right-radius: 9px; }
+.msg.me.tail::before { right: -6px; width: 16px; background: var(--me); border-bottom-left-radius: 14px 12px; }
+.msg.me.tail::after { right: -10px; width: 10px; background: var(--chat-bg); border-bottom-left-radius: 9px; }
+.chat.play .msg { animation: msgIn .45s cubic-bezier(.34, 1.4, .64, 1) both; animation-delay: calc(var(--k) * 280ms); }
+.chat.play .msg-time, .chat.play .msg-read { animation: msgFade .4s ease both; animation-delay: calc(var(--k) * 280ms); }
+@keyframes msgIn { to { opacity: 1; transform: none; } }
+.msg.typing { display: flex; gap: 5px; padding: 12px 14px; }
+.msg.typing i { width: 7px; height: 7px; border-radius: 50%; background: currentColor; opacity: .35; animation: typeDot 1.3s infinite; }
+.msg.typing i:nth-child(2) { animation-delay: .18s; }
+.msg.typing i:nth-child(3) { animation-delay: .36s; }
+@keyframes typeDot { 0%, 60%, 100% { opacity: .35; transform: none; } 30% { opacity: 1; transform: translateY(-3px); } }
+@keyframes msgFade { to { opacity: 1; } }
+
+@media (max-width: 1000px) {
+  .notice-grid { grid-template-columns: minmax(0, 720px); }
+  .side { position: static; max-width: 460px; width: 100%; margin: 0 auto; }
+}
+
+/* 요피엘버닝 색: 요피엘(오른쪽)은 새하얀 날개 바탕에 초록 눈 글씨, 재혁(왼쪽)은 불타는 붉은 머리색 */
+.chat { --me: #fbfefd; --me-ink: #2a7656; --me-edge: inset 0 0 0 1px rgba(63, 154, 116, .32); --them: #c9361c; --them-ink: #fff4ef; --chat-bg: var(--paper); }
+.side { --dd-ink: #18202b; --dd-sub: #5a6676; --dd-rule: rgba(24, 32, 43, .16); }
+.chat-head { color: #5a6676; }
+
+/* ───────────────── FEARLESS 공문 ───────────────── */
+.notice-wrap {
+  position: relative; z-index: 2;
+  padding: clamp(80px, 14vh, 160px) 20px clamp(80px, 12vh, 140px);
+  background: linear-gradient(to bottom, rgba(232, 237, 241, 0), var(--paper) 18vh);
+}
+.notice {
+  --paper: #eeeadf;
+  --ink: #23201b;
+  --rule: #23201b;
+  --seal: #b8322a;
+  position: relative;
+  max-width: 720px;
+  margin: 0 auto;
+  padding: clamp(32px, 6vw, 64px) clamp(22px, 6vw, 68px) clamp(36px, 6vw, 60px);
+  background: var(--paper);
+  color: var(--ink);
+  box-shadow: 0 30px 50px -30px rgba(30, 40, 50, .45), 0 2px 6px rgba(30, 40, 50, .18);
+  font-family: "Nanum Myeongjo", "Batang", serif;
+  --type: "Nanum Gothic Coding", monospace;
+  line-height: 1.75;
+  transform-origin: 50% 85%;
+}
+.notice::before { /* 종이 결 */
+  content: ""; position: absolute; inset: 0; pointer-events: none; opacity: .35;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='p'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.6' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 .55 0 0 0 0 .5 0 0 0 0 .42 0 0 0 .18 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23p)'/%3E%3C/svg%3E");
+}
+.nt-head {
+  display: flex; flex-wrap: wrap; justify-content: space-between; align-items: end; gap: 8px 20px;
+  padding-bottom: 14px;
+  border-bottom: 3px double var(--rule);
+}
+.nt-org { font-weight: 800; font-size: 22px; letter-spacing: .32em; }
+.nt-meta { display: flex; flex-wrap: wrap; gap: 4px 14px; font-family: var(--type); font-size: 13px; }
+.nt-secret { padding: 0 8px; border: 1.5px solid var(--seal); color: var(--seal); font-weight: 700; letter-spacing: .1em; }
+.nt-title {
+  margin: clamp(26px, 4vw, 40px) 0 clamp(18px, 3vw, 28px);
+  text-align: center;
+  font-size: clamp(26px, 4vw, 36px); font-weight: 800; letter-spacing: .3em;
+}
+.nt-rows { display: grid; gap: 4px; padding: 14px 0; border-top: 1px solid var(--rule); border-bottom: 1px solid var(--rule); font-size: 16px; }
+.nt-rows div { display: grid; grid-template-columns: 4.5em 1fr; }
+.nt-rows dt { font-weight: 700; letter-spacing: .3em; }
+.nt-body { margin-top: 22px; padding-left: 1.6em; font-size: 16px; }
+.nt-body > li { margin-bottom: 12px; padding-left: .3em; }
+.nt-body strong { font-weight: 700; box-shadow: inset 0 -.35em 0 rgba(184, 50, 42, .16); }
+.nt-sub { margin-top: 6px; padding-left: 1.4em; list-style: hangul; }
+.nt-sub li { margin-bottom: 4px; }
+.nt-table { width: 100%; margin: 14px 0 6px; border-collapse: collapse; font-size: 15px; text-align: center; }
+.nt-table th, .nt-table td { padding: 8px 6px; border: 1px solid var(--rule); }
+.nt-table th { background: rgba(35, 32, 27, .08); font-weight: 700; }
+.nt-code { font-family: var(--type); font-weight: 700; letter-spacing: .05em; }
+/* 아직 아무도 모르는 칸: 타자기 물음표 */
+.nt-unknown { font-family: var(--type); font-weight: 700; color: var(--seal); letter-spacing: .1em; }
+.nt-end { margin-top: 6px; text-align: right; font-weight: 700; }
+.nt-foot { margin-top: clamp(34px, 6vw, 56px); text-align: center; }
+.nt-sign {
+  position: relative;
+  display: inline-block;
+  margin-top: 12px;
+  padding-right: 64px;
+  font-size: clamp(20px, 2.6vw, 26px); font-weight: 800; letter-spacing: .3em;
+  white-space: nowrap;
+}
+@media (max-width: 560px) {
+  .nt-sign { font-size: 18px; letter-spacing: .05em; padding-right: 48px; }
+  .nt-stamp { width: 80px; height: 80px; right: -14px; }
+  .nt-title { letter-spacing: .16em; }
+}
+.nt-stamp {
+  position: absolute; right: -18px; top: 50%;
+  width: 104px; height: 104px;
+  color: var(--seal);
+  transform: translateY(-50%) rotate(-9deg);
+  opacity: 0;
+  mix-blend-mode: multiply;
+}
+.nt-stamp svg { display: block; width: 100%; height: 100%; font-family: "Nanum Myeongjo", serif; }
+.stamped .nt-stamp { animation: stampDown .5s cubic-bezier(.2, 0, .3, 1) both; }
+.stamped.notice { animation: thud .45s .3s ease-out; }
+@keyframes stampDown {
+  0% { opacity: 0; transform: translateY(-50%) rotate(-16deg) scale(2.6); }
+  55% { opacity: .9; transform: translateY(-50%) rotate(-8deg) scale(.94); }
+  75% { transform: translateY(-50%) rotate(-9deg) scale(1.03); }
+  100% { opacity: .88; transform: translateY(-50%) rotate(-9deg) scale(1); }
+}
+@keyframes thud {
+  0%, 100% { transform: none; }
+  20% { transform: translateY(3px) scale(.996); }
+  45% { transform: translateY(-1px); }
+}
+
+/* ───────────────── 세로 화면 ───────────────── */
+@media (max-aspect-ratio: 4/5) {
+  .still { object-position: 64% 30%; }
+  .name.yophiel .nm, .name.burning .nm { font-size: clamp(2.8rem, 14vw, 4.4rem); }
+  .name.burning { top: 8svh; }
+  .name.yophiel { bottom: 15svh; }
+  .lyric { bottom: 4svh; }
+  .lyric .ko { font-size: 20px; }
+}
+
+/* ───────────────── 움직임 줄이기 ───────────────── */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation-duration: .01ms !important; animation-iteration-count: 1 !important; transition-duration: .01ms !important; }
+  .scene-word span { animation: none !important; opacity: 1 !important; }
+  .stamped .nt-stamp { animation: none !important; opacity: .88; }
+  .stamped.notice { animation: none !important; }
+  .msg, .msg-time, .msg-read { opacity: 1 !important; transform: none !important; animation: none !important; }
+}
+
+/* ───────────────── 캐릭터 페이지 (그림이 화면의 2/3) ───────────────── */
+.arrive { animation: arrive .7s ease both; }
+@keyframes arrive { from { opacity: 0; } }
+html:has(body.char-page) { background: #fff; }
+.char-page { --c-bg: #fff; --c-ink: #17231f; --c-sub: #5b6b66; --c-accent: #2a7656; }
+.char-page.char-burning { --c-ink: #16171b; --c-sub: #5f5a58; --c-accent: #bd3019; }
+.char {
+  min-height: 100svh;
+  display: grid;
+  grid-template-columns: 1fr 2fr;
+  align-items: center;
+  background: var(--c-bg);
+  color: var(--c-ink);
+}
+.char-info { display: grid; gap: 18px; align-content: center; padding: 96px clamp(24px, 4vw, 64px) 64px clamp(24px, 6vw, 96px); }
+.char-code { margin-top: -8px; font-family: var(--hud); font-size: 15px; letter-spacing: .04em; color: var(--c-accent); }
+.char-name { font-size: clamp(3rem, 6vw, 5.2rem); font-weight: 800; line-height: 1.05; letter-spacing: -.02em; }
+.char-name .he { display: block; margin-top: 6px; text-align: left; font-family: var(--serif); font-size: .38em; font-weight: 700; letter-spacing: .04em; color: var(--c-sub); }
+.char-line { font-size: clamp(17px, 1.5vw, 21px); font-weight: 700; line-height: 1.5; text-wrap: pretty; word-break: keep-all; }
+.char-line[lang="la"] { font-family: var(--latin); font-style: italic; font-weight: 600; font-size: clamp(20px, 1.8vw, 25px); }
+.char-line small { display: block; margin-top: 4px; font-family: var(--serif); font-style: normal; font-size: 14px; font-weight: 400; color: var(--c-sub); }
+.char-desc { font-size: 16px; line-height: 1.7; color: var(--c-sub); max-width: 24em; }
+.char-back { margin-top: 10px; display: inline-flex; align-items: center; gap: 8px; color: var(--c-ink); font-size: 15px; text-underline-offset: 5px; }
+.char-back svg { width: 8px; height: 13px; flex: none; }
+.char-back:focus-visible { outline: 2px solid currentColor; outline-offset: 6px; border-radius: 3px; }
+.char-art {
+  margin: 0; align-self: stretch; height: 100svh;
+  display: flex; justify-content: flex-end; overflow: hidden;
+  -webkit-mask-image: linear-gradient(to right, transparent, #000 var(--fade, 26%));
+  mask-image: linear-gradient(to right, transparent, #000 var(--fade, 26%));
+}
+.char-art img { display: block; height: 100%; width: auto; max-width: none; flex: none; }
+.char-info > * { animation: charIn .9s var(--ease-out) both; }
+.char-info > :nth-child(2) { animation-delay: .08s; }
+.char-info > :nth-child(3) { animation-delay: .16s; }
+.char-info > :nth-child(4) { animation-delay: .24s; }
+.char-info > :nth-child(5) { animation-delay: .32s; }
+.char-art img { animation: artIn 1.2s .1s var(--ease-out) both; }
+@keyframes charIn { from { opacity: 0; transform: translateX(-14px); } }
+@keyframes artIn { from { opacity: 0; transform: translateX(24px); } }
+@media (max-width: 760px) {
+  .char { grid-template-columns: 1fr; align-items: start; }
+  .char-art { order: -1; height: auto; justify-content: center; -webkit-mask-image: linear-gradient(to bottom, #000 72%, transparent); mask-image: linear-gradient(to bottom, #000 72%, transparent); }
+  .char-art img { width: 100%; height: auto; }
+  .char-info { margin-top: -24px; position: relative; padding: 0 24px 64px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .char-info > *, .char-art img { animation: none !important; }
+}

@@ -1,0 +1,152 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Good boy, Come on. — 주난재은</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Gaegu:wght@700&family=Bodoni+Moda:ital,opsz,wght@0,6..96,500;1,6..96,400&family=IBM+Plex+Mono:wght@400;500&family=Gowun+Batang:wght@400;700&family=Nanum+Myeongjo:wght@400;700;800&family=Nanum+Gothic+Coding:wght@400;700&display=swap">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@600&text=%E5%86%9C%E4%BB%8A%E6%9C%9D%E8%BF%98%E8%A6%81%E9%99%AA%E6%88%91%E4%BC%90%EF%BC%9F%E7%9C%9F%E4%B8%AA%E5%95%8A%E2%80%9C%E2%80%9D&display=swap">
+  <link rel="preload" as="image" href="../../assets/pairs/junan-jaeeun/bg.webp">
+  <link rel="stylesheet" href="site.css">
+</head>
+<body data-world="idle" class="opening">
+
+  <!-- 밤의 옥상: 별이 반짝이고, 무지갯빛 종이 조각이 바람에 흩날려요
+       주난에게 닿으면 보랏빛 홀로그램이 지직, 재은에게 닿으면 금빛 조각이 천천히 내려앉아요 -->
+  <div class="world" aria-hidden="true">
+    <img class="still" src="../../assets/pairs/junan-jaeeun/bg.webp" alt="" width="1216" height="832">
+    <div class="haze"></div>
+    <div class="tint"></div>
+    <div class="shade"></div>
+    <canvas class="air" id="air"></canvas>
+    <div class="scan"></div>
+    <!-- 주난의 홀로그램 패드: 웃는 얼굴을 쓱 그려요 -->
+    <div class="holo holo-junan">
+      <svg viewBox="0 0 160 120">
+        <path class="holo-frame" d="M10 4H122L132 14H150V108L142 116H18L10 108Z"/>
+        <path class="holo-line" d="M22 22H58M22 30H48M22 92H70M22 100H52M98 22H138M108 30H138"/>
+        <circle class="holo-face" cx="104" cy="66" r="24"/>
+        <path class="holo-smile" d="M93 70Q104 82 115 70"/>
+        <path class="holo-eye" d="M97 58v4M111 58v4"/>
+      </svg>
+      <p>SMILE.exe</p>
+    </div>
+    <!-- 재은 옆에도 주난이 패드가 떠요: 하트를 그리고 한 줄씩 꾹꾹 -->
+    <div class="holo holo-jaeeun">
+      <div class="holo-pad">
+        <svg class="holo-bg" viewBox="0 0 160 100" preserveAspectRatio="none"><path class="holo-frame" d="M28 3H157V89L149 97H11L3 89V22Z"/></svg>
+        <svg class="holo-heart" viewBox="0 0 40 36"><path d="M20 33C14 27 3 21 3 12 3 6 7 3 11.5 3 15.5 3 18.5 5.5 20 9 21.5 5.5 24.5 3 28.5 3 33 3 37 6 37 12 37 21 26 27 20 33Z"/></svg>
+        <p class="holo-msg"><span>내가 제일 사랑하는</span><span>우리 형아!</span></p>
+      </div>
+      <p>SMILE.exe</p>
+    </div>
+  </div>
+
+  <p class="sr-only">별이 뜬 밤, 도시를 내려다보는 옥상 난간 위에서 후드를 쓴 은발의 천주난이 보랏빛 눈으로 웃으며, 검은 제복 차림의 신재은과 손을 맞잡고 있어요</p>
+  <a class="face-hit hit-junan" href="junan.html" tabindex="-1" aria-hidden="true" data-for="wJunan"></a>
+  <a class="face-hit hit-jaeeun" href="jaeeun.html" tabindex="-1" aria-hidden="true" data-for="wJaeeun"></a>
+
+  <main class="stage">
+    <h1 class="sr-only">Good boy, Come on. — 천주난 × 신재은</h1>
+    <p class="lyric" lang="en"><span class="sub">천주난 × 신재은</span><span class="en">Good boy, <em>Come on.</em></span></p>
+    <a class="name junan" href="junan.html" data-world="junan" id="wJunan" aria-label="SMILE — 천주난 캐릭터 보기"><span class="nm">SMILE</span><small>천주난 · S급 센티넬</small></a>
+    <a class="name jaeeun" href="jaeeun.html" data-world="jaeeun" id="wJaeeun" aria-label="DIOR — 신재은 캐릭터 보기"><span class="nm">DIOR</span><small>신재은 · A급 가이드</small></a>
+  </main>
+
+  <!-- FEARLESS 공문: 센티넬–가이드 전담 페어 지정 통보 (내려오면 직인이 쿵) -->
+  <section class="notice-wrap" id="notice">
+    <div class="notice-grid">
+    <article class="notice" aria-labelledby="noticeTitle">
+      <header class="nt-head">
+        <p class="nt-org">FEARLESS</p>
+        <p class="nt-meta"><span>문서번호 FL-SG-0009</span><span>보존기간 영구</span><span class="nt-secret">대외비</span></p>
+      </header>
+
+      <h2 class="nt-title" id="noticeTitle">전담 페어 지정 통보</h2>
+
+      <dl class="nt-rows">
+        <div><dt>발신</dt><dd>FEARLESS 지부</dd></div>
+        <div><dt>제목</dt><dd>S급 센티넬–A급 가이드 전담 페어 지정의 건</dd></div>
+      </dl>
+
+      <ol class="nt-body">
+        <li>귀하의 노고에 감사드립니다.</li>
+        <li>지부는 아래 인원의 가이딩 적합도 검사 결과에 따라, 두 사람을 <strong>공식 전담 페어</strong>로 지정하였음을 통보합니다.
+          <table class="nt-table">
+            <thead><tr><th scope="col">구분</th><th scope="col">코드네임</th><th scope="col">성명</th><th scope="col">등급</th></tr></thead>
+            <tbody>
+              <tr><td>센티넬</td><td class="nt-code">SMILE</td><td>천주난</td><td>S</td></tr>
+              <tr><td>가이드</td><td class="nt-code">DIOR</td><td>신재은</td><td>A</td></tr>
+            </tbody>
+          </table>
+        </li>
+        <li>지정 사항
+          <ol class="nt-sub">
+            <li>전담 가이드는 해당 센티넬의 출격 전후 가이딩을 전담한다.</li>
+            <li>전담 가이드는 센티넬 SMILE의 현장 출동 시 즉시 동행할 수 있도록 대기한다.</li>
+            <li>페어의 해제는 지부의 승인 없이 할 수 없다.</li>
+          </ol>
+        </li>
+      </ol>
+      <p class="nt-end">끝.</p>
+
+      <footer class="nt-foot">
+        <p class="nt-sign">FEARLESS 지부장 K
+          <span class="nt-stamp" id="ntStamp" aria-label="직인: FEARLESS 승인">
+            <svg viewBox="0 0 120 120" aria-hidden="true">
+              <defs>
+                <filter id="ink" x="-10%" y="-10%" width="120%" height="120%">
+                  <feTurbulence type="fractalNoise" baseFrequency=".9" numOctaves="2" seed="9" result="n"/>
+                  <feDisplacementMap in="SourceGraphic" in2="n" scale="3.2"/>
+                </filter>
+              </defs>
+              <g filter="url(#ink)" fill="none" stroke="currentColor">
+                <rect x="8" y="8" width="104" height="104" rx="6" stroke-width="5"/>
+                <rect x="16" y="16" width="88" height="88" rx="3" stroke-width="1.6"/>
+                <text x="60" y="52" text-anchor="middle" fill="currentColor" stroke="none" font-size="19" font-weight="700" letter-spacing="1">FEAR</text>
+                <text x="60" y="73" text-anchor="middle" fill="currentColor" stroke="none" font-size="19" font-weight="700" letter-spacing="1">LESS</text>
+                <text x="60" y="94" text-anchor="middle" fill="currentColor" stroke="none" font-size="13" font-weight="700" letter-spacing="3">승 인</text>
+              </g>
+            </svg>
+          </span>
+        </p>
+      </footer>
+    </article>
+
+    <!-- 공문 옆: 함께한 날과 두 사람의 메시지 (내용은 chat.js에서 고쳐요) -->
+    <aside class="side">
+      <div class="dday" aria-live="polite">
+        <p class="dd-num" id="ddNum">D+0</p>
+        <p class="dd-since" id="ddSince"></p>
+      </div>
+      <div class="chat" id="chat" aria-label="두 사람의 메시지 기록">
+        <p class="chat-head" id="chatHead"></p>
+        <div class="chat-log" id="chatLog"></div>
+      </div>
+    </aside>
+    </div>
+  </section>
+
+
+  <!-- 캐릭터에게 가기 전, 대사와 신원 확인 -->
+  <div class="scene" id="scene" tabindex="-1" role="dialog" aria-modal="true" aria-labelledby="sceneLine" hidden>
+    <div class="scene-light"></div>
+    <i class="scene-bar top"></i>
+    <i class="scene-bar bottom"></i>
+    <i class="flash"></i>
+    <div class="scene-body">
+      <p class="scene-line" id="sceneLine"></p>
+      <p class="scene-who" id="sceneWho"><span class="sign-bar"><i></i></span><span class="sign-text" id="signText"></span></p>
+    </div>
+    <p class="scene-skip">눌러서 넘기기</p>
+  </div>
+
+  <script src="chat.js"></script>
+  <script src="site.js"></script>
+  <!-- FL-OS 단말기: 오른쪽 아래 버튼 (내용은 flos-data.js에서 고쳐요) -->
+  <script src="flos-data.js"></script>
+  <script src="../../js/flos.js"></script>
+</body>
+</html>

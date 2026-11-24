@@ -1,0 +1,229 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Forever Till The End of Time — 휘현우</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700&family=Cormorant+Garamond:ital,wght@1,500;1,600&family=Nanum+Myeongjo:wght@400;700;800&family=Nanum+Gothic+Coding:wght@400;700&family=Nanum+Brush+Script&family=Chakra+Petch:wght@400;500;600&display=swap">
+  <link rel="preload" as="image" href="../../assets/pairs/hwi-hyunwoo/past.webp">
+  <link rel="stylesheet" href="site.css">
+</head>
+<body data-world="idle" class="opening">
+
+  <!-- 평소: 스무 살의 둘, 색 바랜 사진처럼
+       GLORY에 닿으면 서른하나의 휘가, PRIDE에 닿으면 서른하나의 현우가 나타나요 -->
+  <div class="world" aria-hidden="true">
+    <img class="still past" src="../../assets/pairs/hwi-hyunwoo/past.webp" alt="" width="1216" height="832">
+    <img class="still now now-hwi" src="../../assets/pairs/hwi-hyunwoo/now-hwi.webp" alt="" width="1216" height="832" loading="lazy">
+    <img class="still now now-hyunwoo" src="../../assets/pairs/hwi-hyunwoo/now-hyunwoo.webp" alt="" width="1216" height="832" loading="lazy">
+    <div class="focus-dim"></div>
+    <div class="focus-glow"></div>
+    <div class="burn"></div>
+    <div class="leak"></div>
+    <div class="grain"></div>
+    <div class="shade"></div>
+    <canvas class="motes" id="motes"></canvas>
+  </div>
+
+  <p class="sr-only">노을 지는 창가 소파에서 스무 살의 휘와 현우가 어깨를 맞대고 웃고 있어요. 이름에 닿으면 서른하나가 된 두 사람이 나타나요</p>
+  <a class="face-hit hit-hwi" href="hwi.html" tabindex="-1" aria-hidden="true" data-for="wHwi"></a>
+  <a class="face-hit hit-hyunwoo" href="hyunwoo.html" tabindex="-1" aria-hidden="true" data-for="wHyunwoo"></a>
+
+  <main class="stage">
+    <h1 class="sr-only">Forever Till The End of Time — 윤 휘 × 진현우</h1>
+    <p class="age" aria-hidden="true"><span id="ageNum">20</span><small>歲</small></p>
+    <p class="lyric"><span class="sub"><em class="w-glory">명예</em>와 <em class="w-pride">자부심</em></span><span class="en">Forever Till The End of Time</span></p>
+    <a class="name hwi" href="hwi.html" data-world="hwi" id="wHwi" aria-label="Glory — 윤 휘 캐릭터 보기"><span class="nm">Glory</span><small>윤 휘 · S급 가이드</small></a>
+    <a class="name hyunwoo" href="hyunwoo.html" data-world="hyunwoo" id="wHyunwoo" aria-label="Pride — 진현우 캐릭터 보기"><span class="nm">PRIDE</span><small>진현우 · S급 센티넬</small></a>
+  </main>
+
+  <section class="notice-wrap" id="notice">
+    <div class="notice-grid">
+    <div class="stack-wrap">
+    <!-- 공문 더미: 누를 때마다 맨 위 장이 들려서 맨 뒤로 넘어가요 -->
+    <div class="notices" id="stack">
+
+    <!-- 공문 ①: 스무 살의 페어 결성. 7년 뒤 파기됐고, 그 위를 현우가 볼펜으로 그어 버렸어요 -->
+    <article class="notice void" id="notice1" aria-labelledby="noticeTitle1">
+      <!-- 클립에 꽂힌 휘의 영국행 편도 티켓 -->
+      <figure class="ticket" aria-label="윤휘의 영국행 편도 탑승권">
+        <svg class="clip" viewBox="0 0 24 70" aria-hidden="true"><path d="M8 62V12a6 6 0 0 1 12 0v44a9 9 0 0 1-18 0V18" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"/></svg>
+        <div class="tk-main">
+          <p class="tk-top"><span>BOARDING PASS</span><span class="tk-ow">ONE WAY</span></p>
+          <p class="tk-pax"><small>PASSENGER</small>YOON / HWI MR</p>
+          <p class="tk-route"><span><b>ICN</b><small>SEOUL</small></span><i aria-hidden="true">✈</i><span><b>LHR</b><small>LONDON</small></span></p>
+          <p class="tk-row"><span><small>FLIGHT</small>FL 1219</span><span><small>DATE</small>19 DEC</span><span><small>SEAT</small>41A</span></p>
+        </div>
+        <div class="tk-stub" aria-hidden="true">
+          <p><small>RETURN</small>—</p>
+          <i class="tk-bar"></i>
+        </div>
+      </figure>
+
+      <header class="nt-head">
+        <p class="nt-org">FEARLESS</p>
+        <p class="nt-meta"><span>문서번호 FL-GP-0007</span><span>보존기간 영구</span><span class="nt-secret">대외비</span></p>
+      </header>
+
+      <h2 class="nt-title" id="noticeTitle1">페어 결성 통보</h2>
+
+      <dl class="nt-rows">
+        <div><dt>발신</dt><dd>FEARLESS 지부</dd></div>
+        <div><dt>제목</dt><dd>신규 입사자 정식 페어 지정의 건</dd></div>
+      </dl>
+
+      <ol class="nt-body">
+        <li>귀하의 입사를 축하드립니다.</li>
+        <li>입사 적성 평가 결과, 아래 두 인원의 동조율이 기준치를 크게 웃돌아 정식 페어로 지정하오니 업무에 참고하시기 바랍니다.
+          <table class="nt-table">
+            <thead><tr><th scope="col">구분</th><th scope="col">코드네임</th><th scope="col">성명</th><th scope="col">등급</th></tr></thead>
+            <tbody>
+              <tr><td>센티넬</td><td class="nt-code">PRIDE</td><td>진현우</td><td>S</td></tr>
+              <tr><td>가이드</td><td class="nt-code">GLORY</td><td>윤 휘</td><td>S</td></tr>
+            </tbody>
+          </table>
+        </li>
+        <li>준수 사항
+          <ol class="nt-sub">
+            <li>페어는 모든 임무에 함께 출동한다.</li>
+            <li>가이드는 센티넬의 상태를 항시 확인하고 지원한다.</li>
+            <li>본 지정은 별도의 해제 통보가 있을 때까지 유지한다.</li>
+          </ol>
+        </li>
+      </ol>
+      <p class="nt-end">끝.</p>
+
+      <footer class="nt-foot">
+        <p class="nt-sign">FEARLESS 지부장 K
+          <span class="nt-stamp" aria-label="직인: FEARLESS 승인">
+            <svg viewBox="0 0 120 120" aria-hidden="true">
+              <defs>
+                <filter id="ink" x="-10%" y="-10%" width="120%" height="120%">
+                  <feTurbulence type="fractalNoise" baseFrequency=".9" numOctaves="2" seed="11" result="n"/>
+                  <feDisplacementMap in="SourceGraphic" in2="n" scale="3.2"/>
+                </filter>
+              </defs>
+              <g filter="url(#ink)" fill="none" stroke="currentColor">
+                <rect x="8" y="8" width="104" height="104" rx="6" stroke-width="5"/>
+                <rect x="16" y="16" width="88" height="88" rx="3" stroke-width="1.6"/>
+                <text x="60" y="52" text-anchor="middle" fill="currentColor" stroke="none" font-size="19" font-weight="700" letter-spacing="1">FEAR</text>
+                <text x="60" y="73" text-anchor="middle" fill="currentColor" stroke="none" font-size="19" font-weight="700" letter-spacing="1">LESS</text>
+                <text x="60" y="94" text-anchor="middle" fill="currentColor" stroke="none" font-size="12" font-weight="700" letter-spacing="2">승인</text>
+              </g>
+            </svg>
+          </span>
+        </p>
+      </footer>
+
+      <!-- 7년 뒤: 破棄 도장 → 볼펜으로 찍찍 → 누구 마음대로. -->
+      <div class="void-mark" aria-label="破棄 도장 위에 볼펜으로 그어 놓은 자국과 손글씨: 누구 마음대로.">
+        <span class="void-stamp" aria-hidden="true">
+          <svg viewBox="0 0 260 130">
+            <g filter="url(#ink)" fill="none" stroke="currentColor">
+              <rect x="6" y="6" width="248" height="118" rx="4" stroke-width="6"/>
+              <rect x="16" y="16" width="228" height="98" rx="2" stroke-width="1.8"/>
+              <text x="130" y="78" text-anchor="middle" fill="currentColor" stroke="none" font-size="56" font-weight="800" letter-spacing="22">破棄</text>
+              <text x="130" y="102" text-anchor="middle" fill="currentColor" stroke="none" font-size="12" font-weight="700" letter-spacing="1.5">페어 해제에 따른 문서 파기</text>
+            </g>
+          </svg>
+        </span>
+        <svg class="scribble" viewBox="0 0 300 150" aria-hidden="true" preserveAspectRatio="none">
+          <path pathLength="1" d="M14 40 L280 30 L20 62 L286 52 L18 88 L282 80 L24 112 L276 104 L30 128 L270 124"/>
+          <path pathLength="1" d="M30 20 L262 132 M40 136 L268 18"/>
+        </svg>
+        <p class="pen" aria-hidden="true">누구 마음대로.</p>
+      </div>
+    </article>
+
+    <!-- 공문 ②: 4년 뒤, 서른하나 -->
+    <article class="notice" id="notice2" aria-labelledby="noticeTitle2">
+      <header class="nt-head">
+        <p class="nt-org">FEARLESS</p>
+        <p class="nt-meta"><span>문서번호 FL-GP-0011</span><span>보존기간 영구</span><span class="nt-secret">대외비</span></p>
+      </header>
+
+      <h2 class="nt-title" id="noticeTitle2">복귀 및 페어 재지정 통보</h2>
+
+      <dl class="nt-rows">
+        <div><dt>발신</dt><dd>FEARLESS 지부</dd></div>
+        <div><dt>제목</dt><dd>영국지부 파견 인원 복귀 및 페어 재지정의 건</dd></div>
+      </dl>
+
+      <ol class="nt-body">
+        <li>귀하의 노고에 감사드립니다.</li>
+        <li>영국지부에 파견 중인 가이드 윤 휘(코드네임 GLORY)의 파견 기간이 만료되어, 본 지부로 복귀함을 알려드립니다.</li>
+        <li>이에 지부는 해당 인원을 아래와 같이 <strong>기존 페어로 재지정</strong>합니다.
+          <table class="nt-table">
+            <thead><tr><th scope="col">구분</th><th scope="col">코드네임</th><th scope="col">성명</th><th scope="col">등급</th></tr></thead>
+            <tbody>
+              <tr><td>센티넬</td><td class="nt-code">PRIDE</td><td>진현우</td><td>S</td></tr>
+              <tr><td>가이드</td><td class="nt-code">GLORY</td><td>윤 휘</td><td>S</td></tr>
+            </tbody>
+          </table>
+        </li>
+        <li>참고 사항
+          <ol class="nt-sub">
+            <li>이전 페어 기간: 7년</li>
+            <li>이전 페어 기간 중 임무 실패 이력: <strong>1회</strong></li>
+            <li>페어 공백 기간: 4년</li>
+          </ol>
+        </li>
+      </ol>
+      <p class="nt-end">끝.</p>
+
+      <footer class="nt-foot">
+        <p class="nt-sign">FEARLESS 지부장 K
+          <span class="nt-stamp" aria-label="직인: FEARLESS 승인">
+            <svg viewBox="0 0 120 120" aria-hidden="true">
+              <g filter="url(#ink)" fill="none" stroke="currentColor">
+                <rect x="8" y="8" width="104" height="104" rx="6" stroke-width="5"/>
+                <rect x="16" y="16" width="88" height="88" rx="3" stroke-width="1.6"/>
+                <text x="60" y="52" text-anchor="middle" fill="currentColor" stroke="none" font-size="19" font-weight="700" letter-spacing="1">FEAR</text>
+                <text x="60" y="73" text-anchor="middle" fill="currentColor" stroke="none" font-size="19" font-weight="700" letter-spacing="1">LESS</text>
+                <text x="60" y="94" text-anchor="middle" fill="currentColor" stroke="none" font-size="12" font-weight="700" letter-spacing="2">승인</text>
+              </g>
+            </svg>
+          </span>
+        </p>
+      </footer>
+    </article>
+    </div>
+    <p class="stack-hint" id="stackHint"><span id="stackPage">1 / 2</span> · 공문을 눌러 넘겨요</p>
+    </div>
+
+    <!-- 공문 옆: 함께한 날과 두 사람의 메시지 (내용은 chat.js에서 고쳐요) -->
+    <aside class="side">
+      <div class="dday" aria-live="polite">
+        <p class="dd-num" id="ddNum">D+0</p>
+        <p class="dd-since" id="ddSince"></p>
+      </div>
+      <div class="chat" id="chat" aria-label="두 사람의 메시지 기록">
+        <p class="chat-head" id="chatHead"></p>
+        <div class="chat-log" id="chatLog"></div>
+      </div>
+    </aside>
+    </div>
+  </section>
+
+
+  <!-- 캐릭터에게 가기 전, 대사와 신원 확인 -->
+  <div class="scene" id="scene" tabindex="-1" role="dialog" aria-modal="true" aria-labelledby="sceneLine" hidden>
+    <div class="scene-light"></div>
+    <i class="scene-bar top"></i>
+    <i class="scene-bar bottom"></i>
+    <div class="scene-body">
+      <p class="scene-line" id="sceneLine"></p>
+      <p class="scene-who" id="sceneWho"><span class="sign-bar"><i></i></span><span class="sign-text" id="signText"></span></p>
+    </div>
+    <p class="scene-skip">눌러서 넘기기</p>
+  </div>
+
+  <script src="chat.js"></script>
+  <script src="site.js"></script>
+  <!-- FL-OS 단말기: 오른쪽 아래 버튼 (내용은 flos-data.js에서 고쳐요) -->
+  <script src="flos-data.js"></script>
+  <script src="../../js/flos.js"></script>
+</body>
+</html>

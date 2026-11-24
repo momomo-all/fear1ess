@@ -1,0 +1,590 @@
+/* ───────────────── 태오반희: 영영 돌아오지 않을 어제의 꿈에게 ───────────────── */
+:root {
+  --serif: "Gowun Batang", "Batang", serif;
+  --luca: "Cormorant Garamond", "Gowun Batang", serif;
+  --burst: "Bebas Neue", "IBM Plex Mono", sans-serif;
+  --stamp: "Share Tech Mono", "IBM Plex Mono", monospace;
+  --hud: "IBM Plex Mono", monospace;
+  --ease-out: cubic-bezier(.16, 1, .3, 1);
+
+  /* 오래된 필름 속 푸른 밤 */
+  --paper: #0c1326;
+  --ink: #e8eeff;
+  --ink-sub: #9fabd0;
+  /* 태오(LUCA): 푸른 눈, 남색 정장 */
+  --blue: #9cc8ff;
+  /* 반희(BURST): 분홍 눈, 토끼 머리끈 */
+  --pink: #ff9cc8;
+  /* 필름 날짜 도장 */
+  --date: #ffa24a;
+}
+
+* { box-sizing: border-box; margin: 0; }
+html { background: var(--paper); scrollbar-width: thin; scrollbar-color: #34406a transparent; }
+html:has(body.opening) { background: #000; }
+html, body { min-height: 100%; }
+body {
+  font-family: var(--serif);
+  color: var(--ink);
+  -webkit-font-smoothing: antialiased;
+  -webkit-tap-highlight-color: transparent;
+  overflow-x: hidden;
+}
+::selection { background: rgba(156, 200, 255, .35); }
+.sr-only { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
+
+/* ───────────────── 배경: 필름 속 창가 ───────────────── */
+.world { position: fixed; inset: 0; overflow: hidden; pointer-events: none; background: #071029; }
+/* 필름 한 장: 영사기 안에서 아주 조금씩 흔들리고 깜빡여요 */
+.reel { position: absolute; inset: -6px; animation: weave 3.4s steps(1) infinite; }
+@keyframes weave {
+  0%, 100% { transform: none; filter: none; }
+  14% { transform: translate(.6px, -.4px); }
+  29% { transform: translate(-.4px, .5px); filter: brightness(1.04); }
+  31% { filter: none; }
+  48% { transform: translate(.3px, .7px); }
+  66% { transform: translate(-.6px, -.2px); filter: brightness(.96); }
+  68% { filter: none; }
+  83% { transform: translate(.4px, -.6px); }
+}
+.still, .ghost {
+  position: absolute; inset: 0;
+  width: 100%; height: 100%;
+  object-fit: cover; object-position: var(--pos, 50% 30%);
+  user-select: none;
+}
+.still { filter: saturate(.86) contrast(.96) sepia(.08); transition: filter .9s ease; }
+
+/* 반희의 잔상: 같은 장면이 분홍빛으로 살짝 밀려 겹쳐요 (이중노출) */
+.ghost {
+  opacity: 0;
+  mix-blend-mode: screen;
+  filter: grayscale(1) sepia(1) saturate(5) hue-rotate(285deg) brightness(.85);
+  -webkit-mask-image: radial-gradient(circle calc(var(--spot, 200px) * 2.4) at var(--px, 50%) var(--py, 50%), #000 25%, transparent 80%);
+  mask-image: radial-gradient(circle calc(var(--spot, 200px) * 2.4) at var(--px, 50%) var(--py, 50%), #000 25%, transparent 80%);
+  transition: opacity .25s ease, transform .6s var(--ease-out);
+}
+[data-world="banhee"] .ghost.g1 { opacity: .42; animation: trail1 2.4s ease-in-out infinite alternate; }
+[data-world="banhee"] .ghost.g2 { opacity: .2; animation: trail2 2.4s .2s ease-in-out infinite alternate; }
+@keyframes trail1 { from { transform: translateX(-10px); } to { transform: translateX(-22px); } }
+@keyframes trail2 { from { transform: translateX(-26px); } to { transform: translateX(-46px); } }
+
+/* 태오에게 닿으면: 흔들림이 멎고, 바랜 빛이 돌아와요 */
+[data-world="taeo"] .reel { animation: none; }
+[data-world="taeo"] .still { filter: none; }
+
+/* 누군가에게 닿으면 그 사람 둘레만 초점이 맞고, 나머지는 흐려져요 */
+@property --hole { syntax: '<length>'; inherits: true; initial-value: 0px; }
+.haze {
+  --hole: 0px;
+  position: absolute; inset: 0;
+  -webkit-mask-image: radial-gradient(circle max(1px, var(--hole)) at var(--px, 50%) var(--py, 50%), transparent 40%, #000 100%);
+  mask-image: radial-gradient(circle max(1px, var(--hole)) at var(--px, 50%) var(--py, 50%), transparent 40%, #000 100%);
+  transition: --hole .6s ease-in, backdrop-filter .8s ease, -webkit-backdrop-filter .8s ease;
+}
+.lit-on .haze {
+  --hole: var(--spot, 200px);
+  -webkit-backdrop-filter: brightness(.6) saturate(.75) blur(2px);
+  backdrop-filter: brightness(.6) saturate(.75) blur(2px);
+  transition: --hole 1s var(--ease-out), backdrop-filter .8s ease, -webkit-backdrop-filter .8s ease;
+}
+
+/* 그 사람의 빛깔이 번져요 (태오: 푸른빛, 반희: 분홍빛) */
+.tint { position: absolute; inset: 0; opacity: 0; mix-blend-mode: soft-light; transition: opacity 1s ease, background 1s ease; }
+[data-world="taeo"] .tint { opacity: 1; background: radial-gradient(circle at var(--px) var(--py), rgba(190, 220, 255, .4), rgba(40, 90, 200, .5) 70%); }
+[data-world="banhee"] .tint { opacity: 1; background: radial-gradient(circle at var(--px) var(--py), rgba(255, 200, 225, .4), rgba(200, 60, 140, .45) 70%); }
+
+/* 글자가 읽히도록: 아래쪽과 오른쪽 위 창가를 조금 가라앉혀요 */
+.shade {
+  position: absolute; inset: 0;
+  background:
+    linear-gradient(to top, rgba(4, 8, 22, .72), transparent 36%),
+    radial-gradient(ellipse 48% 42% at 100% 0%, rgba(4, 10, 30, .55), transparent 72%);
+}
+.air { position: absolute; inset: 0; width: 100%; height: 100%; }
+
+/* 빛 샘: 필름 가장자리로 바랜 주황빛이 천천히 번졌다 사라져요 */
+.leak {
+  position: absolute; inset: 0;
+  background:
+    radial-gradient(ellipse 30% 60% at 0% 70%, rgba(255, 130, 60, .55), transparent 70%),
+    radial-gradient(ellipse 18% 40% at 4% 20%, rgba(255, 190, 120, .4), transparent 70%);
+  mix-blend-mode: screen;
+  opacity: 0;
+  animation: leak 16s 3s ease-in-out infinite;
+  transition: opacity .8s ease;
+}
+@keyframes leak { 0%, 55%, 100% { opacity: 0; } 70% { opacity: .32; } 80% { opacity: .2; } }
+.lit-on .leak { animation: none; opacity: 0; }
+
+/* 필름 입자 */
+.grain {
+  position: absolute; inset: -50%;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='g'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 .5 0 0 0 0 .5 0 0 0 0 .5 0 0 0 .9 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23g)'/%3E%3C/svg%3E");
+  opacity: .16;
+  mix-blend-mode: overlay;
+  animation: grain .9s steps(5) infinite;
+  transition: opacity .9s ease;
+}
+@keyframes grain {
+  0% { transform: translate(0, 0); }
+  20% { transform: translate(-7%, 4%); }
+  40% { transform: translate(5%, -6%); }
+  60% { transform: translate(-3%, -9%); }
+  80% { transform: translate(8%, 3%); }
+  100% { transform: translate(0, 0); }
+}
+[data-world="taeo"] .grain { opacity: .07; }
+.vignette { position: absolute; inset: 0; background: radial-gradient(ellipse 75% 70% at 50% 46%, transparent 55%, rgba(2, 4, 14, .6) 100%); }
+
+/* 필름 사진 날짜 도장 (chat.js의 since 날짜) */
+.stamp {
+  position: absolute; left: clamp(24px, 6vw, 110px); top: clamp(26px, 4.5svh, 50px);
+  font-family: var(--stamp); font-size: clamp(15px, 1.4vw, 20px); letter-spacing: .14em;
+  color: var(--date);
+  opacity: .82;
+  mix-blend-mode: screen;
+}
+
+/* ───────────────── 얼굴 위 반응 영역 ───────────────── */
+/* ───────────────── 얼굴 위 반응 영역 ───────────────── */
+.face-hit {
+  position: absolute; z-index: 2;
+  left: 0; top: 0;
+  width: var(--hs, 120px); height: var(--hs, 120px);
+  border-radius: 50%;
+  transform: translate(calc(var(--hx, -999px) - 50%), calc(var(--hy, -999px) - 50%));
+  cursor: pointer;
+}
+
+.stage {
+  position: relative; z-index: 3;
+  height: 100svh; min-height: 560px;
+  pointer-events: none;
+}
+.name {
+  position: absolute;
+  display: grid; gap: 10px;
+  color: #f2f0ff;
+  text-decoration: none;
+  text-shadow: 0 2px 24px rgba(4, 6, 24, .7);
+  pointer-events: auto;
+  cursor: pointer;
+  transition: color .5s ease, opacity .5s ease;
+}
+.name .nm { line-height: .9; }
+.name small { font-size: clamp(13px, 1.1vw, 15px); color: rgba(236, 236, 255, .88); text-shadow: 0 1px 3px rgba(4, 6, 24, .8), 0 2px 18px rgba(4, 6, 24, .6); transition: color .5s ease; }
+.name:focus-visible { outline: 2px solid currentColor; outline-offset: 10px; border-radius: 4px; }
+.name .nm::after { /* 누를 수 있다는 가는 선 */
+  content: ""; display: block; height: 1.5px; margin-top: 12px;
+  background: currentColor; opacity: .4;
+  transform: scaleX(.35);
+  transition: transform .6s var(--ease-out), opacity .3s;
+}
+.name:hover .nm::after, .name:focus-visible .nm::after, .name.lit .nm::after { transform: none; opacity: .9; }
+
+/* ───────────────── 두 이름: 기울어진 Luca × 잔상이 남는 BURST ───────────────── */
+.name.taeo .nm { font-family: var(--luca); font-style: italic; font-weight: 500; font-size: clamp(3rem, 6.4vw, 5.6rem); letter-spacing: .01em; line-height: .85; }
+.name.banhee .nm { font-family: var(--burst); font-weight: 400; font-size: clamp(3rem, 6.4vw, 5.6rem); letter-spacing: .08em; margin-right: -.08em; line-height: .85; }
+.name.taeo { left: clamp(24px, 6vw, 110px); bottom: clamp(48px, 10svh, 110px); }
+.name.banhee { right: clamp(24px, 6vw, 110px); bottom: clamp(48px, 10svh, 110px); text-align: right; justify-items: end; }
+.name.taeo .nm::after { transform-origin: left; }
+.name.banhee .nm::after { transform-origin: right; margin-right: .08em; }
+
+[data-world="taeo"] .name.taeo { color: #d4e7ff; }
+[data-world="taeo"] .name.taeo .nm { text-shadow: 0 2px 24px rgba(4, 6, 24, .7), 0 0 22px rgba(120, 180, 255, .45); }
+[data-world="taeo"] .name.banhee { opacity: .3; }
+[data-world="banhee"] .name.banhee { color: #ffd0e4; }
+[data-world="banhee"] .name.banhee .nm { animation: afterimage 2.4s ease-in-out infinite alternate; }
+@keyframes afterimage {
+  from { text-shadow: 0 2px 24px rgba(4, 6, 24, .7), -10px 0 rgba(255, 140, 195, .42), -22px 0 rgba(255, 140, 195, .18); }
+  to { text-shadow: 0 2px 24px rgba(4, 6, 24, .7), -18px 0 rgba(255, 140, 195, .36), -38px 0 rgba(255, 140, 195, .13); }
+}
+[data-world="banhee"] .name.taeo { opacity: .3; }
+
+/* 두 사람에게 꼭 맞는 한 줄 (오른쪽 위, 창가) */
+.lyric {
+  position: absolute; right: clamp(24px, 6vw, 110px); top: clamp(26px, 4.5svh, 50px);
+  display: grid; gap: 10px; justify-items: end; text-align: right;
+  color: #eef2ff;
+  text-shadow: 0 2px 20px rgba(4, 8, 30, .85);
+}
+.lyric .sub { font-size: clamp(13px, 1.1vw, 15px); letter-spacing: .14em; color: #b9c4ea; }
+.lyric .ko { font-family: "Nanum Myeongjo", var(--serif); font-weight: 700; font-size: clamp(22px, 2.5vw, 36px); line-height: 1.45; letter-spacing: -.01em; word-break: keep-all; }
+.lyric em { font-style: normal; transition: color .6s ease; }
+[data-world="taeo"] .lyric em { color: var(--blue); }
+[data-world="banhee"] .lyric em { color: var(--pink); }
+
+/* ───────────────── 여는 장면: 영사기가 켜지듯, 두어 번 깜빡이다 초점이 맞아요 ───────────────── */
+.opening .world { animation: projector 2.4s .2s both; }
+@keyframes projector {
+  0% { opacity: 0; filter: brightness(2.6) sepia(.6) blur(8px); }
+  6% { opacity: .85; }
+  10% { opacity: .08; }
+  16% { opacity: .9; }
+  20% { opacity: .25; }
+  30% { opacity: 1; filter: brightness(1.9) sepia(.5) blur(6px); }
+  100% { opacity: 1; filter: none; }
+}
+.opening .name.taeo { animation: nameIn 1.5s 2.2s var(--ease-out) both; }
+.opening .name.banhee { animation: ghostIn 1.1s 2.6s var(--ease-out) both; }
+.opening .lyric > span { animation: nameIn 1.6s var(--ease-out) both; }
+.opening .lyric .ko { animation-delay: 2.9s; }
+.opening .lyric .sub { animation-delay: 3.2s; }
+@keyframes nameIn { from { opacity: 0; filter: blur(10px); transform: translateY(10px); } }
+@keyframes ghostIn {
+  from { opacity: 0; transform: translateX(24px); text-shadow: -14px 0 rgba(255, 140, 195, .5), -30px 0 rgba(255, 140, 195, .25); }
+  to { opacity: 1; transform: none; }
+}
+
+/* ───────────────── 대사 연출: 위아래로 막이 닫히며 ───────────────── */
+/* ───────────────── 대사 연출: 위아래로 막이 닫히며 ───────────────── */
+.scene {
+  position: fixed; inset: 0; z-index: 30;
+  --bar: 11svh;
+  cursor: pointer;
+  overflow: hidden;
+  opacity: 0;
+  transition: opacity .2s ease;
+}
+.scene[hidden] { display: none; }
+.scene.on { opacity: 1; }
+/* 셔터 막: 위아래에서 탁 닫혔다가 레터박스로 남아요 */
+.scene-bar {
+  position: absolute; left: 0; right: 0; z-index: 2;
+  height: 50%; background: var(--bar-bg, #000);
+  transition: height .55s .25s cubic-bezier(.7, 0, .2, 1);
+}
+.scene-bar.top { top: 0; }
+.scene-bar.bottom { bottom: 0; }
+.scene.on .scene-bar { height: var(--bar); }
+.scene-light { position: absolute; inset: 0; z-index: 1; pointer-events: none; }
+/* 플래시 */
+.flash { position: absolute; inset: 0; z-index: 5; background: #fff; opacity: 0; pointer-events: none; }
+.scene.on .flash { animation: flash .7s .15s ease-out both; }
+@keyframes flash { 0% { opacity: 0; } 12% { opacity: .95; } 100% { opacity: 0; } }
+.scene-body {
+  position: absolute; z-index: 3; left: 0; right: 0; top: 50%;
+  transform: translateY(-50%);
+  display: grid; justify-items: center; gap: clamp(14px, 2.4vh, 22px);
+  padding: 0 24px; text-align: center;
+}
+.scene-line {
+  font-weight: 700;
+  font-size: clamp(1.5rem, 3.6vw, 2.7rem);
+  line-height: 1.45;
+  text-wrap: balance;
+  max-width: 18em;
+}
+.scene-word { display: inline-block; white-space: nowrap; }
+.scene-word span { display: inline-block; white-space: pre; opacity: 0; animation-fill-mode: both; animation-delay: calc(.9s + var(--i) * 50ms); }
+.scene.on .scene-word span { animation-name: var(--char-in); animation-duration: .7s; animation-timing-function: var(--ease-out); }
+.scene.full .scene-word span { animation: none; opacity: 1; }
+.scene-who {
+  display: grid; justify-items: center; gap: 10px;
+  font-family: var(--hud); font-size: 13px; letter-spacing: .16em;
+  opacity: 0; transform: translateY(6px);
+  transition: opacity .5s, transform .7s var(--ease-out);
+}
+.scene.full .scene-who { opacity: 1; transform: none; }
+.sign-bar { position: relative; width: 168px; height: 2px; overflow: hidden; background: currentColor; opacity: .25; }
+.sign-bar i { position: absolute; inset: 0; background: currentColor; transform: scaleX(0); transform-origin: left; }
+.scene.signing .sign-bar { opacity: 1; background: color-mix(in srgb, currentColor 25%, transparent); }
+.scene.signing .sign-bar i { transform: scaleX(1); transition: transform 1.1s cubic-bezier(.6, 0, .2, 1); }
+.scene.signed .sign-text { animation: signIn .5s var(--ease-out) both; font-weight: 500; }
+@keyframes signIn { from { opacity: 0; letter-spacing: .4em; } }
+.scene-skip {
+  position: absolute; z-index: 3; left: 0; right: 0;
+  bottom: calc(var(--bar) / 2 - .6em);
+  text-align: center; font-size: 13px; letter-spacing: .06em;
+  color: var(--skip, rgba(255, 255, 255, .62));
+  opacity: 0; transition: opacity .4s 1.4s;
+}
+.scene.on .scene-skip { opacity: 1; }
+.scene::after { content: ""; position: absolute; inset: 0; z-index: 4; background: #fff; opacity: 0; transition: opacity .6s ease; pointer-events: none; }
+.scene.leave::after { opacity: 1; }
+
+/* 태오(LUCA): 깊은 남색 어둠, 글자는 초점이 맞듯 또렷해져요 */
+.scene[data-tone="taeo"] {
+  --char-in: charFocus; --bar-bg: #03060f;
+  background: radial-gradient(ellipse at 50% 45%, #15284f, #0a1430 60%, #040812);
+  color: #eaf2ff;
+}
+.scene[data-tone="taeo"] .scene-light {
+  background: radial-gradient(ellipse 50% 40% at 50% 50%, rgba(140, 190, 255, .2), transparent 70%);
+  opacity: 0;
+}
+.scene[data-tone="taeo"].on .scene-light { animation: sceneFade 1.2s ease both, glow 4s 1.2s ease-in-out infinite alternate; }
+@keyframes glow { to { opacity: .55; } }
+.scene[data-tone="taeo"] .flash { background: #dbe9ff; }
+.scene[data-tone="taeo"].on .flash { animation: flash .7s .15s ease-out both; }
+.scene[data-tone="taeo"] .scene-who { color: var(--blue); }
+@keyframes charFocus { from { opacity: 0; filter: blur(8px); } to { opacity: 1; filter: none; } }
+
+/* 반희(BURST): 짙은 자줏빛 어둠, 글자는 잔상을 끌며 미끄러져 들어와요 */
+.scene[data-tone="banhee"] {
+  --char-in: charGhost; --bar-bg: #0b0309;
+  background: radial-gradient(ellipse at 50% 45%, #3a1431, #1c0918 60%, #0a0308);
+  color: #fff0f6;
+}
+.scene[data-tone="banhee"] .scene-light {
+  background:
+    radial-gradient(circle 3px at 28% 36%, rgba(255, 170, 210, .9), transparent),
+    radial-gradient(circle 2px at 74% 30%, rgba(255, 170, 210, .8), transparent),
+    radial-gradient(circle 2px at 62% 72%, rgba(255, 170, 210, .7), transparent),
+    radial-gradient(ellipse 50% 40% at 50% 50%, rgba(255, 120, 180, .16), transparent 70%);
+  opacity: 0;
+}
+.scene[data-tone="banhee"].on .scene-light { animation: sceneFade .8s ease both, glow 2.6s .8s ease-in-out infinite alternate; }
+.scene[data-tone="banhee"] .flash { background: #ff9cc8; }
+.scene[data-tone="banhee"].on .flash { animation: flicker .5s .15s steps(1) both; }
+@keyframes flicker { 0% { opacity: 0; } 20% { opacity: .6; } 40% { opacity: 0; } 60% { opacity: .35; } 80%, 100% { opacity: 0; } }
+.scene[data-tone="banhee"] .scene-who { color: var(--pink); }
+@keyframes charGhost {
+  0% { opacity: 0; transform: translateX(18px); text-shadow: -12px 0 rgba(255, 140, 195, .55), -26px 0 rgba(255, 140, 195, .28); }
+  60% { opacity: 1; transform: none; text-shadow: -4px 0 rgba(255, 140, 195, .4), -9px 0 rgba(255, 140, 195, .15); }
+  100% { opacity: 1; transform: none; text-shadow: none; }
+}
+@keyframes sceneFade { to { opacity: 1; } }
+.scene::after { background: #05070f; }
+
+/* ───────────────── 공문 옆 칸 (D-day, 메시지) ───────────────── */
+.notice-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 720px) minmax(0, 340px);
+  justify-content: center;
+  align-items: start;
+  gap: clamp(28px, 4vw, 56px);
+  max-width: 1160px;
+  margin: 0 auto;
+}
+.notice-grid .notice { margin: 0; }
+.side { position: sticky; top: 40px; display: grid; gap: 22px; }
+
+.dday { padding: 18px 22px 16px; border-top: 1px solid var(--dd-rule); border-bottom: 1px solid var(--dd-rule); color: var(--dd-ink); }
+.dd-num { font-family: var(--hud); font-size: clamp(40px, 4.6vw, 56px); line-height: 1; letter-spacing: .02em; font-variant-numeric: tabular-nums; }
+.dd-since { margin-top: 8px; font-size: 14px; color: var(--dd-sub); }
+
+/* 메시지: 휴대폰 없이 말풍선만 */
+.chat { font-family: -apple-system, BlinkMacSystemFont, "Pretendard Variable", Pretendard, "Apple SD Gothic Neo", sans-serif; }
+.chat-head { margin-bottom: 14px; text-align: center; font-size: 12px; color: #8e8e93; }
+.chat-head b { font-weight: 600; }
+.chat-log { display: flex; flex-direction: column; }
+.msg {
+  position: relative;
+  max-width: 78%;
+  padding: 8px 13px 9px;
+  border-radius: 18px;
+  margin-top: 3px;
+  font-size: 15px; line-height: 1.35;
+  color: #fff;
+  overflow-wrap: break-word;
+  opacity: 0; transform: translateY(10px) scale(.9);
+}
+.msg.them { align-self: flex-start; background: var(--them); color: var(--them-ink); box-shadow: var(--them-edge, none); transform-origin: 0 100%; }
+.msg.me { align-self: flex-end; background: var(--me); color: var(--me-ink); box-shadow: var(--me-edge, none); transform-origin: 100% 100%; }
+.msg.first { margin-top: 12px; }
+.msg-time { margin: 14px 0 4px; text-align: center; font-size: 11px; color: #8e8e93; opacity: 0; }
+.msg-read { align-self: flex-end; margin: 4px 4px 0 0; font-size: 11px; color: #8e8e93; opacity: 0; }
+.msg-read b { font-weight: 600; }
+.msg.tail::before, .msg.tail::after { content: ""; position: absolute; bottom: 0; height: 17px; }
+.msg.them.tail::before { left: -6px; width: 16px; background: var(--them); border-bottom-right-radius: 14px 12px; }
+.msg.them.tail::after { left: -10px; width: 10px; background: var(--chat-bg); border-bottom-right-radius: 9px; }
+.msg.me.tail::before { right: -6px; width: 16px; background: var(--me); border-bottom-left-radius: 14px 12px; }
+.msg.me.tail::after { right: -10px; width: 10px; background: var(--chat-bg); border-bottom-left-radius: 9px; }
+.chat.play .msg { animation: msgIn .45s cubic-bezier(.34, 1.4, .64, 1) both; animation-delay: calc(var(--k) * 280ms); }
+.chat.play .msg-time, .chat.play .msg-read { animation: msgFade .4s ease both; animation-delay: calc(var(--k) * 280ms); }
+@keyframes msgIn { to { opacity: 1; transform: none; } }
+.msg.typing { display: flex; gap: 5px; padding: 12px 14px; }
+.msg.typing i { width: 7px; height: 7px; border-radius: 50%; background: currentColor; opacity: .35; animation: typeDot 1.3s infinite; }
+.msg.typing i:nth-child(2) { animation-delay: .18s; }
+.msg.typing i:nth-child(3) { animation-delay: .36s; }
+@keyframes typeDot { 0%, 60%, 100% { opacity: .35; transform: none; } 30% { opacity: 1; transform: translateY(-3px); } }
+@keyframes msgFade { to { opacity: 1; } }
+
+@media (max-width: 1000px) {
+  .notice-grid { grid-template-columns: minmax(0, 720px); }
+  .side { position: static; max-width: 460px; width: 100%; margin: 0 auto; }
+}
+
+/* 태오반희 색: 태오(오른쪽)는 남색 정장 바탕에 푸른 눈 글씨, 반희(왼쪽)는 흰 제복 바탕에 분홍 눈 글씨 */
+.chat { --me: #1c2747; --me-ink: #d6e6ff; --them: #f1eef5; --them-ink: #b8396f; --chat-bg: var(--paper); }
+.side { --dd-ink: #eef2ff; --dd-sub: #9fabd0; --dd-rule: rgba(200, 210, 255, .2); }
+/* D-day는 필름 날짜 도장처럼 */
+.dd-num { font-family: var(--stamp); color: var(--date); }
+.chat-head { color: #9fabd0; }
+.msg-time, .msg-read { color: #7d88b4; }
+.chat-empty { padding: 22px 12px; border: 1px dashed rgba(200, 210, 255, .25); border-radius: 16px; text-align: center; font-size: 13px; color: #9fabd0; }
+
+/* ───────────────── FEARLESS 공문 ───────────────── */
+.notice-wrap {
+  position: relative; z-index: 2;
+  padding: clamp(80px, 14vh, 160px) 20px clamp(80px, 12vh, 140px);
+  background: linear-gradient(to bottom, rgba(232, 237, 241, 0), var(--paper) 18vh);
+}
+.notice {
+  --paper: #eeeadf;
+  --ink: #23201b;
+  --rule: #23201b;
+  --seal: #b8322a;
+  position: relative;
+  max-width: 720px;
+  margin: 0 auto;
+  padding: clamp(32px, 6vw, 64px) clamp(22px, 6vw, 68px) clamp(36px, 6vw, 60px);
+  background: var(--paper);
+  color: var(--ink);
+  box-shadow: 0 30px 50px -30px rgba(30, 40, 50, .45), 0 2px 6px rgba(30, 40, 50, .18);
+  font-family: "Nanum Myeongjo", "Batang", serif;
+  --type: "Nanum Gothic Coding", monospace;
+  line-height: 1.75;
+  transform-origin: 50% 85%;
+}
+.notice::before { /* 종이 결 */
+  content: ""; position: absolute; inset: 0; pointer-events: none; opacity: .35;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='p'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.6' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 .55 0 0 0 0 .5 0 0 0 0 .42 0 0 0 .18 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23p)'/%3E%3C/svg%3E");
+}
+.nt-head {
+  display: flex; flex-wrap: wrap; justify-content: space-between; align-items: end; gap: 8px 20px;
+  padding-bottom: 14px;
+  border-bottom: 3px double var(--rule);
+}
+.nt-org { font-weight: 800; font-size: 22px; letter-spacing: .32em; }
+.nt-meta { display: flex; flex-wrap: wrap; gap: 4px 14px; font-family: var(--type); font-size: 13px; }
+.nt-secret { padding: 0 8px; border: 1.5px solid var(--seal); color: var(--seal); font-weight: 700; letter-spacing: .1em; }
+.nt-title {
+  margin: clamp(26px, 4vw, 40px) 0 clamp(18px, 3vw, 28px);
+  text-align: center;
+  font-size: clamp(26px, 4vw, 36px); font-weight: 800; letter-spacing: .3em;
+}
+.nt-rows { display: grid; gap: 4px; padding: 14px 0; border-top: 1px solid var(--rule); border-bottom: 1px solid var(--rule); font-size: 16px; }
+.nt-rows div { display: grid; grid-template-columns: 4.5em 1fr; }
+.nt-rows dt { font-weight: 700; letter-spacing: .3em; }
+.nt-body { margin-top: 22px; padding-left: 1.6em; font-size: 16px; }
+.nt-body > li { margin-bottom: 12px; padding-left: .3em; }
+.nt-body strong { font-weight: 700; box-shadow: inset 0 -.35em 0 rgba(184, 50, 42, .16); }
+.nt-sub { margin-top: 6px; padding-left: 1.4em; list-style: hangul; }
+.nt-sub li { margin-bottom: 4px; }
+.nt-table { width: 100%; margin: 14px 0 6px; border-collapse: collapse; font-size: 15px; text-align: center; }
+.nt-table th, .nt-table td { padding: 8px 6px; border: 1px solid var(--rule); }
+.nt-table th { background: rgba(35, 32, 27, .08); font-weight: 700; }
+.nt-code { font-family: var(--type); font-weight: 700; letter-spacing: .05em; }
+/* 아직 아무도 모르는 칸: 타자기 물음표 */
+.nt-unknown { font-family: var(--type); font-weight: 700; color: var(--seal); letter-spacing: .1em; }
+.nt-end { margin-top: 6px; text-align: right; font-weight: 700; }
+.nt-foot { margin-top: clamp(34px, 6vw, 56px); text-align: center; }
+.nt-sign {
+  position: relative;
+  display: inline-block;
+  margin-top: 12px;
+  padding-right: 64px;
+  font-size: clamp(20px, 2.6vw, 26px); font-weight: 800; letter-spacing: .3em;
+  white-space: nowrap;
+}
+@media (max-width: 560px) {
+  .nt-sign { font-size: 18px; letter-spacing: .05em; padding-right: 48px; }
+  .nt-stamp { width: 80px; height: 80px; right: -14px; }
+  .nt-title { letter-spacing: .16em; }
+}
+.nt-stamp {
+  position: absolute; right: -18px; top: 50%;
+  width: 104px; height: 104px;
+  color: var(--seal);
+  transform: translateY(-50%) rotate(-9deg);
+  opacity: 0;
+  mix-blend-mode: multiply;
+}
+.nt-stamp svg { display: block; width: 100%; height: 100%; font-family: "Nanum Myeongjo", serif; }
+.stamped .nt-stamp { animation: stampDown .5s cubic-bezier(.2, 0, .3, 1) both; }
+.stamped.notice { animation: thud .45s .3s ease-out; }
+@keyframes stampDown {
+  0% { opacity: 0; transform: translateY(-50%) rotate(-16deg) scale(2.6); }
+  55% { opacity: .9; transform: translateY(-50%) rotate(-8deg) scale(.94); }
+  75% { transform: translateY(-50%) rotate(-9deg) scale(1.03); }
+  100% { opacity: .88; transform: translateY(-50%) rotate(-9deg) scale(1); }
+}
+@keyframes thud {
+  0%, 100% { transform: none; }
+  20% { transform: translateY(3px) scale(.996); }
+  45% { transform: translateY(-1px); }
+}
+
+.notice-wrap { background: linear-gradient(to bottom, rgba(12, 19, 38, 0), var(--paper) 18vh); }
+.notice { box-shadow: 0 30px 60px -24px rgba(0, 0, 0, .7), 0 2px 6px rgba(0, 0, 0, .4); }
+
+/* ───────────────── 세로 화면 ───────────────── */
+@media (max-aspect-ratio: 4/5) {
+  .world { --pos: 36% 30%; }
+  .name.taeo .nm { font-size: clamp(2.6rem, 13vw, 4rem); }
+  .name.banhee .nm { font-size: clamp(2.4rem, 12vw, 3.6rem); }
+  .name.taeo { bottom: 19svh; }
+  .name.banhee { bottom: 6svh; }
+  .lyric { top: 7svh; }
+  .lyric .ko { font-size: 22px; }
+  .stamp { top: auto; bottom: 34svh; }
+}
+
+/* ───────────────── 움직임 줄이기 ───────────────── */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation-duration: .01ms !important; animation-iteration-count: 1 !important; transition-duration: .01ms !important; }
+  .scene-word span { animation: none !important; opacity: 1 !important; }
+  .stamped .nt-stamp { animation: none !important; opacity: .88; }
+  .stamped.notice { animation: none !important; }
+  .msg, .msg-time, .msg-read { opacity: 1 !important; transform: none !important; animation: none !important; }
+}
+
+/* ───────────────── 캐릭터 페이지 (그림이 화면의 2/3) ───────────────── */
+.arrive { animation: arrive .7s ease both; }
+@keyframes arrive { from { opacity: 0; } }
+html:has(body.char-page) { background: #fff; }
+.char {
+  min-height: 100svh;
+  display: grid;
+  grid-template-columns: 1fr 2fr;
+  align-items: center;
+  background: var(--c-bg);
+  color: var(--c-ink);
+}
+.char-info { display: grid; gap: 18px; align-content: center; padding: 96px clamp(24px, 4vw, 64px) 64px clamp(24px, 6vw, 96px); }
+.char-code { margin-top: -8px; font-family: var(--hud); font-size: 15px; letter-spacing: .04em; color: var(--c-accent); }
+.char-name { font-size: clamp(3rem, 6vw, 5.2rem); font-weight: 800; line-height: 1.05; letter-spacing: -.02em; }
+.char-name .he { display: block; margin-top: 6px; text-align: left; font-family: var(--serif); font-size: .38em; font-weight: 700; letter-spacing: .04em; color: var(--c-sub); }
+.char-line { font-size: clamp(17px, 1.5vw, 21px); font-weight: 700; line-height: 1.5; text-wrap: pretty; word-break: keep-all; }
+.char-line[lang="la"] { font-family: var(--latin); font-style: italic; font-weight: 600; font-size: clamp(20px, 1.8vw, 25px); }
+.char-line small { display: block; margin-top: 4px; font-family: var(--serif); font-style: normal; font-size: 14px; font-weight: 400; color: var(--c-sub); }
+.char-desc { font-size: 16px; line-height: 1.7; color: var(--c-sub); max-width: 24em; }
+.char-back { margin-top: 10px; display: inline-flex; align-items: center; gap: 8px; color: var(--c-ink); font-size: 15px; text-underline-offset: 5px; }
+.char-back svg { width: 8px; height: 13px; flex: none; }
+.char-back:focus-visible { outline: 2px solid currentColor; outline-offset: 6px; border-radius: 3px; }
+.char-art {
+  margin: 0; align-self: stretch; height: 100svh;
+  display: flex; justify-content: flex-end; overflow: hidden;
+  -webkit-mask-image: linear-gradient(to right, transparent, #000 var(--fade, 26%));
+  mask-image: linear-gradient(to right, transparent, #000 var(--fade, 26%));
+}
+.char-art img { display: block; height: 100%; width: auto; max-width: none; flex: none; }
+.char-info > * { animation: charIn .9s var(--ease-out) both; }
+.char-info > :nth-child(2) { animation-delay: .08s; }
+.char-info > :nth-child(3) { animation-delay: .16s; }
+.char-info > :nth-child(4) { animation-delay: .24s; }
+.char-info > :nth-child(5) { animation-delay: .32s; }
+.char-art img { animation: artIn 1.2s .1s var(--ease-out) both; }
+@keyframes charIn { from { opacity: 0; transform: translateX(-14px); } }
+@keyframes artIn { from { opacity: 0; transform: translateX(24px); } }
+@media (max-width: 760px) {
+  .char { grid-template-columns: 1fr; align-items: start; }
+  .char-art { order: -1; height: auto; justify-content: center; -webkit-mask-image: linear-gradient(to bottom, #000 72%, transparent); mask-image: linear-gradient(to bottom, #000 72%, transparent); }
+  .char-art img { width: 100%; height: auto; }
+  .char-info { margin-top: -24px; position: relative; padding: 0 24px 64px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .char-info > *, .char-art img { animation: none !important; }
+}
+
+/* 태오반희 캐릭터 페이지 색 */
+.char-page.char-taeo { --c-ink: #13161d; --c-sub: #596070; --c-accent: #3a6fc4; }
+.char-page.char-taeo .char-name .he { font-family: var(--luca); font-style: italic; font-weight: 500; font-size: .52em; letter-spacing: .01em; }
+/* 태오는 그림 왼쪽에 얼굴이 있어서, 그림을 왼쪽에 붙이고 번짐도 짧게 */
+.char-page.char-taeo .char-art { justify-content: flex-start; --fade: 10%; }
+.char-page.char-banhee { --c-ink: #141214; --c-sub: #5f5860; --c-accent: #c93f7a; }
+.char-page.char-banhee .char-name .he { font-family: var(--burst); font-weight: 400; font-size: .5em; letter-spacing: .1em; text-shadow: 6px 0 rgba(255, 140, 195, .38), 13px 0 rgba(255, 140, 195, .16); }
+

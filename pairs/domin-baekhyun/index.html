@@ -1,0 +1,137 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>萬象의 視線 — 도민백현</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Michroma&family=Share+Tech+Mono&family=Noto+Serif+KR:wght@700;900&family=Nanum+Myeongjo:wght@400;700;800&family=Nanum+Gothic+Coding:wght@400;700&family=Chakra+Petch:wght@400;500&display=swap">
+  <link rel="preload" as="image" href="../../assets/pairs/domin-baekhyun/bg.webp">
+  <link rel="stylesheet" href="site.css">
+</head>
+<body data-world="idle" class="opening">
+
+  <!-- 평소: 지구가 내려다보이는 궤도, 별이 반짝이며 흘러가요
+       TOMA에 닿으면 별들이 도민을 중심으로 감기며 궤적을 그리고, CHERVIL에 닿으면 초록 조준선이 백현에게 잠기며 숨결 같은 파동이 퍼져요 -->
+  <div class="world" aria-hidden="true">
+    <img class="still" src="../../assets/pairs/domin-baekhyun/bg.webp" alt="" width="1216" height="832">
+    <div class="veil"></div>
+    <div class="shade"></div>
+    <canvas class="sky" id="sky"></canvas>
+    <svg class="scope" id="scope" viewBox="-100 -100 200 200">
+      <g class="sc-ring">
+        <circle r="62" />
+        <circle r="78" class="sc-dash" />
+      </g>
+      <path class="sc-corner" d="M-90 -60V-90H-60 M60 -90H90V-60 M90 60V90H60 M-60 90H-90V60" />
+      <path class="sc-cross" d="M-100 0H-70 M70 0H100 M0 -100V-70 M0 70V100" />
+      <text class="sc-tag" x="94" y="108">LOCK · CHERVIL</text>
+    </svg>
+  </div>
+
+  <p class="sr-only">지구의 밤빛이 내려다보이는 우주 한가운데, 방독면을 손에 든 하백현이 붉은 머리의 윤도민을 끌어안고 입을 맞추고, 도민은 초록 눈으로 웃어요</p>
+  <a class="face-hit hit-domin" href="domin.html" tabindex="-1" aria-hidden="true" data-for="wDomin"></a>
+  <a class="face-hit hit-baekhyun" href="baekhyun.html" tabindex="-1" aria-hidden="true" data-for="wBaekhyun"></a>
+
+  <main class="stage">
+    <h1 class="sr-only">萬象의 視線 — 윤도민 × 하백현</h1>
+    <p class="lyric"><span class="sub" lang="en">the gaze upon all things</span><span class="ko"><em class="w-all" lang="ko-Hani">萬象</em>의 <em class="w-gaze" lang="ko-Hani">視線</em></span></p>
+    <a class="name domin" href="domin.html" data-world="domin" id="wDomin" aria-label="Toma — 윤도민 캐릭터 보기"><span class="nm">TOMA</span><small>윤도민 · S급 센티넬</small></a>
+    <a class="name baekhyun" href="baekhyun.html" data-world="baekhyun" id="wBaekhyun" aria-label="Chervil — 하백현 캐릭터 보기"><span class="nm">CHERVIL</span><small>하백현 · S급 센티넬</small></a>
+  </main>
+
+  <!-- FEARLESS 공문: S급 센티넬 두 사람의 전투 페어 지정 통보 (내려오면 직인이 쿵) -->
+  <section class="notice-wrap" id="notice">
+    <div class="notice-grid">
+    <article class="notice" aria-labelledby="noticeTitle">
+      <header class="nt-head">
+        <p class="nt-org">FEARLESS</p>
+        <p class="nt-meta"><span>문서번호 FL-SS-0007</span><span>보존기간 영구</span><span class="nt-secret">대외비</span></p>
+      </header>
+
+      <h2 class="nt-title" id="noticeTitle">전투 페어 지정 통보</h2>
+
+      <dl class="nt-rows">
+        <div><dt>발신</dt><dd>FEARLESS 지부</dd></div>
+        <div><dt>제목</dt><dd>S급 센티넬 2인 전투 페어 지정의 건</dd></div>
+      </dl>
+
+      <ol class="nt-body">
+        <li>귀하의 노고에 감사드립니다.</li>
+        <li>지부는 아래 인원을 <strong>전투 페어</strong>로 지정하였음을 통보합니다.
+          <table class="nt-table">
+            <thead><tr><th scope="col">구분</th><th scope="col">코드네임</th><th scope="col">성명</th><th scope="col">등급</th></tr></thead>
+            <tbody>
+              <tr><td>센티넬</td><td class="nt-code">TOMA</td><td>윤도민</td><td>S</td></tr>
+              <tr><td>센티넬</td><td class="nt-code">CHERVIL</td><td>하백현</td><td>S</td></tr>
+            </tbody>
+          </table>
+        </li>
+        <li>준수 사항
+          <ol class="nt-sub">
+            <li>페어 인원은 작전 중 상호 위치를 공유한다.</li>
+            <li>페어 인원 간의 마찰은 지부에 보고한다.</li>
+            <li>페어의 해제는 지부의 승인 없이 할 수 없다.</li>
+          </ol>
+        </li>
+      </ol>
+      <p class="nt-end">끝.</p>
+
+      <footer class="nt-foot">
+        <p class="nt-sign">FEARLESS 지부장 K
+          <span class="nt-stamp" id="ntStamp" aria-label="직인: FEARLESS 승인">
+            <svg viewBox="0 0 120 120" aria-hidden="true">
+              <defs>
+                <filter id="ink" x="-10%" y="-10%" width="120%" height="120%">
+                  <feTurbulence type="fractalNoise" baseFrequency=".9" numOctaves="2" seed="7" result="n"/>
+                  <feDisplacementMap in="SourceGraphic" in2="n" scale="3.2"/>
+                </filter>
+              </defs>
+              <g filter="url(#ink)" fill="none" stroke="currentColor">
+                <rect x="8" y="8" width="104" height="104" rx="6" stroke-width="5"/>
+                <rect x="16" y="16" width="88" height="88" rx="3" stroke-width="1.6"/>
+                <text x="60" y="52" text-anchor="middle" fill="currentColor" stroke="none" font-size="19" font-weight="700" letter-spacing="1">FEAR</text>
+                <text x="60" y="73" text-anchor="middle" fill="currentColor" stroke="none" font-size="19" font-weight="700" letter-spacing="1">LESS</text>
+                <text x="60" y="94" text-anchor="middle" fill="currentColor" stroke="none" font-size="13" font-weight="700" letter-spacing="3">승 인</text>
+              </g>
+            </svg>
+          </span>
+        </p>
+      </footer>
+    </article>
+
+    <!-- 공문 옆: 함께한 날과 두 사람의 메시지 (내용은 chat.js에서 고쳐요) -->
+    <aside class="side">
+      <div class="dday" aria-live="polite">
+        <p class="dd-num" id="ddNum">D+0</p>
+        <p class="dd-since" id="ddSince"></p>
+      </div>
+      <div class="chat" id="chat" aria-label="두 사람의 메시지 기록">
+        <p class="chat-head" id="chatHead"></p>
+        <div class="chat-log" id="chatLog"></div>
+      </div>
+    </aside>
+    </div>
+  </section>
+
+
+  <!-- 캐릭터에게 가기 전, 대사와 신원 확인 -->
+  <div class="scene" id="scene" tabindex="-1" role="dialog" aria-modal="true" aria-labelledby="sceneLine" hidden>
+    <div class="scene-light"></div>
+    <i class="scene-bar top"></i>
+    <i class="scene-bar bottom"></i>
+    <div class="scene-body">
+      <p class="scene-line" id="sceneLine"></p>
+      <p class="scene-who" id="sceneWho"><span class="sign-bar"><i></i></span><span class="sign-text" id="signText"></span></p>
+    </div>
+    <p class="scene-skip">눌러서 넘기기</p>
+  </div>
+
+  <script src="chat.js"></script>
+  <script src="site.js"></script>
+  <!-- FL-OS 단말기: 오른쪽 아래 버튼 (내용은 flos-data.js에서 고쳐요) -->
+  <script src="flos-data.js"></script>
+  <script src="../../js/flos.js"></script>
+</body>
+</html>

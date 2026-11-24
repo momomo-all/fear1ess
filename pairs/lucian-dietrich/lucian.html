@@ -1,0 +1,62 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>루시안 — 루시안디트리히</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;1,500&family=Cormorant+SC:wght@500;600&family=Gowun+Batang:wght@400;700&display=swap">
+  <link rel="stylesheet" href="site.css">
+</head>
+<body class="char-page char-lucian">
+  <div class="desk" aria-hidden="true"></div>
+  <main class="char">
+    <!-- 왼쪽: 펼친 한 쪽에 이름, 시기 탭, 그 시기의 소개 -->
+    <section class="char-info">
+      <p class="char-no">제1장 · 두 사람</p>
+      <h1 class="char-name">루시안<span lang="en">Lucian Rosenberg</span></h1>
+
+      <div class="eras" role="tablist" aria-label="루시안의 시기">
+        <button type="button" role="tab" id="tab-young" aria-controls="era-young" aria-selected="true">어린 시절</button>
+        <button type="button" role="tab" id="tab-now" aria-controls="era-now" aria-selected="false" tabindex="-1">현재</button>
+        <button type="button" role="tab" id="tab-31" aria-controls="era-31" aria-selected="false" tabindex="-1">31세</button>
+      </div>
+
+      <!-- 시기마다: 소개 문단(.era-desc) + 그림(.era-plates). 첫 그림이 대표(소개글), 나머지가 안쪽(소개글 내부) 그림이에요 -->
+      <div class="era" id="era-young" role="tabpanel" aria-labelledby="tab-young">
+        <p class="era-desc">어린 루시안의 소개는 다음 단계에서 채워져요.</p>
+        <ul class="era-plates" hidden>
+          <li data-src="../../assets/pairs/lucian-dietrich/lucian-young-card.webp" data-alt="갈색 코트에 검은 목도리를 두르고 털장갑 낀 손으로 볼을 감싼 어린 루시안"></li>
+          <li data-src="../../assets/pairs/lucian-dietrich/lucian-young-1.webp" data-alt="긴 은발을 늘어뜨리고, 금발 머리 인형을 꼭 끌어안은 채 웅크려 앉은 어린 루시안"></li>
+        </ul>
+      </div>
+      <div class="era" id="era-now" role="tabpanel" aria-labelledby="tab-now" hidden>
+        <p class="era-desc">현재의 루시안 로젠베르크 소개는 다음 단계에서 채워져요.</p>
+        <ul class="era-plates" hidden>
+          <li data-src="../../assets/pairs/lucian-dietrich/lucian-now-card.webp" data-alt="주름 장식 블라우스 차림으로 무릎을 끌어안고 턱을 괸 루시안"></li>
+          <li data-src="../../assets/pairs/lucian-dietrich/lucian-now-2.webp" data-alt="흰 셔츠에 검은 바지 차림으로 비스듬히 앉아, 붉은 눈으로 내려다보는 루시안"></li>
+          <li data-src="../../assets/pairs/lucian-dietrich/lucian-now-3.webp" data-alt="흰 셔츠 차림으로 몸을 숙이고, 피 묻은 손등에 턱을 괸 루시안"></li>
+        </ul>
+      </div>
+      <div class="era" id="era-31" role="tabpanel" aria-labelledby="tab-31" hidden>
+        <p class="era-desc">서른한 살의 루시안 소개는 다음 단계에서 채워져요.</p>
+        <ul class="era-plates" hidden>
+          <li data-src="../../assets/pairs/lucian-dietrich/lucian-31-card.webp" data-alt="주름 장식 블라우스 차림으로 한 팔을 들어 올리고, 붉은 눈으로 비스듬히 내려다보는 서른한 살의 루시안"></li>
+          <li data-src="../../assets/pairs/lucian-dietrich/lucian-31-1.webp" data-alt="흰 셔츠 차림으로 몸을 숙이고 손가락을 들어 이쪽을 가리키는 서른한 살의 루시안"></li>
+          <li data-src="../../assets/pairs/lucian-dietrich/lucian-31-2.webp" data-alt="검은 정장에 검은 장갑을 끼고 엎드린 채 붉은 눈으로 올려다보는 서른한 살의 루시안"></li>
+        </ul>
+      </div>
+
+      <a class="char-back" href="index.html#open-1" onclick="if (window.top !== window) { location.replace(this.href); return false; }"><svg viewBox="0 0 12 20" aria-hidden="true"><path d="M10 2 2 10l8 8" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg>Rosenberg</a>
+    </section>
+
+    <!-- 오른쪽: 고른 시기의 그림 (아래 작은 도판을 누르면 바뀌어요) -->
+    <section class="album" aria-label="루시안 도판">
+      <figure class="album-main"><img id="main" src="../../assets/pairs/lucian-dietrich/lucian-young-card.webp" alt="갈색 코트에 검은 목도리를 두르고 털장갑 낀 손으로 볼을 감싼 어린 루시안" width="832" height="1216"></figure>
+      <ul class="thumbs" id="thumbs"></ul>
+    </section>
+  </main>
+  <script src="album.js"></script>
+</body>
+</html>

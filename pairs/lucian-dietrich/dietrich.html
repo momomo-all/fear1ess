@@ -1,0 +1,62 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>디트리히 — 루시안디트리히</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;1,500&family=Cormorant+SC:wght@500;600&family=Gowun+Batang:wght@400;700&display=swap">
+  <link rel="stylesheet" href="site.css">
+</head>
+<body class="char-page char-dietrich">
+  <div class="desk" aria-hidden="true"></div>
+  <main class="char">
+    <!-- 왼쪽: 펼친 한 쪽에 이름, 시기 탭, 그 시기의 소개 -->
+    <section class="char-info">
+      <p class="char-no">제1장 · 두 사람</p>
+      <h1 class="char-name">디트리히<span lang="en">Dietrich Rosenberg</span></h1>
+
+      <div class="eras" role="tablist" aria-label="디트리히의 시기">
+        <button type="button" role="tab" id="tab-young" aria-controls="era-young" aria-selected="true">어린 시절</button>
+        <button type="button" role="tab" id="tab-now" aria-controls="era-now" aria-selected="false" tabindex="-1">현재</button>
+        <button type="button" role="tab" id="tab-37" aria-controls="era-37" aria-selected="false" tabindex="-1">37세</button>
+      </div>
+
+      <!-- 시기마다: 소개 문단(.era-desc) + 그림(.era-plates). 첫 그림이 대표(소개글), 나머지가 안쪽(소개글 내부) 그림이에요 -->
+      <div class="era" id="era-young" role="tabpanel" aria-labelledby="tab-young">
+        <p class="era-desc">어린 디트리히의 소개는 다음 단계에서 채워져요.</p>
+        <ul class="era-plates" hidden>
+          <li data-src="../../assets/pairs/lucian-dietrich/dietrich-young-card.webp" data-alt="가죽 조끼 차림으로 볼을 붉힌 채 수줍게 웃는 어린 디트리히"></li>
+          <li data-src="../../assets/pairs/lucian-dietrich/dietrich-young-1.webp" data-alt="가죽 조끼 차림으로 몸을 숙여 이쪽을 들여다보며 웃는 어린 디트리히"></li>
+        </ul>
+      </div>
+      <div class="era" id="era-now" role="tabpanel" aria-labelledby="tab-now" hidden>
+        <p class="era-desc">현재의 디트리히 로젠베르크 소개는 다음 단계에서 채워져요.</p>
+        <ul class="era-plates" hidden>
+          <li data-src="../../assets/pairs/lucian-dietrich/dietrich-now-card.webp" data-alt="견장 달린 카키 군복에 검은 외투를 걸치고, 화상 자국 위로 안대를 한 채 미소 짓는 디트리히"></li>
+          <li data-src="../../assets/pairs/lucian-dietrich/dietrich-now-1.webp" data-alt="금빛 술 장식 견장을 단 갈색 군복 차림으로, 안대 아래 화상 자국을 드러낸 채 활짝 웃는 디트리히"></li>
+          <li data-src="../../assets/pairs/lucian-dietrich/dietrich-now-2.webp" data-alt="검은 외투를 어깨에 걸치고 몸을 기울여, 안대 너머로 이쪽을 노려보며 웃는 디트리히"></li>
+        </ul>
+      </div>
+      <div class="era" id="era-37" role="tabpanel" aria-labelledby="tab-37" hidden>
+        <p class="era-desc">서른일곱 살의 디트리히 소개는 다음 단계에서 채워져요.</p>
+        <ul class="era-plates" hidden>
+          <li data-src="../../assets/pairs/lucian-dietrich/dietrich-37-card.webp" data-alt="머리를 넘겨 묶고 검은 외투를 걸친 채, 안대를 하고 비스듬히 내려다보며 미소 짓는 서른일곱 살의 디트리히"></li>
+          <li data-src="../../assets/pairs/lucian-dietrich/dietrich-37-1.webp" data-alt="흰 장갑 낀 손을 무릎에 얹고 붉은 의자에 비스듬히 기대앉은 서른일곱 살의 디트리히"></li>
+          <li data-src="../../assets/pairs/lucian-dietrich/dietrich-37-2.webp" data-alt="검은 외투를 휘날리며 몸을 낮게 숙이고 이쪽을 곁눈질하는 서른일곱 살의 디트리히"></li>
+        </ul>
+      </div>
+
+      <a class="char-back" href="index.html#open-1" onclick="if (window.top !== window) { location.replace(this.href); return false; }"><svg viewBox="0 0 12 20" aria-hidden="true"><path d="M10 2 2 10l8 8" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg>Rosenberg</a>
+    </section>
+
+    <!-- 오른쪽: 고른 시기의 그림 (아래 작은 도판을 누르면 바뀌어요) -->
+    <section class="album" aria-label="디트리히 도판">
+      <figure class="album-main"><img id="main" src="../../assets/pairs/lucian-dietrich/dietrich-young-card.webp" alt="가죽 조끼 차림으로 볼을 붉힌 채 수줍게 웃는 어린 디트리히" width="832" height="1216"></figure>
+      <ul class="thumbs" id="thumbs"></ul>
+    </section>
+  </main>
+  <script src="album.js"></script>
+</body>
+</html>

@@ -1,0 +1,39 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>서재훈 — 사월재훈</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Hahmlet:wght@300;500;700&family=Chakra+Petch:wght@400;500&display=swap">
+  <link rel="stylesheet" href="site.css">
+  <!-- 하늘 연출을 거쳐 왔는지 (그림이 미리 보이지 않게 맨 먼저 확인해요) -->
+  <script>try { if (Date.now() - Number(sessionStorage.getItem('bloom:jaehun')) < 8000) document.documentElement.classList.add('from-bloom'); } catch (e) {}</script>
+</head>
+<body class="arrive char-page char-jaehun">
+  <main class="char">
+    <!-- 왼쪽 1/3: 이름과 소개 -->
+    <section class="char-info">
+      <h1 class="char-name">서재훈</h1>
+      <p class="char-code">MUSTANG · S급 센티넬</p>
+      <p class="char-line">“그 정도로 놀랄 일인가?”</p>
+      <!-- 서사: 첫 줄은 테마 문장 (글자 연출과 같은 문장이에요) -->
+      <div class="char-story">
+        <p class="char-theme">서재훈은 지지 않는 태양이다.</p>
+        <p>그렇기에 그는 영원히 상공에 군림하고, 작열한다.</p>
+        <p>빛은 때로 눈을 멀게 하고 열은 때로 모든 것을 태운다. 그렇다면 태양은 자신이 만들어 낸 그늘에 대해서도 책임을 져야 하는가. 자신이 비추지 못한 곳에서 일어난 일까지 자신의 책임이라고 할 수 있는가. 빛을 내리는 것만으로도 정녕 충분한 것일까.</p>
+        <p>서재훈은 다만 여전히 상공에 존재한다. 누구보다 높은 곳에서, 누구보다 넓은 전장을 내려다보며, 자신이 내린 판단의 결과를 자신의 이름으로 받아들인다.</p>
+        <p>태양은 패배하지 않는다. 그렇기에 서재훈은 패배하지 않을 것이다.</p>
+      </div>
+      <a class="char-back" href="index.html" onclick="if (window.top !== window) { location.replace(this.href); return false; }"><svg viewBox="0 0 12 20" aria-hidden="true"><path d="M10 2 2 10l8 8" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg>전장의 사월, 봄의 하늘</a>
+    </section>
+    <!-- 오른쪽 2/3: 그림 -->
+    <figure class="char-art">
+      <img src="../../assets/pairs/sawol-jaehun/jaehun-char.webp" alt="군복 차림에 선글라스를 내려 쓰고 담배를 문 채 무릎을 세우고 앉아 있는 서재훈" width="1216" height="832">
+    </figure>
+  </main>
+  <script src="bloom-engine.js"></script>
+  <script src="bloom-jaehun.js"></script>
+</body>
+</html>

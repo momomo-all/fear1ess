@@ -1,0 +1,1375 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Who are you</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css">
+<style>
+/* macOS 데스크톱 콘셉트 — 미니멀 · 중립색 (로고 · 이름은 안 써요)
+   흰색 · 차콜 · 실버 · 블루그레이 / 포인트 색은 페어 색(--c)만 */
+:root {
+  --sans: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Pretendard Variable", Pretendard, "Apple SD Gothic Neo", sans-serif;
+  --ink: #1d1f24; --sub: #3c414d;
+  --w1: rgba(255, 255, 255, .96); --w2: rgba(255, 255, 255, .74); --w3: rgba(255, 255, 255, .6);
+  --glass: rgba(28, 33, 46, .46);
+  --glass-line: rgba(255, 255, 255, .14);
+  --shadow: 0 1px 1px rgba(0, 0, 0, .06), 0 12px 32px -10px rgba(4, 8, 22, .5);
+  --ease: cubic-bezier(.25, .9, .3, 1);
+  --app: #1e1e21; --app-2: #26262a; --app-side: #2a2a2e; --app-line: rgba(255, 255, 255, .08);
+  --app-ink: #f4f4f6; --app-sub: #a1a1aa;
+  --c: #7f93b5;
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html, body { height: 100%; }
+body { font-family: var(--sans); color: var(--ink); overflow: hidden; -webkit-font-smoothing: antialiased; background: #121a2e; }
+button { font: inherit; color: inherit; background: none; border: 0; cursor: pointer; }
+:focus-visible { outline: 2px solid rgba(160, 186, 230, .9); outline-offset: 2px; }
+
+/* 테마 8가지 (blue · pink · sage · sky는 원래 사이트와 같은 이름 → about 뺙이도 같이 바뀌어요) */
+:root, :root[data-theme="blue"], [data-preview="blue"] {
+  --wpA: #1d2945; --wpB: #172138; --wpC: #24324f;
+  --wpL1: rgba(196, 208, 228, .5); --wpL2: rgba(104, 126, 168, .55); --wpL3: rgba(46, 62, 102, .85);
+  --fdA: #d3dfee; --fdB: #a8bcd8; --fdC: #a9bdd8; --fdD: #8aa2c4; --fdEm: rgba(52, 76, 112, .5);
+  --sel: rgba(84, 116, 170, .9);
+}
+:root[data-theme="pink"], [data-preview="pink"] {
+  --wpA: #3b2533; --wpB: #2a1a25; --wpC: #4b2f40;
+  --wpL1: rgba(236, 204, 218, .48); --wpL2: rgba(176, 114, 144, .52); --wpL3: rgba(92, 48, 72, .85);
+  --fdA: #f2dce5; --fdB: #dcb5c5; --fdC: #ddbac8; --fdD: #c596aa; --fdEm: rgba(120, 58, 86, .45);
+  --sel: rgba(170, 92, 126, .9);
+}
+:root[data-theme="sage"], [data-preview="sage"] {
+  --wpA: #1f2b25; --wpB: #17211c; --wpC: #2b3b32;
+  --wpL1: rgba(204, 220, 208, .46); --wpL2: rgba(112, 144, 122, .52); --wpL3: rgba(48, 72, 58, .85);
+  --fdA: #dce7dd; --fdB: #b4c8b7; --fdC: #bacdbc; --fdD: #95ae99; --fdEm: rgba(56, 86, 64, .45);
+  --sel: rgba(88, 124, 96, .9);
+}
+:root[data-theme="sky"], [data-preview="sky"] {
+  --wpA: #2a4f86; --wpB: #1f3f70; --wpC: #3a64a0;
+  --wpL1: rgba(214, 232, 252, .55); --wpL2: rgba(120, 172, 232, .55); --wpL3: rgba(30, 70, 132, .85);
+  --fdA: #ddedfd; --fdB: #aacdf3; --fdC: #b5d4f5; --fdD: #87b6ea; --fdEm: rgba(36, 88, 160, .45);
+  --sel: rgba(58, 118, 210, .9);
+}
+:root[data-theme="lavender"], [data-preview="lavender"] {
+  --wpA: #2b2745; --wpB: #201d36; --wpC: #3a3560;
+  --wpL1: rgba(214, 208, 238, .5); --wpL2: rgba(140, 128, 190, .52); --wpL3: rgba(64, 56, 110, .85);
+  --fdA: #e3dff4; --fdB: #c2bae3; --fdC: #c9c1e8; --fdD: #a69bd6; --fdEm: rgba(76, 62, 138, .45);
+  --sel: rgba(110, 92, 180, .9);
+}
+:root[data-theme="graphite"], [data-preview="graphite"] {
+  --wpA: #26282c; --wpB: #1b1c1f; --wpC: #34373d;
+  --wpL1: rgba(214, 216, 222, .42); --wpL2: rgba(130, 134, 144, .5); --wpL3: rgba(58, 60, 68, .85);
+  --fdA: #e6e8ec; --fdB: #c3c7cf; --fdC: #c8ccd3; --fdD: #a5abb5; --fdEm: rgba(60, 64, 74, .45);
+  --sel: rgba(100, 106, 120, .9);
+}
+:root[data-theme="sand"], [data-preview="sand"] {
+  --wpA: #3a3026; --wpB: #2a221b; --wpC: #4a3d30;
+  --wpL1: rgba(238, 222, 200, .48); --wpL2: rgba(184, 152, 116, .5); --wpL3: rgba(96, 74, 52, .85);
+  --fdA: #f2e6d6; --fdB: #dcc6a8; --fdC: #e0ccb0; --fdD: #c6aa86; --fdEm: rgba(110, 82, 50, .45);
+  --sel: rgba(160, 122, 80, .9);
+}
+:root[data-theme="ocean"], [data-preview="ocean"] {
+  --wpA: #173a42; --wpB: #112c33; --wpC: #22505a;
+  --wpL1: rgba(200, 230, 232, .46); --wpL2: rgba(96, 160, 168, .52); --wpL3: rgba(30, 78, 90, .85);
+  --fdA: #d8eeee; --fdB: #a9d3d6; --fdC: #b0d7da; --fdD: #84bcc1; --fdEm: rgba(30, 96, 104, .45);
+  --sel: rgba(50, 130, 140, .9);
+}
+
+/* 음악 앱 배경도 테마를 따라가요 (포인트 색은 페어 색 그대로) */
+:root {
+  --app: color-mix(in srgb, var(--wpB) 52%, #141416);
+  --app-2: color-mix(in srgb, var(--wpA) 48%, #1b1b1e);
+  --app-side: color-mix(in srgb, var(--wpC) 40%, #212125);
+}
+
+.scr { position: fixed; inset: 0; display: none; }
+.scr.on { display: block; }
+
+/* ───── 바탕화면: 은은한 추상 그라데이션 (딥 네이비 · 블루그레이 · 실버) ───── */
+.wall, .set-pv { background:
+    linear-gradient(118deg, transparent 30%, rgba(255, 255, 255, .1) 47%, rgba(255, 255, 255, .03) 56%, transparent 66%),
+    radial-gradient(85% 70% at 82% 108%, var(--wpL1) 0%, transparent 64%),
+    radial-gradient(70% 60% at 6% -6%, var(--wpL2) 0%, transparent 62%),
+    radial-gradient(60% 55% at 96% 4%, var(--wpL3) 0%, transparent 70%),
+    linear-gradient(160deg, var(--wpA) 0%, var(--wpB) 46%, var(--wpC) 100%); }
+.wall { position: fixed; inset: 0; }
+.wall::after { content: ""; position: absolute; inset: 0; background: radial-gradient(130% 100% at 50% 38%, transparent 58%, rgba(4, 8, 20, .34)); }
+
+/* ════════ 잠금 화면 (페어 그림 중심) ════════ */
+.lock { color: #fff; text-align: center; }
+#sLock .wall { background-size: cover !important; background-position: center !important; transform: scale(1.08); filter: blur(16px) saturate(1.08) brightness(.9); }
+#sLock .wall::after { background: linear-gradient(180deg, rgba(8, 12, 26, .34) 0%, rgba(8, 12, 26, .06) 38%, rgba(8, 12, 26, .1) 64%, rgba(8, 12, 26, .46) 100%); }
+.lk-top { position: absolute; left: 0; right: 0; top: 8vh; }
+.lk-date { font-size: clamp(18px, 1.7vw, 24px); font-weight: 600; color: var(--w1); letter-spacing: -.005em; }
+.lk-time { margin-top: 2px; font-size: clamp(104px, 14.5vw, 176px); font-weight: 600; line-height: .95; letter-spacing: -.035em; color: rgba(255, 255, 255, .95); font-variant-numeric: tabular-nums; }
+.lk-user { position: absolute; left: 50%; bottom: 10vh; transform: translateX(-50%); display: grid; justify-items: center; gap: 10px; width: 260px; }
+.lk-ava { width: 72px; height: 72px; border-radius: 50%; background: #c9d3ee center / cover; box-shadow: 0 0 0 .5px rgba(255, 255, 255, .5), 0 8px 24px -8px rgba(0, 0, 0, .45); }
+.lk-name { font-size: 15px; font-weight: 600; color: var(--w1); }
+.lk-pw { position: relative; width: 196px; margin-top: 2px; }
+.lk-pw input { width: 100%; height: 34px; padding: 0 38px 0 16px; border-radius: 99px; border: 0; background: rgba(255, 255, 255, .2); box-shadow: inset 0 0 0 .5px rgba(255, 255, 255, .32); -webkit-backdrop-filter: blur(30px) saturate(1.6); backdrop-filter: blur(30px) saturate(1.6); color: #fff; font: 500 15px var(--sans); letter-spacing: .32em; outline: none; transition: background .2s, box-shadow .2s; }
+.lk-pw input:focus { background: rgba(255, 255, 255, .26); box-shadow: inset 0 0 0 .5px rgba(255, 255, 255, .5), 0 0 0 3px rgba(255, 255, 255, .12); }
+.lk-pw input::placeholder { color: rgba(255, 255, 255, .82); letter-spacing: 0; font-weight: 400; }
+.lk-pw button { position: absolute; right: 5px; top: 5px; width: 24px; height: 24px; border-radius: 50%; display: grid; place-items: center; background: rgba(255, 255, 255, .26); color: #fff; transition: opacity .2s, transform .2s var(--ease); }
+.lk-pw button svg { width: 12px; height: 12px; }
+.lk-pw input:placeholder-shown + button { opacity: 0; transform: scale(.8); pointer-events: none; }
+.lk-pw.err { animation: shake .4s; }
+@keyframes shake { 20%, 60% { transform: translateX(-8px); } 40%, 80% { transform: translateX(8px); } }
+.lk-wp { position: absolute; right: 22px; bottom: 18px; font-size: 11px; color: var(--w2); letter-spacing: .01em; }
+.lk-wp b { font-weight: 600; color: var(--w1); }
+.lock.leaving .lk-top, .lock.leaving .lk-user { transition: opacity .4s var(--ease), transform .4s var(--ease); opacity: 0; }
+.lock.leaving .lk-top { transform: translateY(-12px); }
+.lock.leaving .lk-user { transform: translate(-50%, 12px); }
+
+/* 로그인 연출 (macOS처럼): 잠금 배경이 줌아웃되며 사라지고 → 메뉴바 ↓ · 독 ↑ · 폴더 · 위젯이 차례로 */
+#sLock.leaving { z-index: 100; }
+#sLock.leaving .wall { transition: opacity .75s ease .15s, transform .9s cubic-bezier(.2, .8, .2, 1), filter .9s ease; opacity: 0; transform: scale(1); filter: blur(6px) saturate(1.08) brightness(.9); }
+#sHome.entering > .wall { animation: wallIn 1s cubic-bezier(.2, .8, .2, 1) both; }
+#sHome.entering .menubar { animation: mbIn .55s cubic-bezier(.2, .8, .2, 1) .35s both; }
+#sHome.entering .dock { animation: dockIn .7s cubic-bezier(.18, .9, .22, 1) .45s both; }
+#sHome.entering .dicon { animation: riseIn .5s cubic-bezier(.2, .8, .2, 1) both; }
+#sHome.entering .dicon:nth-child(1) { animation-delay: .6s; }
+#sHome.entering .dicon:nth-child(2) { animation-delay: .67s; }
+#sHome.entering .dicon:nth-child(3) { animation-delay: .74s; }
+#sHome.entering .dicon:nth-child(n+4) { animation-delay: .81s; }
+#sHome.entering .wg { animation: riseIn .6s cubic-bezier(.2, .8, .2, 1) .7s both; }
+@keyframes wallIn { from { transform: scale(1.06); filter: brightness(.75); } }
+@keyframes mbIn { from { transform: translateY(-100%); } }
+@keyframes dockIn { from { transform: translate(-50%, 140%); } }
+@keyframes riseIn { from { opacity: 0; transform: translateY(12px) scale(.97); } }
+@media (prefers-reduced-motion: reduce) {
+  #sLock.leaving .wall { transition: none; }
+  #sHome.entering > .wall, #sHome.entering .menubar, #sHome.entering .dock, #sHome.entering .dicon, #sHome.entering .wg { animation: none; }
+}
+
+/* ════════ 메뉴바 ════════ */
+.menubar { position: absolute; left: 0; right: 0; top: 0; z-index: 50; display: flex; align-items: center; gap: 20px; height: 28px; padding: 0 16px; font-size: 13px; font-weight: 500; color: var(--w1); background: rgba(12, 18, 34, .34); -webkit-backdrop-filter: blur(40px) saturate(1.8); backdrop-filter: blur(40px) saturate(1.8); box-shadow: inset 0 -.5px 0 rgba(255, 255, 255, .08); }
+.menubar .logo { display: block; width: 14px; height: 14px; }
+.menubar .mb-app { font-weight: 700; }
+.menubar .sp { flex: 1; }
+.menubar .tray { display: flex; align-items: center; gap: 16px; }
+.menubar svg { width: 16px; height: 16px; display: block; }
+#mbClock { font-variant-numeric: tabular-nums; }
+
+/* ════════ 위젯 (하나의 스타일로 통일) ════════ */
+.widgets { position: absolute; right: 24px; top: 48px; display: grid; gap: 16px; }
+.wg { position: relative; overflow: hidden; border-radius: 22px; text-align: left; color: #fff; background: var(--glass); -webkit-backdrop-filter: blur(40px) saturate(1.6); backdrop-filter: blur(40px) saturate(1.6); box-shadow: inset 0 0 0 .5px var(--glass-line), var(--shadow); transition: transform .25s var(--ease), background .25s; }
+.wg:hover { background: rgba(34, 40, 55, .52); }
+.wg:active { transform: scale(.985); }
+.wg-np { display: grid; grid-template-columns: 128px minmax(0, 1fr); gap: 16px; align-items: center; width: 344px; height: 160px; padding: 16px; }
+.wg-np .bgc { display: none; }
+.wg-np .cv { width: 128px; height: 128px; border-radius: 12px; background: var(--c) center / cover; box-shadow: 0 0 0 .5px rgba(255, 255, 255, .12), 0 6px 16px -6px rgba(0, 0, 0, .55); }
+.wg-np > span:last-child { display: block; min-width: 0; }
+.wg-k { display: flex; align-items: center; font-size: 11px; font-weight: 600; letter-spacing: .02em; color: var(--w3); }
+.wg-np h3 { margin-top: 6px; font-size: 16px; line-height: 1.3; font-weight: 600; letter-spacing: -.01em; white-space: pre-line; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+.wg-np p { margin-top: 3px; font-size: 12px; color: var(--w2); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.wg-np .go { display: inline-flex; align-items: center; max-width: 100%; height: 26px; margin-top: 12px; padding: 0 11px; border-radius: 99px; background: rgba(255, 255, 255, .14); font-size: 12px; font-weight: 500; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; transition: background .2s; }
+.wg-np:hover .go { background: rgba(255, 255, 255, .22); }
+.wg-np .eq { display: inline-flex; gap: 2px; align-items: flex-end; height: 10px; margin-right: 6px; }
+.wg-np .eq i { width: 2px; background: currentColor; animation: eqb .8s ease-in-out infinite alternate; }
+.wg-np .eq i:nth-child(2) { animation-delay: -.3s; } .wg-np .eq i:nth-child(3) { animation-delay: -.55s; }
+@keyframes eqb { from { height: 2px; } to { height: 10px; } }
+
+/* ════════ 바탕화면 폴더 ════════ */
+.dicons { position: absolute; left: 18px; top: 40px; display: grid; grid-auto-rows: 100px; justify-items: center; }
+.dicon { display: grid; justify-items: center; align-content: start; gap: 4px; width: 96px; padding-top: 4px; color: #fff; font-size: 12px; font-weight: 500; line-height: 1.25; }
+.dicon .ic { position: relative; display: block; width: 68px; height: 56px; padding: 2px; border-radius: 7px; transition: background .15s; }
+.dicon .fd { display: block; width: 64px; height: 52px; filter: drop-shadow(0 2px 3px rgba(0, 0, 0, .28)); }
+.dicon .em { position: absolute; left: 50%; top: 27px; width: 18px; height: 18px; margin-left: -9px; color: var(--fdEm); }
+.dicon .lb { max-width: 92px; padding: 1px 6px; border-radius: 4px; text-align: center; text-shadow: 0 1px 2px rgba(0, 0, 0, .55); }
+.dicon:hover .ic { background: rgba(255, 255, 255, .08); }
+.dicon:focus-visible { outline: none; }
+.dicon:focus .ic, .dicon:active .ic { background: rgba(255, 255, 255, .16); }
+.dicon:focus .lb, .dicon:active .lb { background: var(--sel); text-shadow: none; }
+
+/* ════════ 독 ════════ */
+.dock { position: absolute; left: 50%; bottom: 8px; transform: translateX(-50%); z-index: 40; display: flex; align-items: flex-end; gap: 6px; padding: 6px; border-radius: 20px; background: rgba(255, 255, 255, .16); -webkit-backdrop-filter: blur(40px) saturate(1.8); backdrop-filter: blur(40px) saturate(1.8); box-shadow: inset 0 0 0 .5px rgba(255, 255, 255, .28), 0 12px 30px -10px rgba(0, 0, 0, .45); }
+.dock .sep { width: 1px; align-self: stretch; margin: 8px 4px; background: rgba(255, 255, 255, .28); }
+.app { position: relative; display: grid; place-items: center; width: 52px; height: 52px; border-radius: 12px; color: color-mix(in srgb, var(--wpC) 70%, #000); background: linear-gradient(180deg, color-mix(in srgb, var(--fdA) 55%, #fff) 0%, var(--fdB) 100%); box-shadow: inset 0 0 0 .5px rgba(0, 0, 0, .08), inset 0 1px 0 rgba(255, 255, 255, .9), 0 1px 2px rgba(0, 0, 0, .16), 0 6px 12px -6px rgba(0, 0, 0, .35); transform-origin: 50% 100%; transition: transform .24s var(--ease), margin .24s var(--ease); }
+.app svg { width: 28px; height: 28px; }
+.app:hover { transform: translateY(-8px) scale(1.16); margin: 0 6px; }
+.app:hover + .app, .app:has(+ .app:hover) { transform: translateY(-3px) scale(1.06); }
+.app:active { filter: brightness(.88); }
+.app.bounce { animation: bounce .8s var(--ease); }
+@keyframes bounce { 0%, 100% { transform: translateY(0); } 28% { transform: translateY(-18px); } 52% { transform: translateY(0); } 72% { transform: translateY(-7px); } }
+.app .tip { position: absolute; bottom: calc(100% + 14px); left: 50%; transform: translate(-50%, 4px) scale(calc(1 / 1.16)); padding: 4px 10px; border-radius: 6px; background: rgba(36, 40, 50, .82); -webkit-backdrop-filter: blur(20px); backdrop-filter: blur(20px); box-shadow: inset 0 0 0 .5px rgba(255, 255, 255, .14); color: #fff; font-size: 12px; font-weight: 500; white-space: nowrap; opacity: 0; pointer-events: none; transition: opacity .15s, transform .2s var(--ease); }
+.app:hover .tip { opacity: 1; transform: translate(-50%, 0) scale(calc(1 / 1.16)); }
+.app.run::after { content: ""; position: absolute; bottom: -5px; width: 4px; height: 4px; border-radius: 50%; background: rgba(255, 255, 255, .85); }
+
+/* ════════ 전체 화면 앱 (폴더 → 바이닐 · 책장 · 프로필) ════════ */
+.full { position: fixed; z-index: 60; left: 0; right: 0; top: 28px; bottom: 0; overflow: hidden; background: #0b0a09; transform-origin: var(--ox, 50%) var(--oy, 50%); animation: grow .5s var(--ease); }
+.full[hidden] { display: none; }
+@keyframes grow { from { transform: scale(.06); opacity: 0; border-radius: 40px; } 60% { opacity: 1; } }
+.full.closing { animation: shrink .32s cubic-bezier(.5, 0, .75, 0) forwards; }
+@keyframes shrink { to { transform: scale(.06); opacity: 0; border-radius: 40px; } }
+.full iframe { display: block; width: 100%; height: 100%; border: 0; }
+.full-x { position: absolute; z-index: 2; left: 14px; bottom: 14px; display: inline-flex; align-items: center; gap: 6px; height: 32px; padding: 0 14px 0 10px; border-radius: 99px; background: rgba(36, 40, 50, .7); -webkit-backdrop-filter: blur(30px); backdrop-filter: blur(30px); box-shadow: inset 0 0 0 .5px rgba(255, 255, 255, .18); color: #fff; font-size: 13px; font-weight: 500; transition: background .2s; }
+.full-x:hover { background: rgba(48, 54, 66, .8); }
+.full-x[hidden] { display: none; }
+
+/* ════════ 알림 (macOS 알림 센터처럼) ════════ */
+.banner { position: fixed; z-index: 90; right: 12px; top: 38px; width: 344px; display: grid; grid-template-columns: 36px minmax(0, 1fr); gap: 12px; align-items: center; padding: 12px 14px; border-radius: 18px; color: #fff; background: rgba(36, 41, 54, .62); -webkit-backdrop-filter: blur(40px) saturate(1.8); backdrop-filter: blur(40px) saturate(1.8); box-shadow: inset 0 0 0 .5px var(--glass-line), var(--shadow); transform: translateX(calc(100% + 24px)); transition: transform .45s var(--ease); font-size: 13px; }
+.banner.on { transform: none; }
+.banner .ic { display: grid; place-items: center; width: 36px; height: 36px; border-radius: 9px; color: color-mix(in srgb, var(--wpC) 70%, #000); background: linear-gradient(180deg, color-mix(in srgb, var(--fdA) 55%, #fff), var(--fdB)); }
+.banner .ic svg { width: 20px; height: 20px; }
+.banner .tx { min-width: 0; }
+.banner .tx b { display: block; font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.banner .tx span { display: block; margin-top: 1px; color: var(--w2); }
+
+/* ════════ 음악 앱 창 (Fearless) ════════ */
+.win { position: absolute; z-index: 30; left: 50%; top: 50%; width: min(1080px, 94vw); height: min(690px, calc(100vh - 140px)); transform: translate(-50%, -50%); border-radius: 12px; overflow: hidden; display: grid; grid-template-columns: 220px 1fr; background: var(--app); color: var(--app-ink); box-shadow: 0 0 0 .5px rgba(0,0,0,.6), 0 0 0 1px rgba(255,255,255,.08) inset, 0 30px 80px -20px rgba(10, 15, 35, .65); }
+.win[hidden] { display: none; }
+.side { transition: background .4s; background: var(--app-side); border-right: 1px solid var(--app-line); padding: 12px 10px; overflow-y: auto; }
+.lights { display: flex; gap: 8px; padding: 2px 4px 16px; }
+.lights i { width: 12px; height: 12px; border-radius: 50%; display: block; }
+.lights .r { background: #ff5f57; cursor: pointer; } .lights .y { background: #febc2e; } .lights .g { background: #28c840; }
+.srch { display: flex; align-items: center; gap: 6px; height: 28px; padding: 0 8px; border-radius: 7px; background: rgba(255,255,255,.07); color: var(--app-sub); font-size: 13px; }
+.srch input { flex: 1; min-width: 0; background: none; border: 0; outline: none; color: var(--app-ink); font: 13px var(--sans); }
+.side .sh { margin: 18px 8px 6px; font-size: 11px; font-weight: 700; color: var(--app-sub); }
+.side button { width: 100%; display: flex; align-items: center; gap: 8px; height: 28px; padding: 0 8px; border-radius: 6px; font-size: 13px; text-align: left; }
+.side button:hover { background: rgba(255,255,255,.05); }
+.side button.on { background: rgba(255,255,255,.1); }
+.side button svg { width: 15px; height: 15px; color: var(--c); flex: 0 0 auto; }
+.side .dot { width: 9px; height: 9px; border-radius: 50%; flex: 0 0 auto; margin: 0 3px; }
+
+.main { position: relative; display: grid; grid-template-rows: auto 1fr; min-height: 0; }
+.player { display: grid; grid-template-columns: auto 1fr auto; align-items: center; gap: 14px; height: 56px; padding: 0 18px; border-bottom: 1px solid var(--app-line); background: var(--app-2); }
+.pl-ctl { display: flex; gap: 16px; color: var(--app-sub); font-size: 15px; }
+.pl-ctl .pp { color: var(--app-ink); }
+.pl-ctl button { font: inherit; color: inherit; background: none; border: 0; padding: 0; cursor: pointer; }
+.pl-ctl button:hover { color: var(--app-ink); }
+.pl-now { justify-self: center; width: min(420px, 100%); display: grid; grid-template-columns: 40px 1fr; gap: 10px; align-items: center; padding: 4px; border-radius: 8px; background: rgba(255,255,255,.04); border: 1px solid var(--app-line); }
+.pl-now .cv { width: 40px; height: 40px; border-radius: 5px; background: var(--c) center / cover; }
+.pl-now .tx { min-width: 0; text-align: center; font-size: 12px; line-height: 1.35; }
+.pl-now .tx b { display: block; font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.pl-now .tx span { color: var(--app-sub); }
+.pl-bar { height: 3px; margin-top: 4px; border-radius: 2px; background: rgba(255,255,255,.12); overflow: hidden; }
+.pl-bar i { display: block; height: 100%; width: 0; background: var(--app-sub); animation: prog 30s linear infinite; }
+@keyframes prog { to { width: 100%; } }
+.pl-r { color: var(--app-sub); font-size: 13px; }
+
+.view { overflow-y: auto; padding: 26px 30px 40px; scrollbar-width: thin; scrollbar-color: rgba(255,255,255,.15) transparent; }
+.view h1 { font-size: 30px; font-weight: 800; letter-spacing: -.01em; }
+.view .lede { margin-top: 4px; color: var(--app-sub); font-size: 14px; }
+.grid { margin-top: 22px; display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 26px 20px; }
+.alb { text-align: left; }
+.alb .cv { position: relative; aspect-ratio: 1; border-radius: 8px; background: var(--c) center / cover; box-shadow: 0 0 0 .5px rgba(255,255,255,.1), 0 8px 20px -10px rgba(0,0,0,.6); overflow: hidden; transition: transform .2s; }
+.alb:hover .cv { transform: translateY(-3px); }
+.alb .cv .gen { position: absolute; inset: 0; display: grid; align-content: end; padding: 12px; font-weight: 800; font-size: 18px; line-height: 1.15; color: rgba(255,255,255,.92); background: linear-gradient(160deg, rgba(255,255,255,.18), transparent 50%), radial-gradient(circle at 80% 20%, rgba(0,0,0,.0), rgba(0,0,0,.25)); }
+.alb .cv .gen small { display: block; margin-bottom: 4px; font-size: 11px; font-weight: 600; opacity: .8; letter-spacing: .06em; }
+.alb .cv .play { position: absolute; left: 10px; bottom: 10px; width: 32px; height: 32px; border-radius: 50%; background: var(--c); display: grid; place-items: center; font-size: 12px; opacity: 0; transform: translateY(4px); transition: .2s; box-shadow: 0 4px 10px rgba(0,0,0,.4); }
+.alb:hover .cv .play { opacity: 1; transform: none; }
+.alb b { display: block; margin-top: 9px; font-size: 13px; font-weight: 600; line-height: 1.35; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.alb span { display: block; margin-top: 2px; font-size: 12px; color: var(--app-sub); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.alb.soon .cv { filter: saturate(.55) brightness(.8); }
+
+/* 앨범 화면 */
+.back { display: inline-flex; align-items: center; gap: 4px; height: 28px; padding: 0 10px 0 6px; margin: -6px 0 18px -6px; border-radius: 6px; color: var(--c); font-size: 14px; font-weight: 600; }
+.back:hover { background: rgba(255,255,255,.06); }
+.ah { display: grid; grid-template-columns: auto 1fr; gap: 34px; align-items: end; }
+.rec { position: relative; width: 270px; height: 270px; margin-right: 110px; }
+.rec .disc { position: absolute; top: 4%; left: 4%; width: 92%; height: 92%; border-radius: 50%; transition: transform .8s cubic-bezier(.2, .8, .2, 1);
+  background: radial-gradient(circle, transparent 0 32%, rgba(255,255,255,.06) 32.5%, transparent 33%), repeating-radial-gradient(circle, #111 0 1.2px, #1e1e22 1.4px 3px); box-shadow: 0 10px 30px rgba(0,0,0,.5); }
+.rec .disc::before { content: ""; position: absolute; inset: 0; border-radius: 50%; background: conic-gradient(from 20deg, transparent 0 9%, rgba(255,255,255,.13) 12%, transparent 16% 55%, rgba(255,255,255,.1) 62%, transparent 66%); }
+.rec .disc .lab { position: absolute; inset: 32%; border-radius: 50%; background: var(--c) center / cover; box-shadow: 0 0 0 1px rgba(0,0,0,.4); }
+.rec .disc .lab::after { content: ""; position: absolute; left: 50%; top: 50%; width: 9px; height: 9px; margin: -4.5px; border-radius: 50%; background: var(--app); }
+.rec.out .disc { transform: translateX(40%); }
+.rec.out .disc { animation: spin 5s linear infinite .8s; }
+@keyframes spin { from { transform: translateX(40%) rotate(0); } to { transform: translateX(40%) rotate(360deg); } }
+.rec .sl { position: absolute; inset: 0; border-radius: 8px; background: var(--c) center / cover; box-shadow: 0 20px 40px -12px rgba(0,0,0,.7); }
+.ai .k { font-size: 12px; font-weight: 700; color: var(--app-sub); letter-spacing: .04em; text-transform: uppercase; }
+.ai h2 { margin-top: 6px; font-size: clamp(26px, 3vw, 36px); font-weight: 800; line-height: 1.2; letter-spacing: -.01em; white-space: pre-line; }
+.ai .who { margin-top: 6px; font-size: 18px; font-weight: 600; color: var(--app-ink); }
+.ai .meta { margin-top: 4px; font-size: 12px; color: var(--app-sub); }
+.acts { margin-top: 18px; display: flex; gap: 10px; }
+.pbtn { display: inline-flex; align-items: center; gap: 8px; height: 34px; padding: 0 18px; border-radius: 8px; font-size: 14px; font-weight: 600; background: var(--c); color: #fff; }
+.pbtn.ghost { background: rgba(255,255,255,.08); color: var(--app-ink); }
+.tracks { margin-top: 30px; list-style: none; border-top: 1px solid var(--app-line); }
+.tracks li button { width: 100%; display: grid; grid-template-columns: 34px 1fr auto; align-items: center; height: 44px; padding: 0 10px; border-bottom: 1px solid var(--app-line); font-size: 14px; text-align: left; border-radius: 0; }
+.tracks li:nth-child(odd) button { background: rgba(255,255,255,.025); }
+.tracks li { position: relative; }
+.tracks .tt { min-width: 0; display: grid; }
+.tracks .tt b { font-weight: 500; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.tracks .tt small { font-size: 12px; color: var(--app-sub); }
+/* 가사 한 줄: 곡 줄 오른쪽에 (폰에선 아래로) */
+.tracks .ln { justify-self: end; padding-left: 20px; text-align: right; font-size: 12.5px; line-height: 1.5; color: var(--app-ink); opacity: .78; quotes: '“' '”'; }
+.tracks li button { height: 52px; padding-right: 50px; }
+.tracks li.has-line button { grid-template-columns: 34px minmax(0, 1fr) minmax(0, 46%); height: auto; min-height: 52px; padding-top: 8px; padding-bottom: 8px; }
+@media (max-width: 760px) {
+  .tracks li.has-line button { grid-template-columns: 34px minmax(0, 1fr); padding-top: 10px; padding-bottom: 11px; }
+  .tracks li.has-line .n { align-self: start; padding-top: 1px; }
+  .tracks .ln { grid-column: 2; justify-self: start; padding-left: 0; margin-top: 5px; text-align: left; }
+}
+.tracks .yt { position: absolute; right: 8px; top: 50%; transform: translateY(-50%); width: 32px; height: 32px; border-radius: 50%; display: grid; place-items: center; color: var(--app-sub); text-decoration: none; font-size: 14px; }
+.tracks .yt:hover { background: rgba(255,255,255,.08); color: var(--app-ink); }
+.tracks li.playing .n { color: var(--c); filter: brightness(1.3); }
+.tracks li.playing b { color: var(--c); filter: brightness(1.3); font-weight: 600; }
+.tracks .empty { padding: 26px 10px; color: var(--app-sub); font-size: 14px; border-bottom: 1px solid var(--app-line); }
+.sec-h { margin-top: 30px; display: flex; align-items: baseline; justify-content: space-between; }
+.sec-h h3 { font-size: 18px; font-weight: 700; }
+.sec-h a { color: var(--c); filter: brightness(1.25); font-size: 13px; font-weight: 600; text-decoration: none; }
+.tracks { margin-top: 10px; }
+.tracks li button:hover { background: rgba(255,255,255,.07); }
+.tracks .n { color: var(--app-sub); font-variant-numeric: tabular-nums; }
+.tracks .r { color: var(--app-sub); font-size: 12px; }
+.more { margin-top: 34px; }
+.more h3 { font-size: 18px; font-weight: 700; }
+.row { margin-top: 12px; display: grid; grid-auto-flow: column; grid-auto-columns: 130px; gap: 16px; overflow-x: auto; padding-bottom: 6px; scrollbar-width: none; }
+
+/* 오늘의 레코드가 바뀔 때 살짝 사라졌다 나타나요 */
+.wg-np > span { transition: opacity .28s var(--ease); }
+.wg-np.swap > span { opacity: 0; }
+
+/* 재생 창 (유튜브 규칙상 영상을 완전히 숨길 수 없어서 작게 보여요) */
+.pip { position: fixed; z-index: 45; right: 16px; bottom: 84px; width: 300px; overflow: hidden; border-radius: 14px; color: #fff; background: rgba(24, 28, 38, .72); -webkit-backdrop-filter: blur(40px) saturate(1.6); backdrop-filter: blur(40px) saturate(1.6); box-shadow: inset 0 0 0 .5px var(--glass-line), var(--shadow); animation: pipIn .4s var(--ease); }
+.pip[hidden] { display: none; }
+@keyframes pipIn { from { opacity: 0; transform: translateY(10px) scale(.97); } }
+.pip-bar { display: grid; grid-template-columns: minmax(0, 1fr) auto; align-items: center; gap: 8px; height: 32px; padding: 0 6px 0 12px; font-size: 12px; font-weight: 500; }
+.pip-bar span { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; color: var(--w2); }
+.pip-bar button { width: 22px; height: 22px; border-radius: 50%; display: grid; place-items: center; color: var(--w2); font-size: 14px; }
+.pip-bar button:hover { background: rgba(255, 255, 255, .12); color: #fff; }
+.pip-v { aspect-ratio: 16 / 9; background: #000; }
+.pip-v iframe, .pip-v > div { display: block; width: 100%; height: 100%; border: 0; }
+/* 가사창 (테마곡 mp3를 틀면 유튜브 창 자리에 떠요) */
+.lyr { width: 320px; }
+/* 사파리 창 + FEARLESS News (애플 뉴스 느낌의 흰 페이지) */
+.sfw { position: absolute; z-index: 33; left: 50%; top: 50%; width: min(1040px, 94vw); height: min(700px, calc(100vh - 130px)); transform: translate(-50%, -50%); border-radius: 12px; overflow: hidden; display: grid; grid-template-rows: 46px minmax(0, 1fr); background: #fff; box-shadow: 0 0 0 .5px rgba(0,0,0,.6), 0 30px 80px -20px rgba(10, 15, 35, .65); }
+.sfw[hidden] { display: none; }
+.sf-bar { display: grid; grid-template-columns: auto auto minmax(0, 1fr) auto; align-items: center; gap: 14px; padding: 0 14px; background: var(--app-2); color: var(--app-sub); border-bottom: 1px solid rgba(0, 0, 0, .35); }
+.sf-bar .lights { padding: 0; }
+.sf-navs { display: flex; gap: 2px; }
+.sf-btn { width: 28px; height: 26px; border-radius: 6px; display: grid; place-items: center; color: var(--app-ink); }
+.sf-btn svg { width: 15px; height: 15px; }
+.sf-btn:hover:not(:disabled) { background: rgba(255, 255, 255, .08); }
+.sf-btn:disabled { opacity: .3; cursor: default; }
+.sf-url { justify-self: center; width: min(460px, 100%); height: 28px; display: flex; align-items: center; justify-content: center; gap: 6px; padding: 0 12px; border-radius: 8px; background: rgba(255, 255, 255, .07); font-size: 13px; color: var(--app-ink); white-space: nowrap; overflow: hidden; }
+.sf-url svg { flex: none; width: 11px; height: 11px; color: var(--app-sub); }
+.sf-url span { overflow: hidden; text-overflow: ellipsis; }
+.sf-page { overflow-y: auto; background: #fff; color: #1d1d1f; word-break: keep-all; overflow-wrap: anywhere; --np-red: #e8253c; --np-sub: #6e6e73; --np-line: #e5e5ea; }
+.np, .na { max-width: 880px; margin: 0 auto; padding: 30px 36px 48px; }
+.np-top { display: flex; align-items: flex-end; justify-content: space-between; gap: 12px; padding-bottom: 14px; border-bottom: 1px solid var(--np-line); }
+.np-logo { margin: 0; font-size: 30px; font-weight: 800; letter-spacing: -.03em; }
+.np-logo b { color: var(--np-red); font-weight: 800; }
+.np-date { color: var(--np-sub); font-size: 13px; font-weight: 600; padding-bottom: 4px; }
+.np-gate { margin-top: 22px; display: grid; grid-template-columns: 52px minmax(0, 1fr) auto; gap: 16px; align-items: center; padding: 16px 18px; border-radius: 14px; background: #f5f5f7; --g: #1f8a52; }
+.np-gate.live { --g: #e8253c; } .np-gate.watch { --g: #e0791c; }
+.np-gate .gr { width: 52px; height: 52px; border-radius: 12px; display: grid; place-items: center; font-size: 22px; font-weight: 800; color: #fff; background: var(--g); }
+.np-gate .gx { display: grid; gap: 2px; min-width: 0; }
+.np-gate .k { font-size: 11px; font-weight: 700; letter-spacing: .04em; color: var(--np-red); }
+.np-gate b { font-size: 16px; font-weight: 700; }
+.np-gate .gx > span:last-child { font-size: 13px; line-height: 1.5; color: #48484a; }
+.np-gate .st { padding: 5px 11px; border-radius: 99px; background: #fff; color: var(--g); font-size: 12px; font-weight: 700; white-space: nowrap; }
+.np-sec { margin-top: 34px; }
+.np-sec h2 { margin: 0 0 14px; font-size: 21px; font-weight: 800; letter-spacing: -.02em; color: var(--np-red); }
+.np-hero { display: grid; grid-template-columns: minmax(0, 1.45fr) minmax(0, 1fr); gap: 24px; }
+.np-side, .np-list { display: grid; gap: 16px; align-content: start; }
+.np-list { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 18px 24px; }
+.np-row { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 20px; }
+.np-card { display: grid; gap: 10px; align-content: start; text-align: left; color: inherit; border-radius: 12px; }
+.np-card .tx { display: grid; gap: 4px; }
+.np-card .c { font-size: 11px; font-weight: 700; letter-spacing: .03em; color: var(--np-sub); }
+.np-card b { font-size: 16px; font-weight: 700; line-height: 1.35; letter-spacing: -.01em; }
+.np-card.big b { font-size: 24px; line-height: 1.28; letter-spacing: -.02em; }
+.np-card .dk { font-size: 14px; line-height: 1.5; color: #48484a; }
+.np-card .t { font-size: 12px; color: var(--np-sub); }
+.np-card:hover b { color: var(--np-red); }
+.np-card.sm { grid-template-columns: minmax(0, 1fr) 112px; gap: 14px; }
+.np-card.sm .np-img { order: 2; aspect-ratio: 1; }
+.np-card.sm .tx { order: 1; }
+.np-img { position: relative; display: grid; place-items: center; aspect-ratio: 16 / 9; overflow: hidden; border-radius: 12px; background: var(--im); color: rgba(255, 255, 255, .55); }
+.np-img svg { width: 34%; max-width: 120px; height: auto; }
+.np-card.sm .np-img svg { width: 52%; }
+.np-img.wide { aspect-ratio: 2 / 1; margin: 22px 0 26px; }
+.np-foot { margin-top: 44px; padding-top: 16px; border-top: 1px solid var(--np-line); font-size: 12px; color: var(--np-sub); }
+.na { max-width: 700px; }
+.na-home { margin-bottom: 22px; font-size: 13px; font-weight: 600; color: var(--np-red); }
+.na .c { margin: 0; font-size: 12px; font-weight: 700; letter-spacing: .03em; color: var(--np-red); }
+.na h1 { margin: 8px 0 0; font-size: 32px; font-weight: 800; line-height: 1.25; letter-spacing: -.03em; }
+.na .dk { margin: 12px 0 0; font-size: 18px; line-height: 1.5; color: #48484a; }
+.na .by { margin: 14px 0 0; font-size: 13px; color: var(--np-sub); }
+.na .bd { margin: 0 0 18px; font-size: 16.5px; line-height: 1.8; }
+.na .np-sec { margin-top: 40px; padding-top: 24px; border-top: 1px solid var(--np-line); }
+/* 글라스모피즘: 페이지는 반투명 서리 유리(바탕화면이 은은하게 비침), 카드는 한 겹 더 밝은 유리 */
+.sfw { background: rgba(246, 247, 251, .5); -webkit-backdrop-filter: blur(50px) saturate(1.7); backdrop-filter: blur(50px) saturate(1.7); box-shadow: 0 0 0 .5px rgba(0, 0, 0, .45), inset 0 0 0 1px rgba(255, 255, 255, .25), 0 30px 80px -20px rgba(10, 15, 35, .65); }
+.sf-bar { background: color-mix(in srgb, var(--app-2) 78%, transparent); border-bottom-color: rgba(255, 255, 255, .08); }
+.sf-page { background: linear-gradient(180deg, rgba(255, 255, 255, .62), rgba(244, 246, 252, .5)); --np-line: rgba(29, 29, 31, .1); --np-sub: #5f5f66; }
+.np-gate, .np-card, .na-body { background: rgba(255, 255, 255, .58); border: 1px solid rgba(255, 255, 255, .75); box-shadow: 0 10px 28px -16px rgba(20, 30, 70, .28), inset 0 1px 0 rgba(255, 255, 255, .9); -webkit-backdrop-filter: blur(24px) saturate(1.4); backdrop-filter: blur(24px) saturate(1.4); }
+.np-gate { border-radius: 18px; }
+.np-gate .st { background: rgba(255, 255, 255, .85); }
+.np-card { padding: 10px 10px 14px; border-radius: 18px; transition: background .2s, transform .25s var(--ease); }
+.np-card .tx { padding: 0 4px; }
+.np-card.sm { padding: 10px; align-items: center; }
+.np-card:hover { background: rgba(255, 255, 255, .78); transform: translateY(-2px); }
+.np-img { border-radius: 12px; }
+.na-body { margin-top: 4px; padding: 28px 30px 10px; border-radius: 22px; }
+@media (max-width: 760px) { .na-body { padding: 20px 18px 6px; } }
+@media (max-width: 760px) {
+  .sfw { width: 100vw; height: calc(100vh - 28px); top: 28px; left: 0; transform: none; border-radius: 0; }
+  .np, .na { padding: 20px 16px 90px; }
+  .np-logo { font-size: 24px; }
+  .np-hero, .np-row, .np-list { grid-template-columns: minmax(0, 1fr); }
+  .np-gate { grid-template-columns: 44px minmax(0, 1fr); } .np-gate .gr { width: 44px; height: 44px; font-size: 18px; } .np-gate .st { grid-column: 2; justify-self: start; }
+  .na h1 { font-size: 25px; }
+}
+/* 끄는 동안: 글자 선택 막기 · 유튜브 영상이 마우스를 가로채지 않게 */
+body.dragging, body.dragging * { user-select: none; -webkit-user-select: none; cursor: default !important; }
+body.dragging iframe { pointer-events: none; }
+/* 좁은 화면(폰)에선 컴퓨터에서 옮겨 둔 위치를 무시해요 (창이 화면 밖으로 나가지 않게) */
+@media (max-width: 760px) { #win, .setw, .sfw, .pip, .dicon, .wg { translate: none !important; } }
+/* 시간 없는 가사: 전부 또렷하게, 위에서부터 */
+.lyr.static .lyr-body { padding: 26px 18px 70px; -webkit-mask-image: linear-gradient(180deg, transparent 0, #000 8%, #000 82%, transparent 100%); mask-image: linear-gradient(180deg, transparent 0, #000 8%, #000 82%, transparent 100%); }
+.lyr.static .lyr-body li { opacity: .9; cursor: default; }
+.lyr.static .lyr-body li:hover { opacity: .9; }
+/* 유튜브 곡일 땐 가사창이 유튜브 팝업 왼쪽 옆에 나란히 떠요 (좁은 화면에선 팝업 위로) */
+.lyr.beside { right: 326px; }
+@media (max-width: 700px) { .lyr.beside { right: 16px; bottom: 296px; width: 300px; } .lyr.beside .lyr-body { height: 200px; padding: 70px 18px 100px; } }
+.lyr .pip-bar { grid-template-columns: minmax(0, 1fr) auto auto; gap: 2px; }
+
+.lyr-body { height: 300px; margin: 0; padding: 120px 18px 150px; list-style: none; overflow-y: auto; scrollbar-width: none; -webkit-mask-image: linear-gradient(180deg, transparent 0, #000 22%, #000 74%, transparent 100%); mask-image: linear-gradient(180deg, transparent 0, #000 22%, #000 74%, transparent 100%); }
+.lyr-body::-webkit-scrollbar { display: none; }
+.lyr-body li { padding: 7px 0; opacity: .34; cursor: pointer; transition: opacity .35s var(--ease), transform .35s var(--ease); transform-origin: 0 50%; }
+.lyr-body li:hover { opacity: .6; }
+.lyr-body li.on { opacity: 1; transform: scale(1.03); }
+.lyr-body li b { display: block; font-size: 16px; font-weight: 700; line-height: 1.4; }
+.lyr-body li span { display: block; margin-top: 2px; font-size: 12.5px; line-height: 1.45; color: var(--w2); }
+.lyr-body li.none { opacity: .6; cursor: default; text-align: center; font-size: 13px; }
+
+/* 메시지 알림 (상대 캐릭터가 보낸 말) */
+.msgn { position: fixed; z-index: 91; right: 12px; top: 38px; width: 344px; display: grid; grid-template-columns: 38px minmax(0, 1fr); gap: 12px; padding: 12px 14px; border-radius: 18px; color: #fff; background: rgba(36, 41, 54, .62); -webkit-backdrop-filter: blur(40px) saturate(1.8); backdrop-filter: blur(40px) saturate(1.8); box-shadow: inset 0 0 0 .5px var(--glass-line), var(--shadow); transform: translateX(calc(100% + 24px)); transition: transform .5s var(--ease); font-size: 13px; }
+.msgn.on { transform: none; }
+.msgn .av { width: 38px; height: 38px; border-radius: 50%; background: #445 center / cover; box-shadow: 0 0 0 .5px rgba(255, 255, 255, .2); }
+.msgn .hd { display: flex; justify-content: space-between; font-size: 11px; color: var(--w3); }
+.msgn b { display: block; margin-top: 2px; font-weight: 600; }
+.msgn p { margin-top: 1px; color: var(--w2); line-height: 1.4; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+
+/* 데스크톱 설정 창 (macOS 시스템 설정처럼) */
+.setw { position: absolute; z-index: 35; left: 50%; top: 50%; width: min(560px, calc(100vw - 32px)); transform: translate(-50%, -50%); overflow: hidden; border-radius: 12px; color: var(--app-ink); background: rgba(30, 32, 38, .9); -webkit-backdrop-filter: blur(40px) saturate(1.6); backdrop-filter: blur(40px) saturate(1.6); box-shadow: 0 0 0 .5px rgba(0, 0, 0, .6), inset 0 0 0 .5px rgba(255, 255, 255, .1), 0 30px 80px -20px rgba(4, 8, 22, .65); }
+.setw[hidden] { display: none; }
+.setw-bar { position: relative; display: flex; align-items: center; justify-content: center; height: 40px; border-bottom: 1px solid var(--app-line); font-size: 13px; font-weight: 600; }
+.setw-bar .lights { position: absolute; left: 14px; top: 14px; padding: 0; }
+.setw-body { padding: 20px 22px 24px; }
+.setw-h { font-size: 15px; font-weight: 600; }
+.setw-sub { margin-top: 4px; font-size: 12px; color: var(--app-sub); }
+.set-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px 12px; margin-top: 18px; }
+.set-grid button { display: grid; gap: 8px; justify-items: center; font-size: 12px; color: var(--app-sub); }
+.set-pv { position: relative; display: block; width: 100%; aspect-ratio: 16 / 10; border-radius: 8px; overflow: hidden; box-shadow: inset 0 0 0 .5px rgba(255, 255, 255, .14); transition: transform .2s var(--ease); }
+.set-pv::after { content: ""; position: absolute; right: 9%; top: 14%; width: 16%; height: 22%; border-radius: 2px; background: linear-gradient(180deg, var(--fdA), var(--fdB)); box-shadow: 0 3px 0 -1px var(--fdC) inset; }
+.set-grid button:hover .set-pv { transform: translateY(-2px); }
+.set-grid button[aria-pressed="true"] { color: #fff; }
+.set-grid button[aria-pressed="true"] .set-pv { box-shadow: 0 0 0 2px rgba(30, 32, 38, .9), 0 0 0 4px rgba(255, 255, 255, .9); }
+/* 메모 앱 */
+.notew { z-index: 36; width: min(760px, calc(100vw - 32px)); height: min(480px, calc(100vh - 170px)); display: grid; grid-template-rows: 40px minmax(0, 1fr); }
+.note-wrap { display: grid; grid-template-columns: 220px minmax(0, 1fr); min-height: 0; }
+.note-list { list-style: none; margin: 0; padding: 8px; overflow-y: auto; border-right: 1px solid var(--app-line); background: rgba(255, 255, 255, .02); }
+.note-list button { display: block; width: 100%; padding: 9px 12px; border-radius: 8px; text-align: left; color: var(--app-ink); }
+.note-list button:hover { background: rgba(255, 255, 255, .05); }
+.note-list button[aria-current="true"] { background: rgba(232, 190, 80, .9); color: #241c08; }
+.note-list b { display: block; font-size: 13px; font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.note-list span { display: block; margin-top: 2px; font-size: 12px; color: var(--app-sub); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.note-list button[aria-current="true"] span { color: rgba(36, 28, 8, .7); }
+.note-list .grp { padding: 12px 12px 4px; font-size: 11px; font-weight: 600; color: var(--app-sub); }
+.note-body { display: flex; flex-direction: column; min-height: 0; padding: 14px 28px 24px; overflow-y: auto; }
+.note-body .dt { text-align: center; font-size: 11px; color: var(--app-sub); }
+.note-body h2 { margin: 14px 0 0; font-size: 22px; font-weight: 700; }
+.note-body p { margin: 10px 0 0; font-size: 14px; line-height: 1.7; white-space: pre-wrap; color: var(--app-ink); }
+.note-body textarea { flex: 1; min-height: 0; margin-top: 12px; padding: 0; border: 0; resize: none; outline: none; background: none; color: var(--app-ink); font: 400 14px/1.7 var(--sans); }
+.note-body textarea::placeholder { color: var(--app-sub); }
+
+@media (max-width: 760px) {
+  .note-wrap { grid-template-columns: 1fr; grid-template-rows: auto minmax(0, 1fr); }
+  .note-list { display: flex; gap: 4px; border-right: 0; border-bottom: 1px solid var(--app-line); overflow-x: auto; }
+  .note-list li { flex: none; } .note-list .grp { display: none; } .note-list button { width: auto; max-width: 160px; }
+  .note-body { padding: 14px 18px 20px; }
+}
+@media (max-width: 760px) {
+  .widgets { left: 16px; right: 16px; top: 44px; }
+  .menubar > span:not(.mb-app):not(.sp) { display: none; }
+  .wg-np { width: auto; grid-template-columns: 96px minmax(0, 1fr); height: auto; } .wg-np .cv { width: 96px; height: 96px; }
+  .dicons { top: auto; bottom: 92px; right: 0; left: 0; grid-auto-flow: column; grid-auto-rows: auto; justify-content: center; }
+  .dicon { width: 80px; } .dicon .lb { max-width: 78px; }
+  .app { width: 44px; height: 44px; border-radius: 10px; } .app svg { width: 24px; height: 24px; }
+  .app:hover, .app:hover + .app, .app:has(+ .app:hover) { transform: none; margin: 0; }
+  .win { width: 100vw; height: calc(100vh - 28px); top: 28px; transform: none; left: 0; border-radius: 0; grid-template-columns: 1fr; }
+  .side { display: none; }
+  .player { grid-template-columns: auto 1fr; } .pl-r { display: none; }
+  .view { padding: 18px 16px 90px; }
+  .grid { grid-template-columns: repeat(2, 1fr); gap: 20px 14px; }
+  .ah { grid-template-columns: 1fr; } .rec { width: 200px; height: 200px; margin-right: 0; }
+  .banner { left: 12px; right: 12px; width: auto; }
+}
+</style></style>
+</head>
+<body>
+
+<!-- 폴더 그림 (한 번만 정의해서 같이 써요) -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <defs>
+    <linearGradient id="fdBack" x1="0" y1="0" x2="0" y2="1"><stop offset="0" style="stop-color:var(--fdC)"/><stop offset="1" style="stop-color:var(--fdD)"/></linearGradient>
+    <linearGradient id="fdFront" x1="0" y1="0" x2="0" y2="1"><stop offset="0" style="stop-color:var(--fdA)"/><stop offset="1" style="stop-color:var(--fdB)"/></linearGradient>
+    <symbol id="folder" viewBox="0 0 64 52">
+      <path d="M4 9a4 4 0 0 1 4-4h13.6a4 4 0 0 1 3 1.3L27.4 9H56a4 4 0 0 1 4 4v4H4Z" fill="url(#fdBack)"/>
+      <rect x="2" y="13" width="60" height="37" rx="4.5" fill="url(#fdFront)"/>
+      <path d="M6.5 13.5h51" stroke="#fff" stroke-opacity=".7" stroke-width="1"/>
+    </symbol>
+  </defs>
+</svg>
+
+<!-- ═══ 잠금 화면 ═══ -->
+<section class="scr lock on" id="sLock" aria-label="로그인">
+  <div class="wall"></div>
+  <div class="lk-top">
+    <p class="lk-date" id="lkDate"></p>
+    <p class="lk-time" id="lkTime">--:--</p>
+  </div>
+  <form class="lk-user" id="lkForm" autocomplete="off">
+    <div class="lk-ava" style="background-image:url('assets/profile-avatar.webp')"></div>
+    <p class="lk-name">뺙이</p>
+    <div class="lk-pw" id="lkPw">
+      <input id="lkIn" type="password" inputmode="numeric" maxlength="4" placeholder="암호 입력" aria-label="암호">
+      <button type="submit" aria-label="들어가기"><svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M2.5 6h7M6.5 3l3 3-3 3"/></svg></button>
+    </div>
+  </form>
+</section>
+
+<!-- ═══ 홈 ═══ -->
+<section class="scr" id="sHome" aria-label="홈">
+  <div class="wall"></div>
+  <header class="menubar">
+    <svg class="logo" viewBox="0 0 14 14" aria-hidden="true"><circle cx="7" cy="7" r="5.6" fill="none" stroke="currentColor" stroke-width="1.4"/><circle cx="7" cy="7" r="1.8" fill="currentColor"/></svg>
+    <span class="mb-app" id="mbApp">뺙이</span>
+    <span>파일</span><span>편집</span><span>보기</span><span>이동</span><span>도움말</span>
+    <span class="sp"></span>
+    <span class="tray">
+      <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" aria-hidden="true"><path d="M2 6.5a9 9 0 0 1 12 0M4.3 9a5.5 5.5 0 0 1 7.4 0M6.6 11.4a2 2 0 0 1 2.8 0"/></svg>
+      <svg viewBox="0 0 22 16" fill="none" stroke="currentColor" stroke-width="1.2" aria-hidden="true"><rect x="1" y="4" width="17" height="8" rx="2.5"/><rect x="2.8" y="5.8" width="11" height="4.4" rx="1" fill="currentColor" stroke="none"/><path d="M19.5 7v2" stroke-linecap="round"/></svg>
+      <span id="mbClock"></span>
+    </span>
+  </header>
+  <div class="widgets">
+    <button class="wg wg-np" id="wgNp" aria-label="오늘의 레코드 열기">
+      <span class="bgc" id="wgBg"></span>
+      <span class="cv" id="wgCv"></span>
+      <span>
+        <span class="wg-k" id="wgK">오늘의 레코드</span>
+        <h3 id="wgT"></h3>
+        <p id="wgC"></p>
+        <span class="go" id="wgGo">▶ 들으러 가기</span>
+      </span>
+    </button>
+  </div>
+
+  <nav class="dicons" aria-label="바탕화면 폴더">
+    <button class="dicon" data-go="vinyl"><span class="ic"><svg class="fd"><use href="#folder"/></svg><svg class="em" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="8.5"/><circle cx="12" cy="12" r="3"/><path d="M12 3.5a8.5 8.5 0 0 1 6 2.5"/></svg></span><span class="lb">Fearless</span></button>
+    <button class="dicon" data-go="vestal"><span class="ic"><svg class="fd"><use href="#folder"/></svg><svg class="em" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3.8l2.4 5 5.4.6-4 3.7 1.1 5.4L12 15.8l-4.9 2.7 1.1-5.4-4-3.7 5.4-.6Z"/></svg></span><span class="lb">Vestal</span></button>
+    <button class="dicon" data-go="else"><span class="ic"><svg class="fd"><use href="#folder"/></svg><svg class="em" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 5.5c2.6-1 5.4-1 7.5.6v13c-2.1-1.6-4.9-1.6-7.5-.6ZM20 5.5c-2.6-1-5.4-1-7.5.6v13c2.1-1.6 4.9-1.6 7.5-.6Z"/></svg></span><span class="lb">Something else</span></button>
+  </nav>
+
+  <!-- 음악 앱 = Fearless -->
+  <section class="win" id="win" hidden aria-label="Fearless">
+    <aside class="side">
+      <div class="lights"><i class="r" id="wClose" title="닫기"></i><i class="y"></i><i class="g"></i></div>
+      <label class="srch"><svg viewBox="0 0 16 16" width="13" height="13" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="7" cy="7" r="4.5"/><path d="m10.5 10.5 3 3"/></svg><input id="q" placeholder="페어, 캐릭터 검색" aria-label="검색"></label>
+      <p class="sh">보관함</p>
+      <button class="on" data-nav="all"><svg viewBox="0 0 16 16" fill="currentColor"><rect x="2" y="2" width="5" height="5" rx="1"/><rect x="9" y="2" width="5" height="5" rx="1"/><rect x="2" y="9" width="5" height="5" rx="1"/><rect x="9" y="9" width="5" height="5" rx="1"/></svg>모든 레코드</button>
+      <button data-nav="open"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="8" cy="8" r="6"/><circle cx="8" cy="8" r="1.6" fill="currentColor"/></svg>들을 수 있는 레코드</button>
+      <button data-nav="soon"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="8" cy="8" r="6"/><path d="M8 4.5V8l2.5 1.5"/></svg>준비 중</button>
+      <p class="sh">컬렉션</p>
+      <button data-nav="fearless" class="col"><span class="dot" style="background:#fa2d48"></span>Fearless</button>
+      <button data-nav="vestal-x"><span class="dot" style="background:#f3ae2f"></span>Vestal</button>
+      <button data-nav="else-x"><span class="dot" style="background:#f2722a"></span>Something else</button>
+    </aside>
+    <div class="main">
+      <div class="player">
+        <div class="pl-ctl"><span aria-hidden="true">⇄</span><button id="plPrev" aria-label="이전 곡">◀◀</button><span class="pp" aria-hidden="true">▶</span><button id="plNext" aria-label="다음 곡">▶▶</button></div>
+        <div class="pl-now"><span class="cv" id="pnCv"></span><span class="tx"><b id="pnT"></b><span id="pnC"></span><span class="pl-bar"><i></i></span></span></div>
+        <div class="pl-r" aria-hidden="true">♪ ≡</div>
+      </div>
+      <div class="view" id="view"></div>
+    </div>
+  </section>
+
+  <section class="setw" id="setW" hidden aria-label="설정">
+    <div class="setw-bar"><span class="lights"><i class="r" id="setX" title="닫기"></i><i class="y"></i><i class="g"></i></span>설정</div>
+    <div class="setw-body">
+      <p class="setw-h">배경화면 · 테마</p>
+      <div class="set-grid" id="setGrid">
+        <button data-theme="blue" aria-pressed="false"><span class="set-pv" data-preview="blue"></span>네이비</button>
+        <button data-theme="pink" aria-pressed="false"><span class="set-pv" data-preview="pink"></span>로즈</button>
+        <button data-theme="sage" aria-pressed="false"><span class="set-pv" data-preview="sage"></span>세이지</button>
+        <button data-theme="sky" aria-pressed="false"><span class="set-pv" data-preview="sky"></span>스카이</button>
+        <button data-theme="lavender" aria-pressed="false"><span class="set-pv" data-preview="lavender"></span>라벤더</button>
+        <button data-theme="graphite" aria-pressed="false"><span class="set-pv" data-preview="graphite"></span>그라파이트</button>
+        <button data-theme="sand" aria-pressed="false"><span class="set-pv" data-preview="sand"></span>샌드</button>
+        <button data-theme="ocean" aria-pressed="false"><span class="set-pv" data-preview="ocean"></span>오션</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- 메모 앱 (macOS 메모처럼: 왼쪽 목록 · 오른쪽 본문) -->
+  <section class="setw notew" id="memoW" hidden aria-label="메모">
+    <div class="setw-bar"><span class="lights"><i class="r" id="memoX" title="닫기"></i><i class="y"></i><i class="g"></i></span>메모</div>
+    <div class="note-wrap">
+      <ul class="note-list" id="noteList"></ul>
+      <article class="note-body" id="noteBody"></article>
+    </div>
+  </section>
+
+  <!-- 사파리 = FEARLESS News (기사는 data/news.js) -->
+  <section class="sfw" id="sfW" hidden aria-label="Safari">
+    <div class="sf-bar">
+      <span class="lights"><i class="r" id="sfX" title="닫기"></i><i class="y"></i><i class="g"></i></span>
+      <span class="sf-navs">
+        <button class="sf-btn" id="sfBack" aria-label="뒤로"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M10 3.5 5.5 8l4.5 4.5"/></svg></button>
+        <button class="sf-btn" id="sfFwd" aria-label="앞으로"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M6 3.5 10.5 8 6 12.5"/></svg></button>
+      </span>
+      <span class="sf-url"><svg viewBox="0 0 16 16" fill="currentColor" aria-hidden="true"><path d="M5 7V5.2a3 3 0 0 1 6 0V7h.6c.5 0 .9.4.9.9v5.2c0 .5-.4.9-.9.9H4.4a.9.9 0 0 1-.9-.9V7.9c0-.5.4-.9.9-.9Zm1.4 0h3.2V5.2a1.6 1.6 0 0 0-3.2 0Z"/></svg><span id="sfUrl">news.fearless.kr</span></span>
+      <button class="sf-btn" id="sfReload" aria-label="새로고침"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M13 8a5 5 0 1 1-1.6-3.7"/><path d="M13 2.8v2.7h-2.7"/></svg></button>
+    </div>
+    <div class="sf-page" id="sfPage"></div>
+  </section>
+
+  <section class="full" id="full" hidden aria-label="전체 화면">
+    <button class="full-x" id="fullX" hidden>‹ 데스크톱으로</button>
+    <iframe id="fullF" title="Fearless"></iframe>
+  </section>
+
+  <nav class="dock" aria-label="독">
+    <button class="app" data-go="who"><svg class="" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="8.5" r="3.6"/><path d="M5 20c1.2-3.9 3.9-6 7-6s5.8 2.1 7 6"/></svg><span class="tip">프로필</span></button>
+    <button class="app" data-go="fearless" id="dkMusic"><svg class="" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 17.5V6.5l10-2.2v11"/><circle cx="6.8" cy="17.5" r="2.4"/><circle cx="16.8" cy="15.3" r="2.4"/></svg><span class="tip">음악</span></button>
+    <button class="app" data-go="memo" id="dkMemo"><svg class="" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="5" y="3.5" width="14" height="17" rx="2.2"/><path d="M5 8h14M8.5 12h7M8.5 15.5h4.5"/></svg><span class="tip">메모</span></button>
+    <button class="app" data-go="safari" id="dkSafari"><svg class="" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="8.5"/><path d="m15.6 8.4-2.2 5-5 2.2 2.2-5Z"/><path d="M12 3.5v1.6M12 18.9v1.6M3.5 12h1.6M18.9 12h1.6"/></svg><span class="tip">Safari</span></button>
+    <button class="app" data-go="settings" id="dkSet"><svg class="" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 7h9M17 7h3M4 17h3M11 17h9"/><circle cx="15" cy="7" r="2"/><circle cx="9" cy="17" r="2"/></svg><span class="tip">설정</span></button>
+    <span class="sep"></span>
+    <button class="app" data-go="bin"><svg class="" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 7h12l-1 13H7Z"/><path d="M4.5 7h15M9.5 7V5h5v2M10 10.5v6.5M14 10.5v6.5"/></svg><span class="tip">휴지통</span></button>
+  </nav>
+</section>
+
+<div class="pip" id="pip" hidden aria-label="재생 중"><div class="pip-bar"><span id="pipT"></span><button id="pipX" aria-label="재생 멈추기">×</button></div><div class="pip-v"><div id="pipYT"></div></div></div>
+<div class="pip lyr" id="lyr" hidden aria-label="가사"><div class="pip-bar"><span id="lyrT"></span><button id="lyrP" aria-label="일시 정지"><svg viewBox="0 0 12 12" width="10" height="10" fill="currentColor"><rect x="2.5" y="2" width="2.4" height="8" rx=".6"/><rect x="7.1" y="2" width="2.4" height="8" rx=".6"/></svg></button><button id="lyrX" aria-label="재생 멈추기">×</button></div><ol class="lyr-body" id="lyrB"></ol></div>
+<div class="msgn" id="msgN" role="status"><span class="av" id="msgAv"></span><span><span class="hd"><span>메시지</span><span>지금</span></span><b id="msgFrom"></b><p id="msgTx"></p></span></div>
+<div class="banner" id="banner" role="status"><span class="ic"><svg class="" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 17.5V6.5l10-2.2v11"/><circle cx="6.8" cy="17.5" r="2.4"/><circle cx="16.8" cy="15.3" r="2.4"/></svg></span><span class="tx"><b id="bnT">뺙이</b><span id="bnM"></span></span></div>
+
+<script src="data/pairs.js"></script>
+<script src="data/playlists.js"></script>
+<script src="data/memos.js"></script>
+<script src="data/news.js"></script>
+<script src="data/lyrics.js"></script>
+<script src="data/lyrics-ko.js"></script>
+<script>
+const ALL = (window.PAIRS || []);
+const FL = ALL.filter(p => !p.group || p.group === 'fearless');
+const ELSE = ALL.filter(p => p.group === 'else' && !/^else-dummy/.test(p.id));
+const $ = s => document.querySelector(s), $$ = s => document.querySelectorAll(s);
+const pad2 = n => String(n).padStart(2, '0');
+const img = p => p.cover ? `url("${p.cover}") ${p.coverPos || '50% 50%'} / cover, ${p.color}` : p.color;
+const name = p => (p.tagline || p.title);
+const flat = s => s.replace(/\n/g, ' ');
+const esc = s => String(s).replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' })[c]);
+
+// 시계 · 날짜
+const DAYS = ['일', '월', '화', '수', '목', '금', '토'];
+function clock() {
+  const d = new Date(), h = d.getHours(), m = pad2(d.getMinutes());
+  $('#lkTime').textContent = `${h % 12 || 12}:${m}`;
+  $('#lkDate').textContent = `${d.getMonth() + 1}월 ${d.getDate()}일 ${DAYS[d.getDay()]}요일`;
+  $('#mbClock').textContent = `${d.getMonth() + 1}월 ${d.getDate()}일 (${DAYS[d.getDay()]}) ${h < 12 ? '오전' : '오후'} ${h % 12 || 12}:${m}`;
+}
+clock(); setInterval(clock, 5000);
+
+// 잠금 화면
+$('#lkForm').addEventListener('submit', e => { e.preventDefault(); tryIn(); });
+$('#lkIn').addEventListener('input', e => { if (e.target.value.length === 4) tryIn(); });
+function tryIn() {
+  const v = $('#lkIn').value;
+  if (v === '0001') {
+    // 잠금 화면은 위에서 사라지고, 그 아래로 홈이 차례로 나타남
+    $('#lkIn').blur();
+    $('#sLock').classList.add('leaving');
+    $('#sHome').classList.add('on', 'entering');
+    setTimeout(() => { $('#sLock').classList.remove('on', 'leaving'); $('#lkIn').value = ''; }, 950);
+    setTimeout(() => $('#sHome').classList.remove('entering'), 1500);
+  } else {
+    const p = $('#lkPw'); p.classList.remove('err'); void p.offsetWidth; p.classList.add('err'); $('#lkIn').value = '';
+  }
+}
+$('#lkIn').focus();
+
+// 알림
+let bt; function banner(t, m) { $('#bnT').textContent = t; $('#bnM').textContent = m; $('#banner').classList.add('on'); clearTimeout(bt); bt = setTimeout(() => $('#banner').classList.remove('on'), 2600); }
+
+// 위젯: 오늘의 레코드 (날짜로 하나 고르기, 사이트 있는 페어 중에서)
+const ready = FL.filter(p => p.site);
+let today = ready[Math.floor(Math.random() * ready.length)] || FL[0];
+if (today) {
+  $('#wgNp').style.setProperty('--c', today.color);
+  $('#wgBg').style.background = img(today);
+  $('#wgCv').style.background = img(today);
+  $('#wgT').textContent = name(today);
+  $('#wgC').textContent = today.chars.join(' × ');
+  $('#wgNp').onclick = () => { openWin($('#wgNp')); album(FL.indexOf(today)); };
+}
+// 바탕화면 · 독 누르기
+document.addEventListener('click', e => {
+  const b = e.target.closest('[data-go]'); if (!b) return;
+  const g = b.dataset.go;
+  if (b.classList.contains('app')) { b.classList.remove('bounce'); void b.offsetWidth; b.classList.add('bounce'); }
+  if (g === 'vinyl') return openFull('vinyl.html', b, 'Fearless');
+  // Something else(책장)는 잠시 막아 둠 → 다시 열 땐 아래 줄 앞의 // 를 지우기
+  // if (g === 'else') return openFull('vinyl.html#shelf', b, '책장');
+  if (g === 'who') return openFull('profile.html', b, '프로필', true);
+  // 독 아이콘을 한 번 더 누르면 열려 있던 창이 닫힘
+  const isOpen = id => { const w = $(id); return !w.hidden && !w._closing; };
+  if (g === 'fearless') { if (isOpen('#win')) return closeWin(); openWin(b); grid('all'); return; }
+  if (g === 'settings') return isOpen('#setW') ? closeSet() : openSet(b);
+  if (g === 'memo') return isOpen('#memoW') ? closeMemo() : openMemo(b);
+  if (g === 'safari') return isOpen('#sfW') ? closeSafari() : openSafari(b);
+  const MSG = { vestal: ['베스탈', '아직 준비 중이에요'], else: ['Something else', '아직 준비 중이에요'], hi: ['hi.txt', '어서 오세요! 폴더를 눌러 둘러보세요'], bin: ['휴지통', '휴지통이 비어 있어요'] };
+  const [t, m] = MSG[g] || ['뺙이', '준비 중이에요'];
+  banner(t, m);
+});
+
+// 창 열고 닫기
+// macOS 지니 효과: 창이 독 아이콘으로 깔때기처럼 빨려 들어가고(닫기), 거기서 뽑혀 나옴(열기)
+// 독이 창 아래에 없으면(좁은 화면) 줌으로 대신함
+function genieFrames(w, icon, b) {
+  if (!icon || matchMedia('(prefers-reduced-motion: reduce)').matches) return null;
+  const r = w.getBoundingClientRect(), f = icon.getBoundingClientRect();
+  const T = r.top, B = r.bottom, L = r.left, R = r.right;
+  const cx = f.left + f.width / 2, iw = f.width * .7, D = f.top, E = f.top + f.height * .55;
+  if (!f.width || D < T + 120) return null;
+  const sm = u => (u = Math.min(1, Math.max(0, u)), u * u * (3 - 2 * u));
+  const io = t => t < .5 ? 2 * t * t : 1 - (-2 * t + 2) ** 2 / 2;
+  const edge = (y, a) => { const s = sm((y - T) / (D - T)) * a; return [L + (cx - iw / 2 - L) * s, R + (cx + iw / 2 - R) * s]; };
+  const N = 22, K = 12, out = [];
+  for (let i = 0; i <= N; i++) {
+    const p = i / N, a = io(Math.min(1, p / .5)), d = (p < .3 ? 0 : io((p - .3) / .7)) * (E - T);
+    const y0 = T + d, y1 = Math.max(y0, Math.min(B + d, E)), lf = [], rt = [];
+    for (let k = 0; k <= K; k++) {
+      const y = y0 + (y1 - y0) * k / K, [l, rr] = edge(y, a), ly = (y - T - d).toFixed(1);
+      lf.push(`${(l - L).toFixed(1)}px ${ly}px`); rt.unshift(`${(rr - L).toFixed(1)}px ${ly}px`);
+    }
+    out.push({ transform: `${b}translateY(${d.toFixed(1)}px)`, clipPath: `polygon(${lf.concat(rt).join(',')})`, opacity: p > .85 ? 1 - (p - .85) / .15 : 1 });
+  }
+  return out;
+}
+function zoomIn(w, from) {
+  if (w._closing) w._done();
+  if (!w.hidden) return;
+  w.hidden = false;
+  const r = w.getBoundingClientRect(), f = from && from.getBoundingClientRect();
+  const base = getComputedStyle(w).transform, b = base === 'none' ? '' : base + ' ';
+  const g = from && from.classList.contains('app') && genieFrames(w, from, b);
+  if (g) {
+    w._anim = w.animate(g.reverse(), { duration: 520, easing: 'linear' });
+  } else {
+    w.style.transformOrigin = f && f.width ? `${f.left + f.width / 2 - r.left}px ${f.top + f.height / 2 - r.top}px` : '50% 50%';
+    w._anim = w.animate([
+      { transform: b + 'scale(.08)', opacity: 0 },
+      { transform: b + 'scale(.6)', opacity: 1, offset: .45 },
+      { transform: b + 'scale(1)', opacity: 1 }
+    ], { duration: 420, easing: 'cubic-bezier(.22, .8, .24, 1)' });
+  }
+  const a = w._anim, fin = () => { if (w._anim !== a) return; a.cancel(); w._anim = null; w.style.transformOrigin = ''; };
+  a.onfinish = fin; setTimeout(fin, 900);
+}
+function zoomOut(w, icon) {
+  if (w.hidden || w._closing) return;
+  if (w._anim) w._anim.cancel();
+  const base = getComputedStyle(w).transform, b = base === 'none' ? '' : base + ' ';
+  w._closing = true;
+  const g = genieFrames(w, icon, b);
+  if (g) {
+    w._anim = w.animate(g, { duration: 560, easing: 'linear', fill: 'forwards' });
+  } else {
+    w.style.transformOrigin = '50% 50%';
+    w._anim = w.animate([
+      { transform: b + 'scale(1)', opacity: 1 },
+      { transform: b + 'scale(.93)', opacity: 0 }
+    ], { duration: 190, easing: 'cubic-bezier(.4, 0, 1, 1)', fill: 'forwards' });
+  }
+  // 화면이 늦게 그려져 애니메이션이 멈춰도 창은 꼭 닫히게 (타이머 안전장치)
+  w._done = () => {
+    if (!w._closing) return;
+    clearTimeout(w._t); w._closing = false; w.hidden = true;
+    w.style.translate = ''; // 옮겨 둔 창은 닫으면 원래 자리로
+    if (w._anim) { w._anim.cancel(); w._anim = null; }
+    w.style.transformOrigin = '';
+  };
+  w._anim.onfinish = w._done;
+  w._t = setTimeout(w._done, g ? 650 : 240);
+}
+function openWin(from) {
+  zoomIn($('#win'), from || $('#dkMusic'));
+  $('#dkMusic').classList.add('run'); $('#mbApp').textContent = '음악';
+}
+function closeWin() { zoomOut($('#win'), $('#dkMusic')); $('#dkMusic').classList.remove('run'); $('#mbApp').textContent = '뺙이'; }
+$('#wClose').onclick = closeWin;
+
+// 전체 화면 앱 (바이닐 · 페어 사이트)
+function openFull(src, from, name, closable) {
+  const el = $('#full'), r = from ? from.getBoundingClientRect() : null;
+  el.style.setProperty('--ox', r ? `${r.left + r.width / 2}px` : '50%');
+  el.style.setProperty('--oy', r ? `${r.top + r.height / 2 - 28}px` : '50%');
+  $('#fullF').src = src; $('#fullF').title = name;
+  $('#fullX').hidden = !closable;
+  el.classList.remove('closing'); el.hidden = false;
+  $('#mbApp').textContent = name;
+}
+function closeFull() {
+  const el = $('#full'); if (el.hidden) return;
+  if (document.activeElement) document.activeElement.blur();
+  el.classList.add('closing');
+  setTimeout(() => { el.hidden = true; el.classList.remove('closing'); $('#fullF').src = 'about:blank'; $('#mbApp').textContent = $('#win').hidden ? '뺙이' : '음악'; }, 320);
+}
+$('#fullX').onclick = closeFull;
+addEventListener('message', e => { if (e.data === 'vinyl:close') closeFull(); });
+addEventListener('keydown', e => { if (e.key === 'Escape') closeFull(); });
+
+// 재생 바
+let cur = today ? FL.indexOf(today) : 0;
+function now(p) {
+  $('#win').style.setProperty('--c', p.color);
+  $('#pnCv').style.background = img(p);
+  $('#pnT').textContent = flat(name(p));
+  $('#pnC').textContent = p.chars.join(' × ');
+}
+
+// 앨범 격자
+function card(p) {
+  const i = FL.indexOf(p);
+  return `<button class="alb ${p.site ? '' : 'soon'}" data-i="${i}" style="--c:${p.color}">
+    <span class="cv" style='background:${img(p)}'>${p.cover ? '' : `<span class="gen"><small>No.${pad2(i + 1)}</small>${esc(p.title)}</span>`}<span class="play">▶</span></span>
+    <b>${esc(flat(name(p)))}</b><span>${esc(p.chars.join(' × '))}</span></button>`;
+}
+function grid(mode, q = '') {
+  $$('.side [data-nav]').forEach(b => b.classList.toggle('on', b.dataset.nav === mode || (mode === 'all' && b.dataset.nav === 'fearless' && false)));
+  let list = FL, title = 'Fearless', lede = `레코드 ${FL.length}장`;
+  if (mode === 'open') { list = FL.filter(p => p.site); title = '들을 수 있는 레코드'; lede = `${list.length}장`; }
+  if (mode === 'soon') { list = FL.filter(p => !p.site); title = '준비 중'; lede = `아직 그림·페이지가 없는 ${list.length}장`; }
+  if (q) { const k = q.toLowerCase(); list = FL.filter(p => [p.title, p.tagline, ...(p.chars || []), ...(p.codes || [])].join(' ').toLowerCase().includes(k)); title = `"${q}" 검색 결과`; lede = `${list.length}장`; }
+  $('#view').innerHTML = `<h1>${esc(title)}</h1><p class="lede">${esc(lede)}</p><div class="grid">${list.map(card).join('') || '<p class="lede">찾는 레코드가 없어요</p>'}</div>`;
+  $('#view').scrollTop = 0;
+  if (!playing) now(FL[cur]);
+}
+$('#view').addEventListener('click', e => {
+  const a = e.target.closest('.alb'); if (a) return album(+a.dataset.i);
+  if (e.target.closest('.back')) return grid('all');
+  if (e.target.closest('.yt')) return;
+  const tr = e.target.closest('[data-track]');
+  if (tr) return playTrack(+tr.dataset.track);
+  if (e.target.closest('.pbtn.play1')) return playTrack(0);
+  if (e.target.closest('.pbtn.prev')) return album(cur - 1);
+  if (e.target.closest('.pbtn.next')) album(cur + 1);
+});
+$$('.side [data-nav]').forEach(b => b.onclick = () => {
+  const n = b.dataset.nav;
+  // if (n === 'else-x') return openFull('vinyl.html#shelf', b, 'Something else');  // 책장 잠시 막아 둠
+  if (n.endsWith('-x')) return banner(b.textContent.trim(), '아직 준비 중이에요');
+  grid(n === 'fearless' ? 'all' : n);
+  b.classList.add('on');
+});
+$('#q').addEventListener('input', e => grid('all', e.target.value.trim()));
+
+// 곡 재생 (시안: 재생 바에 표시만, ↗로 유튜브)
+const PL = window.PLAYLISTS || {};
+let playing = null;
+function playTrack(k) {
+  const p = FL[cur], s = ((PL[p.id] || {}).tracks || [])[k];
+  if (!s) return banner(p.title, '아직 노래가 없어요');
+  playing = { id: p.id, k };
+  $('#pnCv').style.background = img(p);
+  $('#pnT').textContent = s.title;
+  $('#pnC').textContent = `${s.artist || ''} — ${p.chars.join(' × ')}`;
+  $$('.tracks li').forEach((li, i) => li.classList.toggle('playing', i === k));
+  updNow();
+  playAudio(p, k);
+  // 재생할 때 뜨던 메시지 알림은 잠시 꺼 둠 → 다시 켤 땐 아래 줄 앞의 // 를 지우기
+  // pairMessage(p, s);
+}
+
+// 앨범 화면
+function album(i) {
+  cur = (i + FL.length) % FL.length; const p = FL[cur];
+  // 레코드 화면은 늘 '지금 보는 페어' 색으로 (재생 중인 다른 페어 색이 남지 않게). 위 재생 바는 그대로
+  $('#view').style.setProperty('--c', p.color);
+  const others = FL.filter((_, k) => k !== cur).slice(0, 12);
+  const pl = PL[p.id] || {}, songs = pl.tracks || [];
+  $('#view').innerHTML = `
+    <button class="back">‹ Fearless</button>
+    <div class="ah">
+      <div class="rec" id="rec"><span class="disc"><span class="lab" style='background:${img(p)}'></span></span><span class="sl" style='background:${img(p)}'></span></div>
+      <div class="ai">
+        <p class="k">Fearless · No.${pad2(cur + 1)}</p>
+        <h2>${esc(name(p))}</h2>
+        <p class="who">${esc(p.chars.join(' × '))}</p>
+        <div class="acts"><button class="pbtn play1">▶ 재생</button><button class="pbtn ghost prev">‹ 이전</button><button class="pbtn ghost next">다음 ›</button></div>
+      </div>
+    </div>
+    <div class="sec-h"><h3>페어 플레이리스트</h3>${pl.link ? `<a href="${esc(pl.link)}" target="_blank" rel="noopener">전체 듣기 ↗</a>` : ''}</div>
+    <ol class="tracks">${songs.length ? songs.map((s, k) => `
+      <li class="${playing && playing.id === p.id && playing.k === k ? 'playing' : ''}${s.line ? ' has-line' : ''}"><button data-track="${k}"><span class="n">${k + 1}</span><span class="tt"><b>${esc(s.title)}</b><small>${esc(s.artist || '')}</small></span>${s.line ? `<q class="ln">${esc(s.line)}</q>` : '<span></span>'}</button>${s.url ? `<a class="yt" href="${esc(s.url)}" target="_blank" rel="noopener" aria-label="${esc(s.title)} 새 탭에서 듣기">↗</a>` : ''}</li>`).join('') : '<li class="empty">아직 노래가 없어요 ( ˘•ω•˘ )</li>'}
+    </ol>
+    <div class="more"><h3>다른 레코드</h3><div class="row">${others.map(card).join('')}</div></div>`;
+  $('#view').scrollTop = 0;
+  if (!playing) now(p);
+  requestAnimationFrame(() => setTimeout(() => $('#rec') && $('#rec').classList.add('out'), 80));
+}
+
+// 잠금 화면 배경: 들어올 때마다 페어 그림 하나 (bg가 없으면 커버). 데스크톱은 추상 그라데이션
+(function wallpaper() {
+  const pool = FL.filter(p => p.cover);
+  const p = pool[Math.floor(Math.random() * pool.length)]; if (!p) return;
+  const dir = '' + p.cover.replace(/[^/]+$/, '');
+  $('#sLock .wall').style.background = `url("${dir}bg.webp") center / cover, url("${dir}cover.webp") center / cover, ${p.color}`;
+})();
+
+// 오늘의 레코드 위젯 (곡을 틀면 '지금 재생 중'으로 바뀌어요)
+function updNow() {
+  const p = playing ? FL.find(x => x.id === playing.id) : today; if (!p) return;
+  const k = playing ? playing.k : 0;
+  const s = ((PL[p.id] || {}).tracks || [])[k];
+  $('#wgNp').style.setProperty('--c', p.color);
+  $('#wgBg').style.background = img(p);
+  $('#wgCv').style.background = img(p);
+  $('#wgK').innerHTML = playing ? '<span class="eq"><i></i><i></i><i></i></span>지금 재생 중' : '오늘의 레코드';
+  $('#wgT').textContent = playing ? s.title : name(p);
+  $('#wgC').textContent = playing ? `${s.artist ? s.artist + ' · ' : ''}${p.chars.join(' × ')}` : p.chars.join(' × ');
+  $('#wgGo').textContent = playing ? '♪ 음악 앱 열기' : '▶ 들으러 가기';
+  $('#wgNp').onclick = () => { openWin($('#wgNp')); album(FL.indexOf(p)); };
+}
+updNow();
+
+// 오늘의 레코드: 9초마다 다른 페어로 (곡이 재생 중이면 그대로)
+setInterval(() => {
+  if (playing || document.hidden) return;
+  const pool = ready.filter(p => p !== today); if (!pool.length) return;
+  today = pool[Math.floor(Math.random() * pool.length)];
+  const w = $('#wgNp'); w.classList.add('swap');
+  setTimeout(() => { updNow(); w.classList.remove('swap'); }, 280);
+}, 9000);
+
+// 사이트 안에서 재생 (원래 playlist.exe와 같은 방식)
+// 파일로 바로 연 사이트(file://)에선 유튜브가 막아서(오류 153) 그땐 유튜브 새 탭으로 열어요
+function ytId(url) {
+  try {
+    const u = new URL(url);
+    if (u.hostname === 'youtu.be') return u.pathname.slice(1).split('/')[0];
+    if (u.hostname.endsWith('youtube.com')) return u.searchParams.get('v') || (u.pathname.match(/\/(?:embed|shorts|live)\/([\w-]{6,})/) || [])[1] || null;
+  } catch (e) {}
+  return null;
+}
+let yt = null, ytReady = null;
+function loadYT() {
+  if (ytReady) return ytReady;
+  ytReady = new Promise(res => {
+    if (window.YT && window.YT.Player) return res();
+    window.onYouTubeIframeAPIReady = res;
+    const s = document.createElement('script'); s.src = 'https://www.youtube.com/iframe_api'; document.head.appendChild(s);
+  });
+  return ytReady;
+}
+// 테마곡 mp3: 사이트 안에서 바로 재생 + 가사창 (data/lyrics.js의 시간에 맞춰 지금 줄이 밝아짐)
+const ICON_PAUSE = '<svg viewBox="0 0 12 12" width="10" height="10" fill="currentColor"><rect x="2.5" y="2" width="2.4" height="8" rx=".6"/><rect x="7.1" y="2" width="2.4" height="8" rx=".6"/></svg>', ICON_PLAY = '<svg viewBox="0 0 12 12" width="10" height="10" fill="currentColor"><path d="M3.5 2.2v7.6L9.8 6z"/></svg>';
+const aud = new Audio(); aud.preload = 'none';
+// lyrMode: 'audio'(테마곡 mp3) · 'yt'(유튜브 곡, 가사는 LRCLIB에서 불러옴)
+let lyrLines = [], lyrIdx = -1, lyrMode = null, lyrTok = 0, lyrTimer = 0;
+function stopMp3() { aud.pause(); $('#lyr').hidden = true; lyrMode = null; lyrTok++; clearInterval(lyrTimer); }
+function renderLyr(t, lines, msg) {
+  lyrLines = lines; lyrIdx = -1;
+  $('#lyrT').textContent = `${t.title}${t.artist ? ' — ' + t.artist : ''}`;
+  $('#lyrB').innerHTML = lines.length
+    ? lines.map((l, i) => `<li data-i="${i}"><b>${esc(l.jp)}</b>${l.ko ? `<span>${esc(l.ko)}</span>` : ''}</li>`).join('')
+    : `<li class="none">${esc(msg || '가사가 아직 없어요')}</li>`;
+  $('#lyrB').scrollTop = 0;
+}
+function showLyrWin(side) {
+  const w = $('#lyr'); w.classList.toggle('beside', side); w.classList.remove('static');
+  w.hidden = true; void w.offsetWidth; w.hidden = false;
+}
+function playMp3(p, k, t) {
+  if (yt && yt.stopVideo) yt.stopVideo();
+  $('#pip').hidden = true;
+  lyrTok++; clearInterval(lyrTimer); lyrMode = 'audio';
+  renderLyr(t, (window.LYRICS || {})[t.lyrics] || []);
+  showLyrWin(false);
+  aud.src = t.src; aud.currentTime = 0;
+  aud.play().then(() => { $('#lyrP').innerHTML = ICON_PAUSE; }).catch(() => banner(t.title, '재생을 시작하지 못했어요'));
+}
+// 유튜브 곡 가사: lrclib.net(무료 가사 사이트)에서 시간이 맞춰진 가사를 찾아와요. 한 번 찾은 건 기억해 둬요
+const LRC = {};
+const cleanName = s => (s || '').replace(/\s*[(\[（【].*?[)\]）】]\s*/g, ' ').trim();
+function parseLrc(txt) {
+  const out = [];
+  (txt || '').split('\n').forEach(l => {
+    const m = l.match(/^\[(\d+):(\d+(?:\.\d+)?)\](.*)/);
+    if (m && m[3].trim()) out.push({ t: +m[1] * 60 + +m[2], jp: m[3].trim() });
+  });
+  return out;
+}
+async function fetchLrc(t) {
+  if (t.url in LRC) return LRC[t.url];
+  try {
+    if (t.lrcId) { // 가사 번호를 직접 정해 둔 곡
+      const one = await (await fetch(`https://lrclib.net/api/get/${encodeURIComponent(t.lrcId)}`)).json();
+      return LRC[t.url] = parseLrc(one.syncedLyrics);
+    }
+    const a = cleanName(t.lrcArtist || t.artist);
+    const r = await fetch(`https://lrclib.net/api/search?track_name=${encodeURIComponent(cleanName(t.title))}&artist_name=${encodeURIComponent(a)}`);
+    const list = (await r.json()).filter(x => x.syncedLyrics);
+    const mine = list.filter(x => (x.artistName || '').toLowerCase().includes(a.toLowerCase()));
+    const pool = mine.length ? mine : list;
+    // 제목이 일본어 · 한국어면 로마자 가사 말고 그 글자로 된 가사를 먼저 골라요
+    const CJK = /[぀-ヿ㐀-鿿가-힯]/;
+    const hit = (CJK.test(t.title) && pool.find(x => CJK.test(x.syncedLyrics))) || pool[0];
+    return LRC[t.url] = hit ? parseLrc(hit.syncedLyrics) : [];
+  } catch (e) { return []; }
+}
+// 원문 줄 → 번역 찾기: ① 똑같은 줄 ② 줄이 나뉘었을 때 앞부분 (뒷부분은 비워 둠)
+// ③ 앞에 and 같은 짧은 말이 붙은 줄 ④ drink/drank처럼 거의 같은 줄
+function matchKo(n, map, pairs) {
+  if (!n) return;
+  if (map.has(n)) return map.get(n);
+  for (const [e, k] of pairs) if (e.length >= 6 && n.length >= 6 && (e.startsWith(n) || n.startsWith(e))) return k;
+  for (const [e, k] of pairs) if (e.length >= 6 && n.includes(e) && n.length - e.length <= 4) return k;
+  let best, bd = Infinity;
+  for (const [e, k] of pairs) { const d = editDist(n, e); if (d < bd) { bd = d; best = k; } }
+  return bd <= Math.max(1, Math.floor(n.length * .12)) ? best : undefined;
+}
+function editDist(a, b) {
+  if (Math.abs(a.length - b.length) > 8) return Infinity;
+  let prev = Array.from({ length: b.length + 1 }, (_, j) => j);
+  for (let i = 1; i <= a.length; i++) {
+    const row = [i];
+    for (let j = 1; j <= b.length; j++) row[j] = Math.min(prev[j] + 1, row[j - 1] + 1, prev[j - 1] + (a[i - 1] === b[j - 1] ? 0 : 1));
+    prev = row;
+  }
+  return prev[b.length];
+}
+async function ytLyrics(t) {
+  const tok = ++lyrTok; lyrMode = 'yt'; clearInterval(lyrTimer);
+  const own = (window.LYRICS || {})[t.lyrics];
+  renderLyr(t, [], '가사 불러오는 중…');
+  $('#lyrP').innerHTML = ICON_PAUSE;
+  showLyrWin(true);
+  let lines = own && own.length ? own : await fetchLrc(t);
+  if (tok !== lyrTok) return;          // 그사이 다른 곡으로 넘어갔으면 버려요
+  // data/lyrics-ko.js에 번역이 있으면 원문이 같은 줄 아래에 붙여요
+  const ko = (window.LYRICS_KO || {})[ytId(t.url)];
+  const fromLrc = lines.length > 0;
+  if (ko && ko.length) {
+    if (fromLrc) {
+      // 괄호 속 코러스는 빼고 비교 (단, 줄 전체가 괄호면 안쪽 글자로)
+      const norm = s => { const b = (s || '').toLowerCase(), n = b.replace(/[(（].*?[)）]/g, '').replace(/[^\p{L}\p{N}]+/gu, ''); return n || b.replace(/[^\p{L}\p{N}]+/gu, ''); };
+      const pairs = ko.map(([en, k]) => [norm(en), k]), map = new Map(pairs);
+      lines = lines.map(l => l.ko ? l : { ...l, ko: matchKo(norm(l.jp), map, pairs) });
+    } else lines = ko.map(([en, k, s]) => ({ t: s, jp: en, ko: k })); // lrclib에 없는 곡: 적어 둔 순서 · 시간대로
+  }
+  if (!lines.length) { $('#lyr').hidden = true; return; } // 가사를 못 찾으면 가사창은 안 띄워요
+  const timed = lines.every(l => typeof l.t === 'number');
+  renderLyr(t, lines);
+  $('#lyr').classList.toggle('static', !timed);
+  if (timed) lyrTimer = setInterval(() => { if (yt && yt.getCurrentTime) syncLyr(yt.getCurrentTime()); }, 250);
+}
+aud.addEventListener('timeupdate', () => { if (lyrMode === 'audio') syncLyr(aud.currentTime); });
+function syncLyr(sec) {
+  let i = -1; for (let j = 0; j < lyrLines.length && lyrLines[j].t <= sec; j++) i = j;
+  if (i === lyrIdx) return; lyrIdx = i;
+  const b = $('#lyrB');
+  $$('#lyrB li').forEach((li, j) => li.classList.toggle('on', j === i));
+  const li = b.children[i];
+  b.scrollTo({ top: li ? li.offsetTop - b.clientHeight * .4 : 0, behavior: 'smooth' });
+}
+aud.addEventListener('ended', () => {
+  if (!playing) return;
+  const list = (PL[playing.id] || {}).tracks || [];
+  if (list.length > 1) { cur = FL.findIndex(x => x.id === playing.id); playTrack((playing.k + 1) % list.length); }
+  else stopAll();
+});
+$('#lyrB').addEventListener('click', e => {
+  const li = e.target.closest('[data-i]'); if (!li) return;
+  const sec = lyrLines[+li.dataset.i].t;
+  if (sec == null) return; // 시간 없는 가사는 눌러도 안 넘어가요
+  if (lyrMode === 'yt') { if (yt && yt.seekTo) { yt.seekTo(sec, true); yt.playVideo(); } }
+  else { aud.currentTime = sec; if (aud.paused) aud.play(); }
+  $('#lyrP').innerHTML = ICON_PAUSE;
+});
+$('#lyrP').onclick = () => {
+  if (lyrMode === 'yt') {
+    if (!yt || !yt.getPlayerState) return;
+    if (yt.getPlayerState() === YT.PlayerState.PLAYING) { yt.pauseVideo(); $('#lyrP').innerHTML = ICON_PLAY; }
+    else { yt.playVideo(); $('#lyrP').innerHTML = ICON_PAUSE; }
+    return;
+  }
+  if (aud.paused) { aud.play(); $('#lyrP').innerHTML = ICON_PAUSE; } else { aud.pause(); $('#lyrP').innerHTML = ICON_PLAY; }
+};
+$('#lyrX').onclick = () => stopAll();
+
+async function playAudio(p, k) {
+  const tracks = (PL[p.id] || {}).tracks || [], t = tracks[k];
+  if (t && t.src) return playMp3(p, k, t);
+  stopMp3();
+  const id = t && t.url && ytId(t.url);
+  if (!id) return;
+  if (location.protocol === 'file:') {
+    const ids = tracks.slice(k).concat(tracks.slice(0, k)).map(x => x.url && ytId(x.url)).filter(Boolean);
+    window.open(`https://www.youtube.com/watch_videos?video_ids=${ids.join(',')}`, '_blank', 'noopener');
+    return;
+  }
+  $('#pip').hidden = false;
+  $('#pipT').textContent = `${t.title}${t.artist ? ' — ' + t.artist : ''}`;
+  ytLyrics(t);
+  await loadYT();
+  if (yt) { yt.loadVideoById(id); return; }
+  yt = new YT.Player('pipYT', {
+    host: 'https://www.youtube-nocookie.com', videoId: id,
+    playerVars: { autoplay: 1, playsinline: 1, rel: 0, modestbranding: 1, origin: location.origin },
+    events: {
+      onReady: e => e.target.playVideo(),
+      onError: () => banner(t.title, '이 곡은 여기서 재생이 막혀 있어요'),
+      onStateChange: e => {
+        if (lyrMode === 'yt' && (e.data === YT.PlayerState.PLAYING || e.data === YT.PlayerState.PAUSED)) $('#lyrP').innerHTML = e.data === YT.PlayerState.PLAYING ? ICON_PAUSE : ICON_PLAY;
+        if (e.data !== YT.PlayerState.ENDED || !playing) return;
+        const list = (PL[playing.id] || {}).tracks || [];
+        cur = FL.findIndex(x => x.id === playing.id);
+        playTrack((playing.k + 1) % list.length); // 다음 곡
+      },
+    },
+  });
+}
+$('#pipX').onclick = () => stopAll();
+// 재생 바 ◀◀ ▶▶: 지금 재생 중인 페어 플리에서 이전 · 다음 곡
+function stepTrack(d) {
+  if (!playing) return;
+  const list = (PL[playing.id] || {}).tracks || []; if (!list.length) return;
+  cur = FL.findIndex(x => x.id === playing.id);
+  playTrack((playing.k + d + list.length) % list.length);
+}
+$('#plPrev').onclick = () => stepTrack(-1);
+$('#plNext').onclick = () => stepTrack(1);
+
+// 창 · 바탕화면 아이콘 · 위젯 끌어서 옮기기 (진짜 컴퓨터처럼, 마우스 있는 넓은 화면에서만)
+// 위치는 CSS translate로만 옮겨서 열기/닫기 애니메이션(transform)과 안 부딪혀요
+(function dragDesk() {
+  const desk = matchMedia('(pointer: fine) and (min-width: 761px)');
+  const NO = 'button, input, textarea, a, select, label, .lights i';
+  const GROUPS = [[['#win', '#setW', '#memoW', '#sfW'], 30], [['#pip', '#lyr'], 45]];
+  const getT = el => { const [x, y] = (el.style.translate || '').split(' ').map(parseFloat); return [x || 0, y || 0]; };
+  // 누른 창을 같은 무리 안에서 맨 앞으로
+  function front(el) {
+    for (const [sels, base] of GROUPS) {
+      if (!sels.includes('#' + el.id)) continue;
+      const ws = sels.map(s => $(s)).filter(w => w !== el).sort((a, b) => (+a.dataset.z || 0) - (+b.dataset.z || 0)).concat(el);
+      ws.forEach((w, i) => { w.dataset.z = i + 1; w.style.zIndex = base + i; });
+    }
+  }
+  // 화면 밖으로 사라지지 않게: 메뉴바 아래, 가로세로 최소 80px은 보이게
+  function clamp(el) {
+    const r = el.getBoundingClientRect(), [x, y] = getT(el);
+    let dx = 0, dy = 0;
+    if (r.top < 28) dy = 28 - r.top; else if (r.top > innerHeight - 40) dy = innerHeight - 40 - r.top;
+    if (r.right < 80) dx = 80 - r.right; else if (r.left > innerWidth - 80) dx = innerWidth - 80 - r.left;
+    if (dx || dy) el.style.translate = `${x + dx}px ${y + dy}px`;
+  }
+  function start(e, el) {
+    const sx = e.clientX, sy = e.clientY, [tx, ty] = getT(el);
+    let moved = false;
+    const mv = ev => {
+      const dx = ev.clientX - sx, dy = ev.clientY - sy;
+      if (!moved) {
+        if (Math.hypot(dx, dy) < 4) return;   // 살짝 흔들린 건 그냥 클릭으로
+        moved = true; document.body.classList.add('dragging');
+        getSelection().removeAllRanges();
+      }
+      ev.preventDefault();
+      el.style.translate = `${tx + dx}px ${ty + dy}px`;
+      clamp(el);
+    };
+    const up = () => {
+      removeEventListener('pointermove', mv); removeEventListener('pointerup', up); removeEventListener('pointercancel', up);
+      if (!moved) return;
+      document.body.classList.remove('dragging');
+      // 끌고 나서 손을 뗄 때 생기는 클릭은 버려요 (아이콘이 열리지 않게)
+      const eat = ev => { ev.stopPropagation(); ev.preventDefault(); };
+      addEventListener('click', eat, true);
+      setTimeout(() => removeEventListener('click', eat, true), 0);
+    };
+    addEventListener('pointermove', mv); addEventListener('pointerup', up); addEventListener('pointercancel', up);
+  }
+  document.addEventListener('pointerdown', e => {
+    const w = e.target.closest('#win, #setW, #memoW, #sfW, #pip, #lyr');
+    if (w) front(w);
+    if (!desk.matches || e.button !== 0) return;
+    let el = e.target.closest('.dicon, #wgNp');
+    if (!el) {
+      const h = e.target.closest('#win .player, .setw-bar, .sf-bar, .pip-bar');
+      if (h && !e.target.closest(NO)) el = h.closest('#win, .setw, .sfw, .pip');
+    }
+    if (el) start(e, el);
+  }, true);
+})();
+function stopAll() {
+  if (yt && yt.stopVideo) yt.stopVideo();
+  stopMp3();
+  $('#pip').hidden = true; playing = null;
+  $('#pip').style.translate = $('#lyr').style.translate = '';
+  $$('.tracks li').forEach(li => li.classList.remove('playing'));
+  updNow();
+};
+
+// 메시지 알림: 그 페어 chat.js에서 상대 캐릭터(them)가 보낸 말 하나
+const CHAT = {};
+function loadChat(p) {
+  if (p.id in CHAT) return Promise.resolve(CHAT[p.id]);
+  if (!p.site) return Promise.resolve(CHAT[p.id] = null);
+  return new Promise(res => {
+    const prev = window.PAIR_CHAT; window.PAIR_CHAT = undefined;
+    const s = document.createElement('script');
+    s.src = '' + p.site.replace(/[^/]+$/, 'chat.js');
+    s.onload = () => { CHAT[p.id] = window.PAIR_CHAT || null; window.PAIR_CHAT = prev; res(CHAT[p.id]); };
+    s.onerror = () => { CHAT[p.id] = null; window.PAIR_CHAT = prev; res(null); };
+    document.head.appendChild(s);
+  });
+}
+let mt;
+async function pairMessage(p, s) {
+  const c = await loadChat(p);
+  const lines = c && (c.log || []).filter(m => m.from === 'them' && m.text);
+  if (!lines || !lines.length) return banner('♪ ' + s.title, `${s.artist || ''} · ${p.title} 플레이리스트`);
+  const m = lines[Math.floor(Math.random() * lines.length)];
+  $('#msgAv').style.background = img(p);
+  $('#msgFrom').textContent = c.them || p.chars[1] || p.title;
+  $('#msgTx').textContent = m.text;
+  $('#banner').classList.remove('on');
+  $('#msgN').classList.add('on');
+  clearTimeout(mt); mt = setTimeout(() => $('#msgN').classList.remove('on'), 5200);
+}
+
+// 테마: 바꾸면 배경 · 폴더 · 선택 색 · about 뺙이(프로필)까지
+const THEMES = ["blue","pink","sage","sky","lavender","graphite","sand","ocean"];
+function setTheme(k) {
+  if (!THEMES.includes(k)) k = 'blue';
+  document.documentElement.dataset.theme = k;
+  try { localStorage.setItem('desk-theme', k); } catch (e) {}
+  try { $('#fullF').contentWindow.postMessage({ deskTheme: k }, '*'); } catch (e) {}
+  $$('#setGrid [data-theme]').forEach(b => b.setAttribute('aria-pressed', b.dataset.theme === k));
+}
+let savedTheme = 'blue';
+try { savedTheme = localStorage.getItem('desk-theme') || 'blue'; } catch (e) {}
+setTheme(savedTheme);
+function openSet(from) {
+  zoomIn($('#setW'), from || $('#dkSet'));
+  $('#dkSet').classList.add('run'); $('#mbApp').textContent = '설정';
+}
+function closeSet() { zoomOut($('#setW'), $('#dkSet')); $('#dkSet').classList.remove('run'); $('#mbApp').textContent = $('#win').hidden ? '뺙이' : '음악'; }
+$('#setX').onclick = closeSet;
+$('#setGrid').addEventListener('click', e => { const b = e.target.closest('[data-theme]'); if (b) setTheme(b.dataset.theme); });
+addEventListener('keydown', e => { if (e.key === 'Escape') closeSet(); });
+
+// 메모 앱: 맨 위 '내 메모'는 방문자가 직접 쓰기(이 브라우저에만 저장), 아래는 뺙이 메모(data/memos.js, 읽기 전용)
+const MEMOS = Array.isArray(window.MEMOS) ? window.MEMOS : [];
+let memoSel = MEMOS.length ? '0' : 'mine';
+function myMemo() { try { return localStorage.getItem('visitor-memo') || ''; } catch (e) { return ''; } }
+function firstLine(s) { return (s || '').split('\n').find(l => l.trim()) || ''; }
+function renderMemoList() {
+  const mine = myMemo();
+  let h = `<li><button data-memo="mine" aria-current="${memoSel === 'mine'}"><b>${esc(firstLine(mine) || '내 메모')}</b><span>${mine ? '이 브라우저에만 저장돼요' : '자유롭게 적어 보세요'}</span></button></li>`;
+  if (MEMOS.length) h += '<li class="grp">뺙이 메모</li>' + MEMOS.map((m, i) => `<li><button data-memo="${i}" aria-current="${memoSel === String(i)}"><b>${esc(m.title || '제목 없음')}</b><span>${esc(m.date || '')} ${esc(firstLine(m.body))}</span></button></li>`).join('');
+  $('#noteList').innerHTML = h;
+}
+function renderMemoBody() {
+  const el = $('#noteBody');
+  if (memoSel === 'mine') {
+    el.innerHTML = '<p class="dt">내 메모 · 이 브라우저에만 저장돼요</p><textarea id="noteTa" placeholder="여기에 메모를 적어 보세요" aria-label="내 메모"></textarea>';
+    const ta = $('#noteTa'); ta.value = myMemo();
+    ta.oninput = () => { try { localStorage.setItem('visitor-memo', ta.value); } catch (e) {} renderMemoList(); };
+  } else {
+    const m = MEMOS[+memoSel] || {};
+    el.innerHTML = `<p class="dt">${esc(m.date || '')}</p><h2>${esc(m.title || '제목 없음')}</h2><p>${esc(m.body || '')}</p>`;
+  }
+}
+$('#noteList').addEventListener('click', e => { const b = e.target.closest('[data-memo]'); if (!b) return; memoSel = b.dataset.memo; renderMemoList(); renderMemoBody(); });
+function openMemo(from) {
+  renderMemoList(); renderMemoBody();
+  zoomIn($('#memoW'), from || $('#dkMemo'));
+  $('#dkMemo').classList.add('run'); $('#mbApp').textContent = '메모';
+}
+function closeMemo() { zoomOut($('#memoW'), $('#dkMemo')); $('#dkMemo').classList.remove('run'); $('#mbApp').textContent = $('#win').hidden ? '뺙이' : '음악'; }
+$('#memoX').onclick = closeMemo;
+addEventListener('keydown', e => { if (e.key === 'Escape') closeMemo(); });
+
+// 사파리: FEARLESS News (애플 뉴스 느낌). 기사 · 오늘의 게이트는 data/news.js
+// 화면 이동은 'home' 또는 기사 id 하나로 표시하고, ‹ › 는 그 기록을 오가요
+const NEWS = window.NEWS || { gates: [], stories: [] };
+const SF_TONES = { red: ['#ff7a7a', '#d6243f'], blue: ['#7bb4ff', '#2357c9'], violet: ['#b9a3ff', '#5b3fc4'], teal: ['#7fe0d6', '#127f86'], amber: ['#ffd27a', '#e0791c'], slate: ['#a9b4c6', '#3b4558'], green: ['#9be3a6', '#1f8a52'] };
+const SF_ICONS = {
+  gate: '<ellipse cx="32" cy="32" rx="14" ry="20"/><ellipse cx="32" cy="32" rx="7" ry="12"/>',
+  shield: '<path d="M32 12 48 18v12c0 10-7 18-16 22-9-4-16-12-16-22V18Z"/><path d="m25 31 5 5 9-10"/>',
+  chart: '<path d="M14 48h36"/><path d="M20 42V30M29 42V22M38 42V27M47 42V16"/>',
+  pulse: '<path d="M10 34h11l5-12 8 22 5-14 4 4h11"/>',
+  map: '<path d="M14 18l12-5 12 5 12-5v33l-12 5-12-5-12 5Z"/><path d="M26 13v33M38 18v33"/>',
+  paper: '<rect x="18" y="12" width="28" height="40" rx="3"/><path d="M24 22h16M24 30h16M24 38h10"/>',
+  wave: '<path d="M10 28c5-5 9-5 14 0s9 5 14 0 9-5 14 0"/><path d="M10 40c5-5 9-5 14 0s9 5 14 0 9-5 14 0"/>',
+  cup: '<path d="M16 26h32l-3 22H19Z"/><path d="M24 18c0-3 3-3 3-6M32 18c0-3 3-3 3-6M40 18c0-3 3-3 3-6"/>',
+};
+const GATE_ST = { '진행 중': 'live', '감시 중': 'watch' };
+let sfCur = null, sfBackS = [], sfFwdS = [], sfGate = null;
+function sfImg(s, cls = '') {
+  const [a, b] = SF_TONES[s.tone] || SF_TONES.slate;
+  return `<span class="np-img ${cls}" style="--im: linear-gradient(140deg, ${a}, ${b})"><svg viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${SF_ICONS[s.icon] || SF_ICONS.gate}</svg></span>`;
+}
+function sfCard(s, kind) {
+  return `<button class="np-card ${kind}" data-art="${esc(s.id)}">${sfImg(s)}<span class="tx"><span class="c">${esc(s.cat)}</span><b>${esc(s.title)}</b>${kind === 'big' ? `<span class="dk">${esc(s.dek)}</span>` : ''}<span class="t">${esc(s.time)}</span></span></button>`;
+}
+function sfHome() {
+  const d = new Date(), S = NEWS.stories, g = sfGate;
+  return `<div class="np">
+    <header class="np-top"><h1 class="np-logo">FEARLESS <b>News</b></h1><span class="np-date">${d.getMonth() + 1}월 ${d.getDate()}일 ${DAYS[d.getDay()]}요일</span></header>
+    ${g ? `<section class="np-gate ${GATE_ST[g.status] || 'ok'}"><span class="gr">${esc(g.grade)}</span><span class="gx"><span class="k">오늘의 게이트</span><b>${esc(g.place)}</b><span>${esc(g.text)}</span></span><span class="st">${esc(g.status)}</span></section>` : ''}
+    ${S.length ? `<section class="np-sec"><h2>주요 뉴스</h2><div class="np-hero">${sfCard(S[0], 'big')}<div class="np-side">${S.slice(1, 3).map(s => sfCard(s, 'sm')).join('')}</div></div></section>` : ''}
+    ${S.length > 3 ? `<section class="np-sec"><h2>추천</h2><div class="np-row">${S.slice(3, 6).map(s => sfCard(s, '')).join('')}</div></section>` : ''}
+    ${S.length > 6 ? `<section class="np-sec"><h2>더 읽을거리</h2><div class="np-list">${S.slice(6).map(s => sfCard(s, 'sm')).join('')}</div></section>` : ''}
+    <footer class="np-foot">© FEARLESS 한국지부 홍보실 · 게이트 신고 국번 없이 112</footer>
+  </div>`;
+}
+function sfArticle(id) {
+  const s = NEWS.stories.find(x => x.id === id);
+  if (!s) return '<div class="na"><p class="dk">기사를 찾을 수 없어요.</p></div>';
+  const more = NEWS.stories.filter(x => x !== s).slice(0, 3);
+  return `<article class="na">
+    <button class="na-home" data-home>‹ FEARLESS News</button>
+    <div class="na-body">
+    <p class="c">${esc(s.cat)}</p><h1>${esc(s.title)}</h1><p class="dk">${esc(s.dek)}</p>
+    <p class="by">FEARLESS 뉴스팀 · ${esc(s.time)}</p>
+    ${sfImg(s, 'wide')}
+    ${(s.body || []).map(p => `<p class="bd">${esc(p)}</p>`).join('')}
+    </div>
+    ${more.length ? `<section class="np-sec"><h2>관련 기사</h2><div class="np-row">${more.map(x => sfCard(x, '')).join('')}</div></section>` : ''}
+  </article>`;
+}
+function sfRender() {
+  $('#sfPage').innerHTML = sfCur === 'home' ? sfHome() : sfArticle(sfCur);
+  $('#sfPage').scrollTop = 0;
+  $('#sfUrl').textContent = 'news.fearless.kr' + (sfCur === 'home' ? '' : '/article/' + sfCur);
+  $('#sfBack').disabled = !sfBackS.length; $('#sfFwd').disabled = !sfFwdS.length;
+}
+function sfGo(r) { if (r === sfCur) return; if (sfCur) sfBackS.push(sfCur); sfFwdS = []; sfCur = r; sfRender(); }
+const pickGate = () => NEWS.gates.length ? NEWS.gates[Math.floor(Math.random() * NEWS.gates.length)] : null;
+$('#sfPage').addEventListener('click', e => {
+  const a = e.target.closest('[data-art]'); if (a) return sfGo(a.dataset.art);
+  if (e.target.closest('[data-home]')) sfGo('home');
+});
+$('#sfBack').onclick = () => { if (!sfBackS.length) return; sfFwdS.push(sfCur); sfCur = sfBackS.pop(); sfRender(); };
+$('#sfFwd').onclick = () => { if (!sfFwdS.length) return; sfBackS.push(sfCur); sfCur = sfFwdS.pop(); sfRender(); };
+$('#sfReload').onclick = () => { if (sfCur === 'home') sfGate = pickGate(); sfRender(); };
+function openSafari(from) {
+  sfGate = pickGate(); sfBackS = []; sfFwdS = []; sfCur = 'home'; sfRender();
+  zoomIn($('#sfW'), from || $('#dkSafari'));
+  $('#dkSafari').classList.add('run'); $('#mbApp').textContent = 'Safari';
+}
+function closeSafari() { zoomOut($('#sfW'), $('#dkSafari')); $('#dkSafari').classList.remove('run'); $('#mbApp').textContent = $('#win').hidden ? '뺙이' : '음악'; }
+$('#sfX').onclick = closeSafari;
+addEventListener('keydown', e => { if (e.key === 'Escape') closeSafari(); });
+
+</script>
+</body>
+</html>

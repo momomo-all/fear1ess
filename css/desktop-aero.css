@@ -1,0 +1,232 @@
+/* ───────────────── 레트로 바탕화면 · 유리(aero) 덧입히기 ─────────────────
+   desktop.css 위에 얹어요. 기능은 그대로, 겉모습만 바꿔요.
+   - 디자인 시안 IMG_0775 : 반짝이는 알약 버튼, 유리 창, 둥근 모서리
+   - 디자인 시안 IMG_0774 : 물결 레이스 띠, 픽셀 기호, 날개 · 알약 장식, 점선 별
+   광택 색은 각 테마 색(--title, --face …)에서 섞어 만들어서 테마 4개 모두 따라 바뀌어요 */
+
+/* blue 테마는 0775처럼 조금 더 맑은 하늘 · 라벤더 쪽으로 */
+.os, .os[data-theme="blue"], .os .mon-screen[data-theme="blue"] {
+  --desk: #eef3fb; --dot: #d9e4f6; --grid: #ffffff;
+  --paper: #f7f9fe; --face: #e4ecf9; --line: #5a74a6; --dark: #3f5786; --mid: #9fb3d8;
+  --title: #6f90c9; --title-ink: #ffffff; --title-off: #cbd8ee;
+  --sel: #6a8bc6; --ink: #22355a; --sub: #566e99; --accent: #7d9de2;
+  --screen: #2b416e; --screen-ink: #e3ecfb; --screen-sub: #a3bbe6;
+}
+.os { --y2k: "Audiowide", "Courier Prime", var(--ko); --r: 12px; }
+
+/* ───── 광택 공통 (알약 버튼 · 제목줄) ───── */
+.os {
+  --gloss-title: linear-gradient(180deg,
+    color-mix(in srgb, var(--title) 42%, #fff) 0%,
+    color-mix(in srgb, var(--title) 72%, #fff) 46%,
+    var(--title) 52%,
+    color-mix(in srgb, var(--title) 82%, #fff) 100%);
+  --gloss-btn: linear-gradient(180deg,
+    #fff 0%,
+    color-mix(in srgb, var(--face) 55%, #fff) 46%,
+    var(--face) 54%,
+    color-mix(in srgb, var(--dot) 60%, #fff) 100%);
+  --gloss-press: linear-gradient(180deg,
+    color-mix(in srgb, var(--dot) 80%, var(--mid)) 0%,
+    var(--face) 60%,
+    #fff 100%);
+  --soft-shadow: 0 14px 34px -14px color-mix(in srgb, var(--line) 55%, transparent);
+}
+
+/* ───── 바탕: 체크무늬는 그대로, 위에 은은한 빛 ───── */
+.entry.os {
+  background-image:
+    radial-gradient(ellipse 60% 50% at 70% 30%, rgba(255, 255, 255, .7), transparent 70%),
+    radial-gradient(ellipse 50% 60% at 15% 85%, color-mix(in srgb, var(--accent) 16%, transparent), transparent 70%),
+    linear-gradient(90deg, var(--grid) 3px, transparent 3px),
+    linear-gradient(var(--grid) 3px, transparent 3px),
+    conic-gradient(var(--dot) 25%, transparent 0 50%, var(--dot) 0 75%, transparent 0);
+  background-size: 100% 100%, 100% 100%, var(--cell) var(--cell), var(--cell) var(--cell), calc(var(--cell) * 2) calc(var(--cell) * 2);
+}
+/* 위쪽 물결 레이스 띠 + 구슬 (0774) */
+.entry.os::before {
+  content: ""; position: absolute; inset: 0 0 auto; height: 40px; z-index: 0; pointer-events: none;
+  background:
+    radial-gradient(circle at 50% 50%, #fff 0 4px, var(--line) 4px 5.5px, transparent 6px) 0 2px / 44px 16px repeat-x,
+    radial-gradient(circle at 50% 0, color-mix(in srgb, var(--title) 30%, #fff) 0 21px, var(--line) 21px 22.5px, transparent 23px) 0 0 / 44px 40px repeat-x;
+}
+.entry.os.logon::before { display: none; }
+.icons { top: 52px; }
+.deco-search { top: 50px; }
+
+/* ───── 창 ───── */
+.win {
+  border-radius: var(--r);
+  border: 1.5px solid var(--line);
+  background: linear-gradient(180deg, #fff, var(--paper) 120px);
+  box-shadow: inset 0 0 0 2px rgba(255, 255, 255, .9), var(--soft-shadow);
+}
+.win.max { border-radius: 0; }
+.tbar {
+  margin: 4px 4px 0; padding: 4px 5px 4px 10px;
+  border-radius: calc(var(--r) - 4px) calc(var(--r) - 4px) 5px 5px;
+  background: linear-gradient(180deg, #fff 0%, var(--title-off) 100%);
+  box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--line) 30%, transparent);
+}
+.win.top > .tbar {
+  background: var(--gloss-title);
+  box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--line) 60%, transparent), inset 0 1px 0 rgba(255, 255, 255, .7);
+  text-shadow: 0 1px 1px color-mix(in srgb, var(--dark) 60%, transparent);
+}
+.tbar b::before { content: "✦ "; font-size: 10px; opacity: .8; }
+.tbtn {
+  width: 19px; height: 17px; border-radius: 5px;
+  background: var(--gloss-btn) !important;
+  box-shadow: inset 0 1px 0 #fff;
+}
+.tbtn:hover { background: #fff !important; }
+.tbtn.x:hover { background: var(--line) !important; }
+.os .menu { margin: 0 4px; border-bottom: 1px dashed var(--mid); }
+.os .status { margin: auto 4px 4px; border-top: 1px dashed var(--mid); }
+
+/* ───── 볼록 → 반짝이는 알약 / 오목 → 둥근 유리 칸 ───── */
+.os .bevel {
+  border: 1.5px solid var(--line);
+  border-radius: 9px;
+  background: var(--gloss-btn);
+  box-shadow: inset 0 1px 0 #fff, 0 2px 0 color-mix(in srgb, var(--line) 25%, transparent);
+  transition: transform .08s;
+}
+.os .bevel:hover { filter: brightness(1.03); }
+.os .bevel:active, .os .bevel.hit, .os .bevel.on {
+  border-color: var(--line);
+  background: var(--gloss-press);
+  box-shadow: inset 0 2px 3px color-mix(in srgb, var(--line) 30%, transparent);
+  transform: translateY(1px);
+}
+.os .sunk {
+  border: 1.5px solid color-mix(in srgb, var(--line) 55%, #fff);
+  border-radius: 9px;
+  background: #fff;
+  box-shadow: inset 0 2px 4px color-mix(in srgb, var(--line) 14%, transparent);
+}
+.os .btn { border-radius: 999px; padding: 6px 18px; }
+
+/* ───── login.exe ───── */
+.entry.os.logon {
+  background-color: var(--title);
+  background-image:
+    radial-gradient(ellipse 70% 55% at 50% 40%, color-mix(in srgb, var(--title) 35%, #fff), transparent 75%),
+    linear-gradient(90deg, rgba(255, 255, 255, .1) 2px, transparent 2px),
+    linear-gradient(rgba(255, 255, 255, .1) 2px, transparent 2px);
+  background-size: 100% 100%, 44px 44px, 44px 44px;
+}
+.lg-face { border-radius: 50%; background: radial-gradient(circle at 35% 30%, #fff, var(--face)) !important; }
+.lg-title, .hi-big { font-family: var(--y2k); font-weight: 400; letter-spacing: .02em; color: var(--title); text-shadow: 1px 1px 0 #fff, 2px 2px 0 color-mix(in srgb, var(--title) 30%, transparent); }
+.pw-field { border-radius: 999px; }
+.pw-field i { border-radius: 50%; box-shadow: inset 0 1px 1px rgba(0, 0, 0, .08); }
+.pw-field i.on { background: radial-gradient(circle at 35% 30%, color-mix(in srgb, var(--title) 40%, #fff), var(--line)); }
+.os .pw-key { border-radius: 999px; color: var(--dark); }
+.os .pw-key#pwOk {
+  border-color: var(--dark);
+  background: var(--gloss-title);
+  color: #fff; text-shadow: 0 1px 1px color-mix(in srgb, var(--dark) 60%, transparent);
+}
+.stripes { border-radius: 999px; }
+
+/* ───── playlist.exe : 0775 오른쪽 위 'playing : song' 칸 느낌 ───── */
+.pl-screen {
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, .14), transparent 45%),
+    var(--screen) !important;
+  border-color: var(--dark) !important;
+}
+.pl-eq i { border-radius: 2px 2px 0 0; }
+.pl-seek { border-radius: 999px; overflow: hidden; }
+.pl-ctl .bevel { border-radius: 999px; width: 38px; }
+.os .pl-ctl #plPlay { background: var(--gloss-title); border-color: var(--dark); color: #fff; }
+.pl-vol i { border-radius: 2px; }
+.pl-h { border-radius: 7px 7px 0 0; background: var(--gloss-btn); }
+.pl-row { border-radius: 6px; }
+.pl-row .sw { border-radius: 50%; }
+
+/* ───── Paint ───── */
+.pt-canvas { overflow: hidden; }
+.os-th { border-radius: 999px; box-shadow: inset 0 1px 0 rgba(255, 255, 255, .7); }
+.pen { border-radius: 50%; }
+.pill { border-radius: 999px; background: var(--gloss-btn); }
+.pt-band { border-radius: 999px; }
+
+/* ───── hi.txt · 알림 · 디스플레이 속성 ───── */
+.hi-list button { border-radius: 999px; padding: 1px 10px 1px 6px; }
+.alert-ic { background: radial-gradient(circle at 35% 30%, #fff, var(--face)); }
+.mon { border-radius: 14px; }
+.mon-screen { border-radius: 6px; }
+.mon-win { border-radius: 4px; }
+.props fieldset { border-radius: 9px; border-style: dashed; }
+.props label i { border-radius: 999px; }
+
+/* ───── start 메뉴 · 오른쪽 클릭 메뉴 ───── */
+.startmenu, .ctx {
+  border: 1.5px solid var(--line);
+  border-radius: var(--r);
+  background: linear-gradient(180deg, #fff, var(--face));
+  box-shadow: inset 0 0 0 2px rgba(255, 255, 255, .8), var(--soft-shadow);
+  overflow: hidden;
+}
+.startmenu { bottom: calc(var(--bar) + 4px); left: 8px; }
+.sm-band { background: var(--gloss-title); }
+.sm-band b { font-family: var(--y2k); font-weight: 400; }
+.mi { border-radius: 7px; }
+.sep { border-top: 1px dashed var(--mid); border-bottom: 0; }
+
+/* ───── 작업 표시줄 : 유리 띠 + 알약 start ───── */
+.taskbar {
+  height: calc(var(--bar) + 4px);
+  padding: 5px 8px;
+  border-top: 1.5px solid var(--line);
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, .95) 0%, rgba(255, 255, 255, .55) 48%, transparent 52%),
+    color-mix(in srgb, var(--face) 85%, var(--title));
+  box-shadow: inset 0 1px 0 #fff;
+}
+.os .start {
+  border-radius: 999px; padding: 0 18px 0 14px;
+  border-color: var(--dark);
+  background: var(--gloss-title);
+  color: #fff;
+  font-family: var(--y2k); font-weight: 400; font-size: 14px; letter-spacing: .04em;
+  text-shadow: 0 1px 1px color-mix(in srgb, var(--dark) 70%, transparent);
+}
+.start i { color: #fff; }
+.start[aria-disabled="true"] { color: rgba(255, 255, 255, .7); }
+.os .task { border-radius: 999px; }
+.os .task.on { background: #fff; }
+.tray { border-radius: 999px; background: rgba(255, 255, 255, .7) !important; }
+
+/* 화면이 열릴 때 커지는 창도 둥글게 */
+.portal.zoom { border-radius: var(--r); background: linear-gradient(180deg, #fff, var(--paper) 120px); box-shadow: inset 0 0 0 2px #fff, var(--soft-shadow); }
+.portal.zoom::before { left: 4px; right: 4px; top: 4px; height: 24px; border-radius: 8px 8px 5px 5px; background: var(--gloss-title); }
+
+/* ───── 0774 장식 : 픽셀 기호 · 알약 · 날개 · 점선 별 ───── */
+.aero-kao { position: absolute; pointer-events: none; font-family: var(--mono); font-weight: 700; font-size: var(--s, 26px); letter-spacing: .1em; color: #fff; -webkit-text-stroke: 1.5px var(--mid); opacity: .9; white-space: nowrap; }
+.aero-pill {
+  position: absolute; pointer-events: none;
+  width: 92px; height: 38px; border-radius: 999px;
+  border: 1.5px solid var(--line);
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, .85) 0 30%, transparent 55%),
+    linear-gradient(90deg, #fff 0 50%, var(--title) 50%);
+  box-shadow: var(--soft-shadow);
+  transform: rotate(var(--rot, -28deg));
+  animation: aero-float 6s ease-in-out infinite alternate;
+}
+.aero-wing { position: absolute; pointer-events: none; width: 96px; color: var(--line); animation: aero-float 5s ease-in-out infinite alternate; animation-delay: -2s; }
+.aero-wing svg { display: block; width: 100%; }
+.aero-burst { position: absolute; pointer-events: none; width: 150px; height: 150px; color: var(--mid); opacity: .7; }
+.aero-burst svg { width: 100%; height: 100%; }
+@keyframes aero-float { to { translate: 0 -10px; } }
+.logon .aero-kao, .logon .aero-pill, .logon .aero-wing, .logon .aero-burst { display: none; }
+
+@media (max-width: 1100px) {
+  .aero-kao, .aero-pill, .aero-wing, .aero-burst { display: none; }
+}
+@media (max-width: 760px) {
+  .icons { top: 48px; }
+  .entry.os::before { height: 32px; background-size: 36px 14px, 36px 32px; }
+}

@@ -1,0 +1,217 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>이사월 — 사월재훈</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Hahmlet:wght@300;500;700&family=Chakra+Petch:wght@400;500&family=Gowun+Batang:wght@400;700&family=Nanum+Myeongjo:wght@400;700;800&family=Nanum+Gothic+Coding:wght@400;700&display=swap">
+  <link rel="stylesheet" href="site.css">
+  <!-- 해바라기 연출을 거쳐 왔는지 (그림이 미리 보이지 않게 맨 먼저 확인해요) -->
+  <script>try { if (Date.now() - Number(sessionStorage.getItem('bloom:sawol')) < 8000) document.documentElement.classList.add('from-bloom'); } catch (e) {}</script>
+</head>
+<!-- 캐릭터 페이지 (기록): 스크롤할수록 깊어져요
+     ① 도착 → ② 지금의 이사월 → ③ 과거 기록(열람 승인) → ④ 인사기록카드 → ⑤ 서재훈에게
+     문학적인 과거 이야기는 sawol-story.html 에 따로 있어요. -->
+<body class="arrive char-page char-sawol">
+  <main>
+    <!-- ① 도착: 글자 연출에서 넘어온 여운이 머무는 첫 화면 -->
+    <div class="char">
+      <section class="char-info">
+        <h1 class="char-name">이사월</h1>
+        <p class="char-code">SOL · S급 가이드</p>
+        <p class="char-line">“괜찮아요, 제가 여기에 있어요!”</p>
+        <p class="char-theme">이사월은 봄을 닮은 사람이다.</p>
+        <a class="char-back" href="index.html" onclick="if (window.top !== window) { location.replace(this.href); return false; }"><svg viewBox="0 0 12 20" aria-hidden="true"><path d="M10 2 2 10l8 8" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg>전장의 사월, 봄의 하늘</a>
+      </section>
+      <figure class="char-art">
+        <img src="../../assets/pairs/sawol-jaehun/sawol.webp" alt="흰 니트 차림으로 무릎을 세우고 앉아 턱을 괸 채 웃고 있는 이사월" width="1216" height="832">
+      </figure>
+    </div>
+
+    <!-- ② 지금의 이사월 -->
+    <section class="cs cs-present" aria-labelledby="presentTitle">
+      <p class="cs-label" id="presentTitle" data-reveal>지금의 이사월</p>
+      <div class="present">
+        <p data-reveal>그러나 봄이라고 해서 언제나 따뜻한 것은 아니다. 한겨울을 견딘 가지가 모두 꽃을 피우는 것은 아니며, 꽃을 피운다 하더라도 영원히 시들지 않는 것도 아니다.</p>
+        <p class="beat" data-reveal>그럼에도 봄은 다시 찾아온다.</p>
+        <p data-reveal>그는 앞으로도 누군가에게 손을 내밀 것이다. 여전히 다정할 것이고, 여전히 미련할 정도로 고집스러울 것이며, 때로는 도덕적 선택에 떠밀려 실수하기도 할 것이다. 그리고 다시 피어날 것이다.</p>
+      </div>
+    </section>
+
+    <!-- ③ 과거 기록: FEARLESS가 남긴 건조한 사실 (열람 승인을 받으면 가림막이 걷혀요)
+         문장은 산문에서 사실만 뽑은 초안이에요. 이야기는 sawol-story.html -->
+    <section class="cs cs-record" id="record" aria-labelledby="recordTitle">
+      <p class="cs-label" id="recordTitle" data-reveal>과거 기록</p>
+      <div class="rec" id="rec" data-locked data-reveal>
+        <p class="rec-meta"><span>FEARLESS 보관 기록</span><span>대상 SOL · 이사월</span><span class="rec-secret">열람 제한</span></p>
+        <ol class="rec-list">
+          <li>
+            <p class="rec-when">2세</p>
+            <div class="rec-what">
+              <p><span class="rx">친형(당시 5세, S+급 센티넬)의 귀가 문제를 두고 진술 청취. ‘형이 무섭냐’는 물음에 ‘무섭다’고 답함.</span></p>
+              <p><span class="rx">해당 진술은 귀가 부적절 근거 중 하나로 기록됨. 본인은 당시를 기억하지 못함.</span></p>
+              <a class="rec-link" href="sawol-story.html#ch4">이야기 IV · 형이 무섭냐고</a>
+            </div>
+          </li>
+          <li>
+            <p class="rec-when">시기 미상</p>
+            <div class="rec-what">
+              <p><span class="rx">친형에게 당시 진술에 대해 사과. 수용되지 않음.</span></p>
+              <a class="rec-link" href="sawol-story.html#ch5">이야기 V · 정작 자신이 괜찮지 않을 때조차</a>
+            </div>
+          </li>
+          <li>
+            <p class="rec-when">16세</p>
+            <div class="rec-what">
+              <p><span class="rx">가이드 발현. 전담 페어 지정 전까지 FEARLESS 지부장과 동행.</span></p>
+            </div>
+          </li>
+          <li>
+            <p class="rec-when">페어 지정</p>
+            <div class="rec-what">
+              <p><span class="rx">센티넬 MUSTANG(서재훈)과 첫 전담 페어로 지정. 문서번호 FL-SG-0401.</span></p>
+              <p><span class="rx">코드네임 SOL 등록. 본래 코드네임이 없었으나 MUSTANG이 추천함.</span></p>
+            </div>
+          </li>
+          <li>
+            <p class="rec-when">23세</p>
+            <div class="rec-what">
+              <p><span class="rx">현재. S급 가이드, MUSTANG 전담.</span></p>
+            </div>
+          </li>
+        </ol>
+        <div class="rec-gate">
+          <button type="button" class="rec-ask" id="recAsk">열람 승인 요청</button>
+          <p class="rec-sign" aria-live="polite"><span class="rec-bar"><i></i></span><span class="rec-sign-text" id="recSign">AWAITING SIGNATURE…</span></p>
+        </div>
+      </div>
+      <a class="rec-story" href="sawol-story.html" data-reveal><small>기록 너머의 이야기</small>이사월이라는 사람의 이야기 읽기 <span aria-hidden="true">→</span></a>
+    </section>
+
+    <!-- ④ 인사기록카드: 메인의 '전담 페어 지정 통보'와 같은 공문 양식 -->
+    <section class="cs cs-card" aria-label="인사기록카드">
+      <article class="notice pf" id="pf" aria-labelledby="pfTitle" data-reveal>
+        <header class="nt-head">
+          <p class="nt-org">FEARLESS</p>
+          <p class="nt-meta"><span>문서번호 FL-PR-0402</span><span>보존기간 영구</span><span class="nt-secret">대외비</span></p>
+        </header>
+        <h2 class="nt-title" id="pfTitle">인사기록카드</h2>
+
+        <table class="nt-table pf-table">
+          <tbody>
+            <tr><th scope="row">성명</th><td>이사월</td><th scope="row">코드네임</th><td class="nt-code">SOL</td></tr>
+            <tr><th scope="row">나이</th><td>23세</td><th scope="row">등급</th><td>S급 가이드</td></tr>
+            <tr><th scope="row">생일</th><td>4월 2일</td><th scope="row">국적</th><td>대한민국</td></tr>
+            <tr><th scope="row">신장</th><td>195cm</td><th scope="row">MBTI</th><td class="nt-code">ENFJ</td></tr>
+          </tbody>
+        </table>
+
+        <ol class="nt-body pf-body">
+          <li>외형
+            <dl class="pf-dl">
+              <div><dt>머리</dt><dd>부드러운 웨이브가 진 금발의 머리칼은 허리까지 길게 흘러내린다. 색은 아침 햇살처럼 따스한 금빛으로, 빛을 받을 때마다 은은하게 반짝인다.</dd></div>
+              <div><dt>눈</dt><dd>옅고 채도가 낮은 푸른 눈동자를 지녔다. 맑지만 깊은 인상을 주며, 바라보면 잔잔한 물결이 이는 듯한 느낌을 준다.</dd></div>
+              <div><dt>얼굴</dt><dd>곧게 뻗은 긴 속눈썹과 강아지처럼 아래로 처진 눈매 덕분에, 처음 마주하는 이들은 자연스레 그의 눈에 시선을 빼앗긴다. 속눈썹은 눈을 감거나 활짝 웃을 때 특히 도드라진다. 잘생겼다기보다 ‘아름답다’는 표현이 더 어울리는 얼굴로, 오똑한 코와 도톰한 입술, 오밀조밀한 이목구비가 조화를 이룬다.</dd></div>
+              <div><dt>체격</dt><dd>195cm의 큰 체격. 부드러운 인상과 달리 몸은 탄탄하지만, 선이 얇고 균형 잡혀 있어 ‘거구’라기보단 모델 같은 느낌을 준다.</dd></div>
+              <div><dt>옷차림</dt><dd>평소 품이 넉넉한 캐주얼 복장을 즐겨 입는다. 주로 무지 티셔츠—특히 흰색 반팔티—를 자주 입으며, 몸에 열이 많아 두꺼운 옷은 잘 입지 않는다.</dd></div>
+            </dl>
+          </li>
+          <li>가이딩 절차
+            <p class="pf-q">“괜찮아요, 언제든 제가 곁에 있어요.”</p>
+            <ol class="nt-sub">
+              <li>상대방이 시선을 피하지 못하도록 양뺨을 부드럽게 감싸쥐고 눈을 맞춘다.</li>
+              <li>상대방의 눈을 감게 한 뒤, 뺨을 검지손가락으로 느릿하고 조심스럽게 두어번 톡톡 친다.</li>
+              <li>“쉿, 괜찮아요.” 나긋한 속삭임과 함께 상대방과 이마를 맞대고 가이딩을 한다.</li>
+              <li>가이딩이 끝난 뒤에는 손을 맞잡고 “이제 좀 괜찮아지셨나요?” 하며 웃는 게 특징.</li>
+            </ol>
+          </li>
+          <li>성향
+            <dl class="pf-dl">
+              <div><dt>성격</dt><dd>이타적이며, 자신이 믿는 ‘절대적 선’의 영역에서는 다소 바보 같을 만큼 우직하다. 불의를 보면 참지 못하는 성격으로, 그 과정에서 자신이 다치거나 손해를 입는 것은 개의치 않는다.</dd></div>
+              <div><dt>표정</dt><dd>언제나 웃는 낯을 유지한다. 기분이 좋지 않은 상황에서도 미소를 잃지 않으려 노력하며, 화를 내는 일은 거의 없다. 버릇처럼 “괜찮아요.”라고 말한다. 타인을 위로하기 위해서, 혹은 자신을 다독이기 위해서.</dd></div>
+              <div><dt>습관</dt><dd>대답하기 전, 늘 잠시 생각하는 습관이 있다. 상대와 눈이 마주치면 시선을 피하지 않으며, 3초 이상 마주 보면 빙긋 웃으며 말을 건다.</dd></div>
+            </dl>
+          </li>
+          <li>기호
+            <dl class="pf-dl">
+              <div><dt>좋아함</dt><dd>따뜻한 햇살, 피크닉, 새벽 산책, 그리고 머스탱과 함께 하는 모든 순간.</dd></div>
+              <div><dt>싫어함</dt><dd>비도덕적인 행동, 예의 없는 행동.</dd></div>
+            </dl>
+          </li>
+          <li>특이사항
+            <ol class="nt-sub">
+              <li>16세라는 어린 나이에 발현하여 머스탱과 페어가 되기 전까지는 지부장과 함께 다니곤 했다. 그래서 첫 페어인 머스탱에게 남다른 애착과 가이드로서의 묘한 책임감을 가지고 있다.</li>
+              <li>코드네임 SOL — 본래 코드네임이 없었으나, 머스탱이 추천해 주었다.</li>
+            </ol>
+          </li>
+        </ol>
+
+        <p class="pf-say"><span>본인 진술</span>“이해받지 못하더라도 옳음을 선택할 거예요.”</p>
+        <p class="nt-end">끝.</p>
+
+        <footer class="nt-foot">
+          <p class="nt-sign">FEARLESS 지부장 K
+            <span class="nt-stamp" aria-label="직인: FEARLESS 승인">
+              <svg viewBox="0 0 120 120" aria-hidden="true">
+                <defs>
+                  <filter id="ink" x="-10%" y="-10%" width="120%" height="120%">
+                    <feTurbulence type="fractalNoise" baseFrequency=".9" numOctaves="2" seed="4" result="n"/>
+                    <feDisplacementMap in="SourceGraphic" in2="n" scale="3.2"/>
+                  </filter>
+                </defs>
+                <g filter="url(#ink)" fill="none" stroke="currentColor">
+                  <rect x="8" y="8" width="104" height="104" rx="6" stroke-width="5"/>
+                  <rect x="16" y="16" width="88" height="88" rx="3" stroke-width="1.6"/>
+                  <text x="60" y="52" text-anchor="middle" fill="currentColor" stroke="none" font-size="19" font-weight="700" letter-spacing="1">FEAR</text>
+                  <text x="60" y="73" text-anchor="middle" fill="currentColor" stroke="none" font-size="19" font-weight="700" letter-spacing="1">LESS</text>
+                  <text x="60" y="94" text-anchor="middle" fill="currentColor" stroke="none" font-size="13" font-weight="700" letter-spacing="3">승 인</text>
+                </g>
+              </svg>
+            </span>
+          </p>
+        </footer>
+      </article>
+    </section>
+
+    <!-- ⑤ 다음 사람 -->
+    <nav class="cs cs-next" aria-label="다음으로">
+      <a class="next-pair" href="jaehun.html" data-reveal><small>전담 센티넬</small><b>서재훈</b><span class="next-code">MUSTANG <span aria-hidden="true">→</span></span></a>
+      <a class="char-back" href="index.html"><svg viewBox="0 0 12 20" aria-hidden="true"><path d="M10 2 2 10l8 8" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg>전장의 사월, 봄의 하늘</a>
+    </nav>
+  </main>
+
+  <script>
+    (() => {
+      const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+      // 화면에 들어오면 살며시 떠올라요 · 인사기록카드는 들어오면 직인이 쿵
+      if ('IntersectionObserver' in window) {
+        document.documentElement.classList.add('reveal-on');
+        const io = new IntersectionObserver((list) => list.forEach((e) => {
+          if (!e.isIntersecting) return;
+          e.target.classList.add('in');
+          if (e.target.id === 'pf') setTimeout(() => e.target.classList.add('stamped'), reduce ? 0 : 700);
+          io.unobserve(e.target);
+        }), { rootMargin: '0px 0px -10% 0px' });
+        document.querySelectorAll('[data-reveal]').forEach((el) => io.observe(el));
+      } else document.getElementById('pf').classList.add('stamped');
+
+      // 과거 기록: 열람 승인 요청 → 서명선이 차오르고 → APPROVED → 가림막이 한 줄씩 걷혀요
+      const rec = document.getElementById('rec'), ask = document.getElementById('recAsk'), sign = document.getElementById('recSign');
+      rec.querySelectorAll('.rx').forEach((el, i) => el.style.setProperty('--d', `${i * 120}ms`));
+      ask.addEventListener('click', () => {
+        rec.classList.add('signing');
+        ask.disabled = true;
+        setTimeout(() => {
+          sign.textContent = 'APPROVED BY K';
+          rec.classList.add('signed');
+          setTimeout(() => { rec.removeAttribute('data-locked'); rec.classList.add('open'); }, reduce ? 0 : 500);
+        }, reduce ? 0 : 1150);
+      });
+    })();
+  </script>
+  <script src="bloom-engine.js"></script>
+  <script src="bloom-sawol.js"></script>
+</body>
+</html>

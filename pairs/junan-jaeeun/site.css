@@ -1,0 +1,575 @@
+/* ───────────────── 주난재은: Good boy, Come on. ───────────────── */
+:root {
+  --serif: "Gowun Batang", "Batang", serif;
+  --pix: "Press Start 2P", "IBM Plex Mono", monospace;
+  --dior: "Bodoni Moda", "Gowun Batang", serif;
+  --zh: "Noto Serif SC", "Gowun Batang", serif;
+  --cute: "Gaegu", "Gowun Batang", sans-serif;
+  --hud: "IBM Plex Mono", monospace;
+  --ease-out: cubic-bezier(.16, 1, .3, 1);
+
+  /* 별이 뜬 도시의 밤 */
+  --paper: #0d1130;
+  --ink: #e9ebff;
+  --ink-sub: #a3a8d6;
+  /* 주난(SMILE): 보랏빛 눈, 홀로그램 */
+  --holo: #a77bff;
+  /* 재은(DIOR): 검은 제복, 금단추 */
+  --gold: #e2b85c;
+}
+
+* { box-sizing: border-box; margin: 0; }
+html { background: var(--paper); scrollbar-width: thin; scrollbar-color: #3b4380 transparent; }
+html:has(body.opening) { background: #04050d; }
+html, body { min-height: 100%; }
+body {
+  font-family: var(--serif);
+  color: var(--ink);
+  -webkit-font-smoothing: antialiased;
+  -webkit-tap-highlight-color: transparent;
+  overflow-x: hidden;
+}
+::selection { background: rgba(167, 123, 255, .35); }
+.sr-only { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
+[lang|="zh"] { font-family: var(--zh); }
+
+/* ───────────────── 배경: 밤의 옥상 ───────────────── */
+.world { position: fixed; inset: 0; overflow: hidden; pointer-events: none; background: #0a1240; }
+.still {
+  position: absolute; inset: 0;
+  width: 100%; height: 100%;
+  object-fit: cover; object-position: 50% 30%;
+  user-select: none;
+}
+
+/* 누군가에게 닿으면 그 사람 둘레만 밝게 남고, 나머지 도시는 살짝 가라앉아요 */
+@property --hole { syntax: '<length>'; inherits: true; initial-value: 0px; }
+.haze {
+  --hole: 0px;
+  position: absolute; inset: 0;
+  -webkit-mask-image: radial-gradient(circle max(1px, var(--hole)) at var(--px, 50%) var(--py, 50%), transparent 40%, #000 100%);
+  mask-image: radial-gradient(circle max(1px, var(--hole)) at var(--px, 50%) var(--py, 50%), transparent 40%, #000 100%);
+  transition: --hole .6s ease-in, backdrop-filter .8s ease, -webkit-backdrop-filter .8s ease;
+}
+.lit-on .haze {
+  --hole: var(--spot, 220px);
+  -webkit-backdrop-filter: brightness(.55) saturate(.8) blur(1.5px);
+  backdrop-filter: brightness(.55) saturate(.8) blur(1.5px);
+  transition: --hole 1s var(--ease-out), backdrop-filter .8s ease, -webkit-backdrop-filter .8s ease;
+}
+
+/* 그 사람의 빛깔이 번져요 (주난: 보랏빛, 재은: 금빛) */
+.tint { position: absolute; inset: 0; opacity: 0; mix-blend-mode: soft-light; transition: opacity 1s ease, background 1s ease; }
+[data-world="junan"] .tint { opacity: 1; background: radial-gradient(circle at var(--px) var(--py), rgba(200, 160, 255, .35), rgba(120, 60, 255, .6) 70%); }
+[data-world="jaeeun"] .tint { opacity: 1; background: radial-gradient(circle at var(--px) var(--py), rgba(255, 226, 160, .4), rgba(180, 130, 40, .5) 70%); }
+
+/* 글자가 읽히도록: 아래쪽은 짙은 밤빛, 오른쪽 위 하늘은 조금 더 깊게 */
+.shade {
+  position: absolute; inset: 0;
+  background:
+    linear-gradient(to top, rgba(5, 7, 24, .7), transparent 34%),
+    radial-gradient(ellipse 45% 40% at 100% 0%, rgba(5, 7, 30, .5), transparent 70%);
+}
+.air { position: absolute; inset: 0; width: 100%; height: 100%; }
+
+/* 주난에게 닿으면: 화면에 홀로그램 주사선이 지직 */
+.scan {
+  position: absolute; inset: 0; opacity: 0;
+  background: repeating-linear-gradient(to bottom, rgba(190, 150, 255, .09) 0 1px, transparent 1px 4px);
+  mix-blend-mode: screen;
+  transition: opacity .5s ease;
+}
+[data-world="junan"] .scan { opacity: 1; animation: jitter 2.6s steps(1) infinite; }
+@keyframes jitter {
+  0%, 100% { transform: none; }
+  62% { transform: translateY(2px); opacity: .6; }
+  64% { transform: none; opacity: 1; }
+  88% { transform: translateX(-3px); }
+  89% { transform: none; }
+}
+
+/* 주난의 홀로그램 패드: 얼굴 옆에 떠올라 웃는 얼굴을 그려요 */
+.holo {
+  position: absolute;
+  width: calc(var(--spot, 220px) * .95);
+  color: #c9a8ff;
+  filter: drop-shadow(0 0 8px rgba(167, 123, 255, .85));
+  opacity: 0; transform: perspective(600px) rotateY(18deg) scale(.6);
+  transition: opacity .3s ease, transform .5s var(--ease-out);
+}
+.holo-junan { left: calc(var(--px, 50%) - var(--spot, 220px) * 1.55); top: calc(var(--py, 50%) - var(--spot, 220px) * .45); transform-origin: 100% 50%; }
+.holo svg { display: block; width: 100%; height: auto; overflow: visible; }
+.holo svg * { fill: none; stroke: currentColor; stroke-linecap: round; stroke-linejoin: round; }
+.holo svg .holo-frame { stroke-width: 2; fill: rgba(140, 90, 255, .22); }
+.holo-line { stroke-width: 2; opacity: .55; }
+.holo-face, .holo-smile, .holo-eye { stroke-width: 3; stroke-dasharray: 160; stroke-dashoffset: 160; }
+.holo > p { margin-top: 6px; font-family: var(--pix); font-size: 8px; letter-spacing: .12em; text-align: right; }
+[data-world="junan"] .holo-junan { opacity: 1; transform: perspective(600px) rotateY(18deg); animation: holoFlick .4s steps(2) 2; }
+[data-world="junan"] .holo-face { animation: draw .7s .25s ease-out forwards; }
+[data-world="junan"] .holo-smile { animation: draw .45s .85s ease-out forwards; }
+[data-world="junan"] .holo-eye { animation: draw .2s 1.2s ease-out forwards; }
+@keyframes draw { to { stroke-dashoffset: 0; } }
+@keyframes holoFlick { 50% { opacity: .3; } }
+
+/* 재은 옆에도 주난이 패드: 하트를 그리고, "내가 제일 사랑하는 우리 형아!"를 한 줄씩 써요 */
+.holo-jaeeun {
+  left: min(calc(var(--px, 50%) + var(--spot, 220px) * .55), calc(100% - var(--spot, 220px) * 1.05 - 40px)); top: calc(var(--py, 50%) + var(--spot, 220px) * .55);
+  width: calc(var(--spot, 220px) * 1.05);
+  transform: perspective(600px) rotateY(16deg) scale(.6); transform-origin: 100% 50%;
+}
+.holo-pad { position: relative; display: grid; justify-items: center; gap: 4px; padding: 12% 8% 10%; }
+.holo-pad .holo-bg { position: absolute; inset: 0; width: 100%; height: 100%; }
+.holo-pad .holo-heart { position: relative; width: 22%; }
+.holo-heart path { stroke-width: 2.6; fill: rgba(255, 140, 210, 0); stroke-dasharray: 110; stroke-dashoffset: 110; }
+.holo-msg { position: relative; display: grid; justify-items: center; font-family: var(--cute); font-weight: 700; font-size: calc(var(--spot, 220px) * .09); line-height: 1.25; color: #f1e6ff; white-space: nowrap; }
+.holo-msg span { clip-path: inset(0 100% 0 0); }
+[data-world="jaeeun"] .holo-jaeeun { opacity: 1; transform: perspective(600px) rotateY(16deg); animation: holoFlick .4s steps(2) 2; }
+[data-world="jaeeun"] .holo-heart path { animation: draw .7s .3s ease-out forwards, heartFill .4s 1s ease forwards, beat 1.2s 1.6s ease-in-out infinite; }
+[data-world="jaeeun"] .holo-msg span:nth-child(1) { animation: write .9s 1.1s steps(10) forwards; }
+[data-world="jaeeun"] .holo-msg span:nth-child(2) { animation: write .5s 2.1s steps(6) forwards; }
+@keyframes write { to { clip-path: inset(0 0 0 0); } }
+@keyframes heartFill { to { fill: rgba(255, 140, 210, .45); } }
+@keyframes beat { 0%, 100% { transform: none; } 15% { transform: scale(1.12); } 30% { transform: none; } 45% { transform: scale(1.08); } }
+.holo-heart path { transform-origin: 50% 55%; transform-box: fill-box; }
+
+/* ───────────────── 얼굴 위 반응 영역 ───────────────── */
+.face-hit {
+  position: absolute; z-index: 2;
+  left: 0; top: 0;
+  width: var(--hs, 120px); height: var(--hs, 120px);
+  border-radius: 50%;
+  transform: translate(calc(var(--hx, -999px) - 50%), calc(var(--hy, -999px) - 50%));
+  cursor: pointer;
+}
+
+/* ───────────────── 두 이름: 픽셀 SMILE × 우아하게 벌린 DIOR ───────────────── */
+.stage {
+  position: relative; z-index: 3;
+  height: 100svh; min-height: 560px;
+  pointer-events: none;
+}
+.name {
+  position: absolute;
+  display: grid; gap: 10px;
+  color: #f2f0ff;
+  text-decoration: none;
+  text-shadow: 0 2px 24px rgba(4, 6, 24, .7);
+  pointer-events: auto;
+  cursor: pointer;
+  transition: color .5s ease, opacity .5s ease;
+}
+.name .nm { line-height: .9; }
+.name.junan .nm { font-family: var(--pix); font-weight: 400; font-size: clamp(2rem, 4.6vw, 4rem); letter-spacing: .02em; line-height: 1; }
+.name.jaeeun .nm { font-family: var(--dior); font-weight: 500; font-size: clamp(2.4rem, 5.6vw, 4.8rem); letter-spacing: .32em; margin-right: -.32em; }
+.name small { font-size: clamp(13px, 1.1vw, 15px); color: rgba(236, 236, 255, .88); text-shadow: 0 1px 3px rgba(4, 6, 24, .8), 0 2px 18px rgba(4, 6, 24, .6); transition: color .5s ease; }
+.name.junan { left: clamp(24px, 6vw, 110px); bottom: clamp(48px, 10svh, 110px); }
+.name.jaeeun { right: clamp(24px, 6vw, 110px); bottom: clamp(48px, 10svh, 110px); text-align: right; justify-items: end; }
+.name:focus-visible { outline: 2px solid currentColor; outline-offset: 10px; border-radius: 4px; }
+.name .nm::after { /* 누를 수 있다는 가는 선 */
+  content: ""; display: block; height: 1.5px; margin-top: 12px;
+  background: currentColor; opacity: .4;
+  transform: scaleX(.35);
+  transition: transform .6s var(--ease-out), opacity .3s;
+}
+.name.junan .nm::after { transform-origin: left; }
+.name.jaeeun .nm::after { transform-origin: right; margin-right: .32em; }
+.name:hover .nm::after, .name:focus-visible .nm::after, .name.lit .nm::after { transform: none; opacity: .9; }
+
+[data-world="junan"] .name.junan { color: #d6c0ff; }
+[data-world="junan"] .name.junan .nm { animation: rgbSplit 2.6s steps(1) infinite; }
+@keyframes rgbSplit {
+  0%, 100% { text-shadow: 0 2px 24px rgba(4, 6, 24, .7), 0 0 18px rgba(167, 123, 255, .7); }
+  62% { text-shadow: 3px 0 rgba(255, 80, 200, .8), -3px 0 rgba(80, 220, 255, .8); }
+  66% { text-shadow: 0 2px 24px rgba(4, 6, 24, .7), 0 0 18px rgba(167, 123, 255, .7); }
+}
+[data-world="junan"] .name.jaeeun { opacity: .3; }
+[data-world="jaeeun"] .name.jaeeun { color: #f3d58a; }
+[data-world="jaeeun"] .name.jaeeun small { color: #fbecc6; }
+[data-world="jaeeun"] .name.junan { opacity: .3; }
+
+/* 두 사람에게 꼭 맞는 한 줄 (오른쪽 위, 별 뜬 하늘) */
+.lyric {
+  position: absolute; right: clamp(24px, 6vw, 110px); top: clamp(26px, 4.5svh, 50px);
+  display: grid; gap: 6px; justify-items: end; text-align: right;
+  color: #f2f0ff;
+  text-shadow: 0 2px 20px rgba(4, 6, 30, .8);
+}
+.lyric .sub { font-family: var(--serif); font-size: clamp(13px, 1.1vw, 15px); letter-spacing: .14em; color: #c3c7f0; }
+.lyric .en { font-family: var(--dior); font-style: italic; font-size: clamp(28px, 3.4vw, 48px); letter-spacing: .01em; }
+.lyric em { transition: color .6s ease; }
+[data-world="junan"] .lyric em { color: #d6c0ff; }
+[data-world="jaeeun"] .lyric em { color: var(--gold); }
+
+/* ───────────────── 여는 장면: 홀로그램이 켜지듯, 가로줄 하나가 화면으로 펼쳐져요 ───────────────── */
+.opening .world { animation: powerOn 1.3s .3s cubic-bezier(.65, 0, .25, 1) both; }
+@keyframes powerOn {
+  0% { clip-path: inset(50% 50% 50% 50%); filter: brightness(3); }
+  35% { clip-path: inset(calc(50% - 1px) 0 calc(50% - 1px) 0); filter: brightness(3); }
+  100% { clip-path: inset(0 0 0 0); filter: none; }
+}
+.opening .name.junan { animation: glitchIn .9s 1.7s steps(6) both; }
+.opening .name.jaeeun { animation: nameIn 1.4s 2.1s var(--ease-out) both; }
+.opening .lyric > span { animation: nameIn 1.6s var(--ease-out) both; }
+.opening .lyric .en { animation-delay: 2.5s; }
+.opening .lyric .sub { animation-delay: 2.8s; }
+@keyframes nameIn { from { opacity: 0; filter: blur(10px); transform: translateY(10px); } }
+@keyframes glitchIn {
+  0% { opacity: 0; transform: translateX(-8px); }
+  30% { opacity: 1; transform: translateX(5px); }
+  50% { opacity: .2; transform: none; }
+  70% { opacity: 1; transform: translateX(-2px); }
+  100% { opacity: 1; transform: none; }
+}
+
+/* ───────────────── 대사 연출: 위아래로 막이 닫히며 ───────────────── */
+.scene {
+  position: fixed; inset: 0; z-index: 30;
+  --bar: 11svh;
+  cursor: pointer;
+  overflow: hidden;
+  opacity: 0;
+  transition: opacity .2s ease;
+}
+.scene[hidden] { display: none; }
+.scene.on { opacity: 1; }
+/* 셔터 막: 위아래에서 탁 닫혔다가 레터박스로 남아요 */
+.scene-bar {
+  position: absolute; left: 0; right: 0; z-index: 2;
+  height: 50%; background: var(--bar-bg, #000);
+  transition: height .55s .25s cubic-bezier(.7, 0, .2, 1);
+}
+.scene-bar.top { top: 0; }
+.scene-bar.bottom { bottom: 0; }
+.scene.on .scene-bar { height: var(--bar); }
+.scene-light { position: absolute; inset: 0; z-index: 1; pointer-events: none; }
+/* 플래시 */
+.flash { position: absolute; inset: 0; z-index: 5; background: #fff; opacity: 0; pointer-events: none; }
+.scene.on .flash { animation: flash .7s .15s ease-out both; }
+@keyframes flash { 0% { opacity: 0; } 12% { opacity: .95; } 100% { opacity: 0; } }
+.scene-body {
+  position: absolute; z-index: 3; left: 0; right: 0; top: 50%;
+  transform: translateY(-50%);
+  display: grid; justify-items: center; gap: clamp(14px, 2.4vh, 22px);
+  padding: 0 24px; text-align: center;
+}
+.scene-line {
+  font-weight: 700;
+  font-size: clamp(1.5rem, 3.6vw, 2.7rem);
+  line-height: 1.45;
+  text-wrap: balance;
+  max-width: 18em;
+}
+.scene-word { display: inline-block; white-space: nowrap; }
+.scene-word span { display: inline-block; white-space: pre; opacity: 0; animation-fill-mode: both; animation-delay: calc(.9s + var(--i) * 50ms); }
+.scene.on .scene-word span { animation-name: var(--char-in); animation-duration: .7s; animation-timing-function: var(--ease-out); }
+.scene.full .scene-word span { animation: none; opacity: 1; }
+.scene-who {
+  display: grid; justify-items: center; gap: 10px;
+  font-family: var(--hud); font-size: 13px; letter-spacing: .16em;
+  opacity: 0; transform: translateY(6px);
+  transition: opacity .5s, transform .7s var(--ease-out);
+}
+.scene.full .scene-who { opacity: 1; transform: none; }
+.sign-bar { position: relative; width: 168px; height: 2px; overflow: hidden; background: currentColor; opacity: .25; }
+.sign-bar i { position: absolute; inset: 0; background: currentColor; transform: scaleX(0); transform-origin: left; }
+.scene.signing .sign-bar { opacity: 1; background: color-mix(in srgb, currentColor 25%, transparent); }
+.scene.signing .sign-bar i { transform: scaleX(1); transition: transform 1.1s cubic-bezier(.6, 0, .2, 1); }
+.scene.signed .sign-text { animation: signIn .5s var(--ease-out) both; font-weight: 500; }
+@keyframes signIn { from { opacity: 0; letter-spacing: .4em; } }
+.scene-skip {
+  position: absolute; z-index: 3; left: 0; right: 0;
+  bottom: calc(var(--bar) / 2 - .6em);
+  text-align: center; font-size: 13px; letter-spacing: .06em;
+  color: var(--skip, rgba(255, 255, 255, .62));
+  opacity: 0; transition: opacity .4s 1.4s;
+}
+.scene.on .scene-skip { opacity: 1; }
+.scene::after { content: ""; position: absolute; inset: 0; z-index: 4; background: #fff; opacity: 0; transition: opacity .6s ease; pointer-events: none; }
+.scene.leave::after { opacity: 1; }
+
+/* 주난(SMILE): 보랏빛 홀로그램 어둠, 글자는 지직 튀었다가 자리를 잡아요 */
+.scene[data-tone="junan"] {
+  --char-in: charGlitch; --bar-bg: #06030f;
+  background: radial-gradient(ellipse at 50% 45%, #2a1260, #13072e 60%, #07030f);
+  color: #f1e9ff;
+}
+.scene[data-tone="junan"] .scene-light {
+  background:
+    repeating-linear-gradient(to bottom, rgba(190, 150, 255, .08) 0 1px, transparent 1px 4px),
+    radial-gradient(circle at 50% 50%, rgba(167, 123, 255, .35), transparent 55%);
+  opacity: 0;
+}
+.scene[data-tone="junan"].on .scene-light { animation: sceneFade .8s ease both, jitter 2.2s .8s steps(1) infinite; }
+.scene[data-tone="junan"] .flash { background: #b48cff; }
+.scene[data-tone="junan"].on .flash { animation: flicker .5s .15s steps(1) both; }
+@keyframes flicker { 0% { opacity: 0; } 20% { opacity: .7; } 40% { opacity: 0; } 60% { opacity: .4; } 80%, 100% { opacity: 0; } }
+.scene[data-tone="junan"] .scene-who { color: #b99aff; }
+@keyframes charGlitch {
+  0% { opacity: 0; transform: translateX(-6px); text-shadow: 3px 0 #ff50c8, -3px 0 #50dcff; }
+  40% { opacity: 1; transform: translateX(3px); }
+  70% { transform: none; text-shadow: 1px 0 #ff50c8, -1px 0 #50dcff; }
+  100% { opacity: 1; transform: none; text-shadow: none; }
+}
+
+/* 재은(DIOR): 검은 제복 같은 어둠에 금빛, 글자는 금박처럼 빛났다가 가라앉아요 */
+.scene[data-tone="jaeeun"] {
+  --char-in: charGold; --bar-bg: #030304;
+  background: radial-gradient(ellipse at 50% 45%, #1e1d24, #0d0d12 60%, #050507);
+  color: #f4efe4;
+}
+.scene[data-tone="jaeeun"] .scene-light {
+  background:
+    radial-gradient(circle 3px at 30% 34%, rgba(255, 220, 140, .9), transparent),
+    radial-gradient(circle 2px at 72% 28%, rgba(255, 220, 140, .8), transparent),
+    radial-gradient(circle 2px at 64% 74%, rgba(255, 220, 140, .7), transparent),
+    radial-gradient(ellipse 50% 40% at 50% 50%, rgba(226, 184, 92, .16), transparent 70%);
+  opacity: 0;
+}
+.scene[data-tone="jaeeun"].on .scene-light { animation: sceneFade 1.2s ease both, glow 4s 1.2s ease-in-out infinite alternate; }
+@keyframes glow { to { opacity: .55; } }
+.scene[data-tone="jaeeun"] .flash { display: none; }
+.scene[data-tone="jaeeun"] .scene-who { color: #d8b25a; }
+@keyframes charGold { from { opacity: 0; color: #f3d58a; text-shadow: 0 0 16px rgba(226, 184, 92, .8); transform: translateY(6px); } to { opacity: 1; transform: none; } }
+@keyframes sceneFade { to { opacity: 1; } }
+.scene::after { background: #05060f; }
+
+/* ───────────────── 공문 옆 칸 (D-day, 메시지) ───────────────── */
+.notice-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 720px) minmax(0, 340px);
+  justify-content: center;
+  align-items: start;
+  gap: clamp(28px, 4vw, 56px);
+  max-width: 1160px;
+  margin: 0 auto;
+}
+.notice-grid .notice { margin: 0; }
+.side { position: sticky; top: 40px; display: grid; gap: 22px; }
+
+.dday { padding: 18px 22px 16px; border-top: 1px solid var(--dd-rule); border-bottom: 1px solid var(--dd-rule); color: var(--dd-ink); }
+.dd-num { font-family: var(--hud); font-size: clamp(40px, 4.6vw, 56px); line-height: 1; letter-spacing: .02em; font-variant-numeric: tabular-nums; }
+.dd-since { margin-top: 8px; font-size: 14px; color: var(--dd-sub); }
+
+/* 메시지: 휴대폰 없이 말풍선만 */
+.chat { font-family: -apple-system, BlinkMacSystemFont, "Pretendard Variable", Pretendard, "Apple SD Gothic Neo", sans-serif; }
+.chat-head { margin-bottom: 14px; text-align: center; font-size: 12px; color: #8e8e93; }
+.chat-head b { font-weight: 600; }
+.chat-log { display: flex; flex-direction: column; }
+.msg {
+  position: relative;
+  max-width: 78%;
+  padding: 8px 13px 9px;
+  border-radius: 18px;
+  margin-top: 3px;
+  font-size: 15px; line-height: 1.35;
+  color: #fff;
+  overflow-wrap: break-word;
+  opacity: 0; transform: translateY(10px) scale(.9);
+}
+.msg.them { align-self: flex-start; background: var(--them); color: var(--them-ink); box-shadow: var(--them-edge, none); transform-origin: 0 100%; }
+.msg.me { align-self: flex-end; background: var(--me); color: var(--me-ink); box-shadow: var(--me-edge, none); transform-origin: 100% 100%; }
+.msg.first { margin-top: 12px; }
+.msg-time { margin: 14px 0 4px; text-align: center; font-size: 11px; color: #8e8e93; opacity: 0; }
+.msg-read { align-self: flex-end; margin: 4px 4px 0 0; font-size: 11px; color: #8e8e93; opacity: 0; }
+.msg-read b { font-weight: 600; }
+.msg.tail::before, .msg.tail::after { content: ""; position: absolute; bottom: 0; height: 17px; }
+.msg.them.tail::before { left: -6px; width: 16px; background: var(--them); border-bottom-right-radius: 14px 12px; }
+.msg.them.tail::after { left: -10px; width: 10px; background: var(--chat-bg); border-bottom-right-radius: 9px; }
+.msg.me.tail::before { right: -6px; width: 16px; background: var(--me); border-bottom-left-radius: 14px 12px; }
+.msg.me.tail::after { right: -10px; width: 10px; background: var(--chat-bg); border-bottom-left-radius: 9px; }
+.chat.play .msg { animation: msgIn .45s cubic-bezier(.34, 1.4, .64, 1) both; animation-delay: calc(var(--k) * 280ms); }
+.chat.play .msg-time, .chat.play .msg-read { animation: msgFade .4s ease both; animation-delay: calc(var(--k) * 280ms); }
+@keyframes msgIn { to { opacity: 1; transform: none; } }
+.msg.typing { display: flex; gap: 5px; padding: 12px 14px; }
+.msg.typing i { width: 7px; height: 7px; border-radius: 50%; background: currentColor; opacity: .35; animation: typeDot 1.3s infinite; }
+.msg.typing i:nth-child(2) { animation-delay: .18s; }
+.msg.typing i:nth-child(3) { animation-delay: .36s; }
+@keyframes typeDot { 0%, 60%, 100% { opacity: .35; transform: none; } 30% { opacity: 1; transform: translateY(-3px); } }
+@keyframes msgFade { to { opacity: 1; } }
+
+@media (max-width: 1000px) {
+  .notice-grid { grid-template-columns: minmax(0, 720px); }
+  .side { position: static; max-width: 460px; width: 100%; margin: 0 auto; }
+}
+
+/* 주난재은 색: 주난(오른쪽)은 남색 후드 바탕에 보랏빛 글씨, 재은(왼쪽)은 검은 제복 바탕에 금빛 글씨 */
+.chat { --me: #2a1f5c; --me-ink: #e3d4ff; --them: #111116; --them-ink: #f0d58e; --them-edge: inset 0 0 0 1px rgba(226, 184, 92, .4); --chat-bg: var(--paper); }
+.side { --dd-ink: #eef0ff; --dd-sub: #a3a8d6; --dd-rule: rgba(200, 205, 255, .2); }
+.chat-head { color: #a3a8d6; }
+.msg-time, .msg-read { color: #8288b8; }
+.chat-empty { padding: 22px 12px; border: 1px dashed rgba(200, 205, 255, .25); border-radius: 16px; text-align: center; font-size: 13px; color: #a3a8d6; }
+
+/* ───────────────── FEARLESS 공문 ───────────────── */
+.notice-wrap {
+  position: relative; z-index: 2;
+  padding: clamp(80px, 14vh, 160px) 20px clamp(80px, 12vh, 140px);
+  background: linear-gradient(to bottom, rgba(232, 237, 241, 0), var(--paper) 18vh);
+}
+.notice {
+  --paper: #eeeadf;
+  --ink: #23201b;
+  --rule: #23201b;
+  --seal: #b8322a;
+  position: relative;
+  max-width: 720px;
+  margin: 0 auto;
+  padding: clamp(32px, 6vw, 64px) clamp(22px, 6vw, 68px) clamp(36px, 6vw, 60px);
+  background: var(--paper);
+  color: var(--ink);
+  box-shadow: 0 30px 50px -30px rgba(30, 40, 50, .45), 0 2px 6px rgba(30, 40, 50, .18);
+  font-family: "Nanum Myeongjo", "Batang", serif;
+  --type: "Nanum Gothic Coding", monospace;
+  line-height: 1.75;
+  transform-origin: 50% 85%;
+}
+.notice::before { /* 종이 결 */
+  content: ""; position: absolute; inset: 0; pointer-events: none; opacity: .35;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='p'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.6' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 .55 0 0 0 0 .5 0 0 0 0 .42 0 0 0 .18 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23p)'/%3E%3C/svg%3E");
+}
+.nt-head {
+  display: flex; flex-wrap: wrap; justify-content: space-between; align-items: end; gap: 8px 20px;
+  padding-bottom: 14px;
+  border-bottom: 3px double var(--rule);
+}
+.nt-org { font-weight: 800; font-size: 22px; letter-spacing: .32em; }
+.nt-meta { display: flex; flex-wrap: wrap; gap: 4px 14px; font-family: var(--type); font-size: 13px; }
+.nt-secret { padding: 0 8px; border: 1.5px solid var(--seal); color: var(--seal); font-weight: 700; letter-spacing: .1em; }
+.nt-title {
+  margin: clamp(26px, 4vw, 40px) 0 clamp(18px, 3vw, 28px);
+  text-align: center;
+  font-size: clamp(26px, 4vw, 36px); font-weight: 800; letter-spacing: .3em;
+}
+.nt-rows { display: grid; gap: 4px; padding: 14px 0; border-top: 1px solid var(--rule); border-bottom: 1px solid var(--rule); font-size: 16px; }
+.nt-rows div { display: grid; grid-template-columns: 4.5em 1fr; }
+.nt-rows dt { font-weight: 700; letter-spacing: .3em; }
+.nt-body { margin-top: 22px; padding-left: 1.6em; font-size: 16px; }
+.nt-body > li { margin-bottom: 12px; padding-left: .3em; }
+.nt-body strong { font-weight: 700; box-shadow: inset 0 -.35em 0 rgba(184, 50, 42, .16); }
+.nt-sub { margin-top: 6px; padding-left: 1.4em; list-style: hangul; }
+.nt-sub li { margin-bottom: 4px; }
+.nt-table { width: 100%; margin: 14px 0 6px; border-collapse: collapse; font-size: 15px; text-align: center; }
+.nt-table th, .nt-table td { padding: 8px 6px; border: 1px solid var(--rule); }
+.nt-table th { background: rgba(35, 32, 27, .08); font-weight: 700; }
+.nt-code { font-family: var(--type); font-weight: 700; letter-spacing: .05em; }
+/* 아직 아무도 모르는 칸: 타자기 물음표 */
+.nt-unknown { font-family: var(--type); font-weight: 700; color: var(--seal); letter-spacing: .1em; }
+.nt-end { margin-top: 6px; text-align: right; font-weight: 700; }
+.nt-foot { margin-top: clamp(34px, 6vw, 56px); text-align: center; }
+.nt-sign {
+  position: relative;
+  display: inline-block;
+  margin-top: 12px;
+  padding-right: 64px;
+  font-size: clamp(20px, 2.6vw, 26px); font-weight: 800; letter-spacing: .3em;
+  white-space: nowrap;
+}
+@media (max-width: 560px) {
+  .nt-sign { font-size: 18px; letter-spacing: .05em; padding-right: 48px; }
+  .nt-stamp { width: 80px; height: 80px; right: -14px; }
+  .nt-title { letter-spacing: .16em; }
+}
+.nt-stamp {
+  position: absolute; right: -18px; top: 50%;
+  width: 104px; height: 104px;
+  color: var(--seal);
+  transform: translateY(-50%) rotate(-9deg);
+  opacity: 0;
+  mix-blend-mode: multiply;
+}
+.nt-stamp svg { display: block; width: 100%; height: 100%; font-family: "Nanum Myeongjo", serif; }
+.stamped .nt-stamp { animation: stampDown .5s cubic-bezier(.2, 0, .3, 1) both; }
+.stamped.notice { animation: thud .45s .3s ease-out; }
+@keyframes stampDown {
+  0% { opacity: 0; transform: translateY(-50%) rotate(-16deg) scale(2.6); }
+  55% { opacity: .9; transform: translateY(-50%) rotate(-8deg) scale(.94); }
+  75% { transform: translateY(-50%) rotate(-9deg) scale(1.03); }
+  100% { opacity: .88; transform: translateY(-50%) rotate(-9deg) scale(1); }
+}
+@keyframes thud {
+  0%, 100% { transform: none; }
+  20% { transform: translateY(3px) scale(.996); }
+  45% { transform: translateY(-1px); }
+}
+
+.notice-wrap { background: linear-gradient(to bottom, rgba(13, 17, 48, 0), var(--paper) 18vh); }
+.notice { box-shadow: 0 30px 60px -24px rgba(0, 0, 0, .7), 0 2px 6px rgba(0, 0, 0, .4); }
+
+/* ───────────────── 세로 화면 ───────────────── */
+@media (max-aspect-ratio: 4/5) {
+  .still { object-position: 66% 30%; }
+  .name.junan .nm { font-size: clamp(2rem, 11vw, 3.4rem); }
+  .name.jaeeun .nm { font-size: clamp(1.8rem, 10vw, 3rem); }
+  .name.junan { bottom: 19svh; }
+  .name.jaeeun { bottom: 6svh; }
+  .lyric { top: 7svh; }
+  .lyric .en { font-size: 28px; }
+  .holo-junan { left: max(12px, calc(var(--px, 50%) - var(--spot, 220px) * .7)); top: calc(var(--py, 50%) + var(--spot, 220px) * .75); transform-origin: 50% 0; }
+  .holo-jaeeun { left: auto; right: 12px; top: calc(var(--py, 50%) + var(--spot, 220px) * .75); transform-origin: 50% 0; }
+}
+
+/* ───────────────── 움직임 줄이기 ───────────────── */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation-duration: .01ms !important; animation-iteration-count: 1 !important; transition-duration: .01ms !important; }
+  .scene-word span { animation: none !important; opacity: 1 !important; }
+  .stamped .nt-stamp { animation: none !important; opacity: .88; }
+  .stamped.notice { animation: none !important; }
+  .msg, .msg-time, .msg-read { opacity: 1 !important; transform: none !important; animation: none !important; }
+}
+
+/* ───────────────── 캐릭터 페이지 (그림이 화면의 2/3) ───────────────── */
+.arrive { animation: arrive .7s ease both; }
+@keyframes arrive { from { opacity: 0; } }
+html:has(body.char-page) { background: #fff; }
+.char {
+  min-height: 100svh;
+  display: grid;
+  grid-template-columns: 1fr 2fr;
+  align-items: center;
+  background: var(--c-bg);
+  color: var(--c-ink);
+}
+.char-info { display: grid; gap: 18px; align-content: center; padding: 96px clamp(24px, 4vw, 64px) 64px clamp(24px, 6vw, 96px); }
+.char-code { margin-top: -8px; font-family: var(--hud); font-size: 15px; letter-spacing: .04em; color: var(--c-accent); }
+.char-name { font-size: clamp(3rem, 6vw, 5.2rem); font-weight: 800; line-height: 1.05; letter-spacing: -.02em; }
+.char-name .he { display: block; margin-top: 6px; text-align: left; font-family: var(--serif); font-size: .38em; font-weight: 700; letter-spacing: .04em; color: var(--c-sub); }
+.char-line { font-size: clamp(17px, 1.5vw, 21px); font-weight: 700; line-height: 1.5; text-wrap: pretty; word-break: keep-all; }
+.char-line[lang="la"] { font-family: var(--latin); font-style: italic; font-weight: 600; font-size: clamp(20px, 1.8vw, 25px); }
+.char-line small { display: block; margin-top: 4px; font-family: var(--serif); font-style: normal; font-size: 14px; font-weight: 400; color: var(--c-sub); }
+.char-desc { font-size: 16px; line-height: 1.7; color: var(--c-sub); max-width: 24em; }
+.char-back { margin-top: 10px; display: inline-flex; align-items: center; gap: 8px; color: var(--c-ink); font-size: 15px; text-underline-offset: 5px; }
+.char-back svg { width: 8px; height: 13px; flex: none; }
+.char-back:focus-visible { outline: 2px solid currentColor; outline-offset: 6px; border-radius: 3px; }
+.char-art {
+  margin: 0; align-self: stretch; height: 100svh;
+  display: flex; justify-content: flex-end; overflow: hidden;
+  -webkit-mask-image: linear-gradient(to right, transparent, #000 var(--fade, 26%));
+  mask-image: linear-gradient(to right, transparent, #000 var(--fade, 26%));
+}
+.char-art img { display: block; height: 100%; width: auto; max-width: none; flex: none; }
+.char-info > * { animation: charIn .9s var(--ease-out) both; }
+.char-info > :nth-child(2) { animation-delay: .08s; }
+.char-info > :nth-child(3) { animation-delay: .16s; }
+.char-info > :nth-child(4) { animation-delay: .24s; }
+.char-info > :nth-child(5) { animation-delay: .32s; }
+.char-art img { animation: artIn 1.2s .1s var(--ease-out) both; }
+@keyframes charIn { from { opacity: 0; transform: translateX(-14px); } }
+@keyframes artIn { from { opacity: 0; transform: translateX(24px); } }
+@media (max-width: 760px) {
+  .char { grid-template-columns: 1fr; align-items: start; }
+  .char-art { order: -1; height: auto; justify-content: center; -webkit-mask-image: linear-gradient(to bottom, #000 72%, transparent); mask-image: linear-gradient(to bottom, #000 72%, transparent); }
+  .char-art img { width: 100%; height: auto; }
+  .char-info { margin-top: -24px; position: relative; padding: 0 24px 64px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .char-info > *, .char-art img { animation: none !important; }
+}
+
+/* 주난재은 캐릭터 페이지 색 */
+.char-page.char-junan { --c-ink: #15131c; --c-sub: #5d5a6a; --c-accent: #7a48e8; }
+.char-page.char-junan .char-name .he { font-family: var(--pix); font-weight: 400; font-size: .36em; margin-top: 14px; letter-spacing: .06em; }
+.char-line[lang|="zh"] { font-family: var(--zh); font-weight: 600; font-size: clamp(20px, 1.8vw, 25px); }
+.char-page.char-junan .char-art { justify-content: center; }
+.char-page.char-jaeeun { --c-ink: #121214; --c-sub: #5c5a55; --c-accent: #9a7420; }
+.char-page.char-jaeeun .char-name .he { font-family: var(--dior); font-weight: 500; letter-spacing: .3em; }
+/* 재은은 그림 가운데쯤 얼굴이 있어서, 그림을 왼쪽에 붙이고 번짐도 짧게 */
+.char-page.char-jaeeun .char-art { justify-content: flex-start; --fade: 12%; }

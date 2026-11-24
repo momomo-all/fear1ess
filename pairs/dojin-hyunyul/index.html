@@ -1,0 +1,134 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>창백한 푸른 점 — 도진현율</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Syncopate:wght@700&family=Playfair+Display:ital,wght@1,500&family=IBM+Plex+Mono:wght@400;500&family=Gowun+Batang:wght@400;700&family=Nanum+Myeongjo:wght@400;700;800&family=Nanum+Gothic+Coding:wght@400;700&display=swap">
+  <link rel="preload" as="image" href="../../assets/pairs/dojin-hyunyul/bg.webp">
+  <link rel="stylesheet" href="site.css">
+</head>
+<body data-world="idle" class="opening">
+
+  <!-- 별빛 바다 위의 궤도: 별들이 아주 천천히 한 점을 중심으로 돌아요
+       도진에게 닿으면 그의 곁에서 별 하나가 신성(NOVA)처럼 환하게 터지고
+       현율에게 닿으면 그에게서 심장 박동(PULSE) 같은 빛의 파동이 두근, 두근 퍼져요 -->
+  <div class="world" aria-hidden="true">
+    <img class="still" src="../../assets/pairs/dojin-hyunyul/bg.webp" alt="" width="1216" height="832">
+    <div class="haze"></div>
+    <div class="tint"></div>
+    <div class="shade"></div>
+    <canvas class="air" id="air"></canvas>
+    <div class="vignette"></div>
+  </div>
+
+  <p class="sr-only">별이 쏟아지는 푸른 밤, 빛나는 바다 위에서 전술 조끼 차림의 서도진이 몸을 숙여 다가가고, 파란 정장의 김현율이 고개를 들어 웃으며 이마가 닿을 듯 마주 보고 있어요</p>
+  <a class="face-hit hit-dojin" href="dojin.html" tabindex="-1" aria-hidden="true" data-for="wDojin"></a>
+  <a class="face-hit hit-hyunyul" href="hyunyul.html" tabindex="-1" aria-hidden="true" data-for="wHyunyul"></a>
+
+  <main class="stage">
+    <h1 class="sr-only">창백한 푸른 점 — 서도진 × 김현율</h1>
+    <p class="lyric"><span class="sub">서도진 × 김현율</span><span class="ko">창백한 <em>푸른 점</em></span><span class="en" lang="en">Pale Blue Dot</span></p>
+    <a class="name dojin" href="dojin.html" data-world="dojin" id="wDojin" aria-label="NOVA — 서도진 캐릭터 보기"><span class="nm" lang="en">NOVA</span><small>서도진 · A급 센티넬</small></a>
+    <a class="name hyunyul" href="hyunyul.html" data-world="hyunyul" id="wHyunyul" aria-label="PULSE — 김현율 캐릭터 보기"><span class="nm" lang="en">Pulse</span><small>김현율 · S급 센티넬</small></a>
+  </main>
+
+  <!-- FEARLESS 공문: 겉으로는 센티넬 2인 협동 페어 지정, 별첨은 먹칠 (마우스를 올리거나 누르면 보여요) -->
+  <section class="notice-wrap" id="notice">
+    <div class="notice-grid">
+    <article class="notice" aria-labelledby="noticeTitle">
+      <header class="nt-head">
+        <p class="nt-org">FEARLESS</p>
+        <p class="nt-meta"><span>문서번호 FL-SS-0012</span><span>보존기간 영구</span><span class="nt-secret">대외비</span></p>
+      </header>
+
+      <h2 class="nt-title" id="noticeTitle">협동 페어 지정 통보</h2>
+
+      <dl class="nt-rows">
+        <div><dt>발신</dt><dd>FEARLESS 지부</dd></div>
+        <div><dt>제목</dt><dd>S급 센티넬–A급 센티넬 협동 페어 지정의 건</dd></div>
+      </dl>
+
+      <ol class="nt-body">
+        <li>귀하의 노고에 감사드립니다.</li>
+        <li>지부는 아래 인원을 <strong>공식 협동 페어</strong>로 지정하였음을 통보합니다.
+          <table class="nt-table">
+            <thead><tr><th scope="col">구분</th><th scope="col">코드네임</th><th scope="col">성명</th><th scope="col">등급</th></tr></thead>
+            <tbody>
+              <tr><td>센티넬</td><td class="nt-code">PULSE</td><td>김현율</td><td>S</td></tr>
+              <tr><td>센티넬</td><td class="nt-code">NOVA</td><td>서도진</td><td>A</td></tr>
+            </tbody>
+          </table>
+        </li>
+        <li>지정 사항
+          <ol class="nt-sub">
+            <li>두 센티넬은 현장 출동 시 함께 행동한다.</li>
+            <li>페어의 해제는 지부의 승인 없이 할 수 없다.</li>
+          </ol>
+        </li>
+        <li>별첨 <span class="nt-limit">열람 제한</span>
+          <p class="nt-annex"><span class="redact" tabindex="0">A급 센티넬 NOVA는 S급 센티넬 PULSE의 동향을 지부장에게 직접 보고한다.</span></p>
+        </li>
+      </ol>
+      <p class="nt-end">끝.</p>
+
+      <footer class="nt-foot">
+        <p class="nt-sign">FEARLESS 지부장 K
+          <span class="nt-stamp" id="ntStamp" aria-label="직인: FEARLESS 승인">
+            <svg viewBox="0 0 120 120" aria-hidden="true">
+              <defs>
+                <filter id="ink" x="-10%" y="-10%" width="120%" height="120%">
+                  <feTurbulence type="fractalNoise" baseFrequency=".9" numOctaves="2" seed="12" result="n"/>
+                  <feDisplacementMap in="SourceGraphic" in2="n" scale="3.2"/>
+                </filter>
+              </defs>
+              <g filter="url(#ink)" fill="none" stroke="currentColor">
+                <rect x="8" y="8" width="104" height="104" rx="6" stroke-width="5"/>
+                <rect x="16" y="16" width="88" height="88" rx="3" stroke-width="1.6"/>
+                <text x="60" y="52" text-anchor="middle" fill="currentColor" stroke="none" font-size="19" font-weight="700" letter-spacing="1">FEAR</text>
+                <text x="60" y="73" text-anchor="middle" fill="currentColor" stroke="none" font-size="19" font-weight="700" letter-spacing="1">LESS</text>
+                <text x="60" y="94" text-anchor="middle" fill="currentColor" stroke="none" font-size="13" font-weight="700" letter-spacing="3">승 인</text>
+              </g>
+            </svg>
+          </span>
+        </p>
+      </footer>
+    </article>
+
+    <!-- 공문 옆: 함께한 날과 두 사람의 메시지 (내용은 chat.js에서 고쳐요) -->
+    <aside class="side">
+      <div class="dday" aria-live="polite">
+        <p class="dd-num" id="ddNum">D+0</p>
+        <p class="dd-since" id="ddSince"></p>
+      </div>
+      <div class="chat" id="chat" aria-label="두 사람의 메시지 기록">
+        <p class="chat-head" id="chatHead"></p>
+        <div class="chat-log" id="chatLog"></div>
+      </div>
+    </aside>
+    </div>
+  </section>
+
+
+  <!-- 캐릭터에게 가기 전, 대사와 신원 확인 -->
+  <div class="scene" id="scene" tabindex="-1" role="dialog" aria-modal="true" aria-labelledby="sceneLine" hidden>
+    <div class="scene-light"></div>
+    <i class="scene-bar top"></i>
+    <i class="scene-bar bottom"></i>
+    <i class="flash"></i>
+    <div class="scene-body">
+      <p class="scene-line" id="sceneLine"></p>
+      <p class="scene-who" id="sceneWho"><span class="sign-bar"><i></i></span><span class="sign-text" id="signText"></span></p>
+    </div>
+    <p class="scene-skip">눌러서 넘기기</p>
+  </div>
+
+  <script src="chat.js"></script>
+  <script src="site.js"></script>
+  <!-- FL-OS 단말기: 오른쪽 아래 버튼 (내용은 flos-data.js에서 고쳐요) -->
+  <script src="flos-data.js"></script>
+  <script src="../../js/flos.js"></script>
+</body>
+</html>

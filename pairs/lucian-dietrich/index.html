@@ -1,0 +1,128 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Rosenberg — 루시안디트리히</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;1,500&family=Cormorant+SC:wght@500;600&family=Gowun+Batang:wght@400;700&display=swap">
+  <link rel="stylesheet" href="site.css">
+</head>
+<body class="closed">
+
+  <!-- 어두운 책상 위, 창가의 오후 햇살이 비스듬히 -->
+  <div class="desk" aria-hidden="true"></div>
+
+  <main class="stage">
+    <h1 class="sr-only">Rosenberg — 루시안 로젠베르크 × 디트리히 로젠베르크</h1>
+
+    <div class="book" id="book">
+      <div class="page left" id="pageL"></div>
+      <div class="page right" id="pageR"></div>
+
+      <!-- 표지: 앞면은 가죽과 금박, 뒷면은 마블링 면지 -->
+      <button class="cover" id="cover" type="button" aria-label="책 펼치기">
+        <span class="cv-face cv-front">
+          <span class="cv-frame"></span>
+          <span class="cv-crest" aria-hidden="true">
+            <svg viewBox="0 0 60 60"><g fill="none" stroke="currentColor" stroke-width="1.4"><circle cx="30" cy="30" r="26"/><circle cx="30" cy="30" r="21" stroke-dasharray="1.5 3"/><path d="M30 13c4 5 4 9 0 13-4-4-4-8 0-13Zm0 34c-4-5-4-9 0-13 4 4 4 8 0 13ZM13 30c5-4 9-4 13 0-4 4-8 4-13 0Zm34 0c-5 4-9 4-13 0 4-4 8-4 13 0Z"/><circle cx="30" cy="30" r="2.6" fill="currentColor"/></g></svg>
+          </span>
+          <span class="cv-title">Rosenberg</span>
+          <span class="cv-sub">루시안 × 디트리히</span>
+          <span class="cv-motto">천국도 지옥도 구하지 않는 연인들처럼</span>
+        </span>
+        <span class="cv-face cv-back"></span>
+      </button>
+    </div>
+
+    <nav class="pager" aria-label="책장 넘기기">
+      <button class="pg-btn" id="prev" type="button" aria-label="앞 장으로"><svg viewBox="0 0 12 20" aria-hidden="true"><path d="M10 2 2 10l8 8" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+      <span class="pg-no" id="pgNo" aria-live="polite"></span>
+      <button class="pg-btn" id="next" type="button" aria-label="다음 장으로"><svg viewBox="0 0 12 20" aria-hidden="true"><path d="m2 2 8 8-8 8" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+    </nav>
+    <p class="open-hint">표지를 눌러 펼쳐 보세요</p>
+  </main>
+
+  <!-- ───────── 책의 내용 ─────────
+       한 장(spread)마다 왼쪽 쪽(l)과 오른쪽 쪽(r)이 있어요. 순서대로 넘겨져요.
+       - 그림 쪽: <figure class="plate"> 안의 img만 바꾸면 돼요
+       - 글 쪽: 자유롭게 써도 돼요. data-to="숫자"는 그 장(0부터)으로 넘겨 주는 차례 링크예요 -->
+  <template id="spreads">
+    <section class="spread">
+      <div class="pg" data-side="l">
+        <figure class="plate">
+          <img src="../../assets/pairs/lucian-dietrich/cover.webp" alt="햇살 드는 창가, 군복 차림의 디트리히가 은발의 루시안을 안아 들고 이마를 맞대요" width="1216" height="832">
+          <figcaption>Pl. I</figcaption>
+        </figure>
+      </div>
+      <div class="pg title-page" data-side="r">
+        <p class="tp-title">Rosenberg</p>
+        <p class="tp-names">루시안 로젠베르크<span class="x">×</span>디트리히 로젠베르크</p>
+        <hr class="orn">
+        <p class="toc-head">차례</p>
+        <ol class="toc">
+          <li><a href="#" data-to="1">두 사람</a><span class="dots"></span><span class="no">I</span></li>
+          <li><a href="#" data-to="2">지난 겨울</a><span class="dots"></span><span class="no">II</span></li>
+          <li><a href="#" data-to="3">기록</a><span class="dots"></span><span class="no">III</span></li>
+        </ol>
+      </div>
+    </section>
+
+    <section class="spread">
+      <div class="pg" data-side="l">
+        <figure class="plate">
+          <img src="../../assets/pairs/lucian-dietrich/vow.webp" alt="붉은 소파에 앉은 루시안의 손등에, 안대를 한 디트리히가 무릎을 꿇고 입을 맞춰요" width="1216" height="832">
+          <figcaption>Pl. II</figcaption>
+        </figure>
+      </div>
+      <div class="pg" data-side="r">
+        <p class="ch-no">제1장</p>
+        <h2 class="ch-title">두 사람</h2>
+        <div class="duo">
+          <a class="duo-card" href="lucian.html" data-go>
+            <img src="../../assets/pairs/lucian-dietrich/lucian-now-card.webp" alt="" width="832" height="1216">
+            <b>루시안</b><small>Lucian Rosenberg</small>
+          </a>
+          <a class="duo-card" href="dietrich.html" data-go>
+            <img src="../../assets/pairs/lucian-dietrich/dietrich-now-card.webp" alt="" width="832" height="1216">
+            <b>디트리히</b><small>Dietrich Rosenberg</small>
+          </a>
+        </div>
+        <p class="body">두 사람의 이야기는 곧 이 쪽에 채워져요.</p>
+      </div>
+    </section>
+
+    <section class="spread">
+      <div class="pg" data-side="l">
+        <figure class="plate">
+          <img src="../../assets/pairs/lucian-dietrich/past.webp" alt="눈 내린 창밖, 털장갑을 낀 어린 루시안의 긴 은발을 금발의 디트리히가 웃으며 빗겨 줘요" width="1216" height="832">
+          <figcaption>Pl. III</figcaption>
+        </figure>
+      </div>
+      <div class="pg" data-side="r">
+        <p class="ch-no">제2장</p>
+        <h2 class="ch-title">지난 겨울</h2>
+        <p class="body drop">그 겨울의 이야기는 곧 이 쪽에 채워져요.</p>
+      </div>
+    </section>
+
+    <section class="spread">
+      <div class="pg" data-side="l">
+        <figure class="plate">
+          <img src="../../assets/pairs/lucian-dietrich/rest.webp" alt="오후 햇살 속, 소파에 기대 누운 루시안 곁에서 디트리히가 다리를 받쳐 안고 웃어요" width="1216" height="832">
+          <figcaption>Pl. IV</figcaption>
+        </figure>
+      </div>
+      <div class="pg" data-side="r">
+        <p class="ch-no">제3장</p>
+        <h2 class="ch-title">기록</h2>
+        <p class="body">두 사람의 기록은 곧 이 책에 이어져요.</p>
+        <hr class="orn end">
+      </div>
+    </section>
+  </template>
+
+  <script src="site.js"></script>
+</body>
+</html>

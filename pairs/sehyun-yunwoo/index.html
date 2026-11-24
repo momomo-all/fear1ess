@@ -1,0 +1,137 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>꿈에 카메라를 가져올 걸 — 세현윤우</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,opsz,wght@1,6..96,400&family=Syncopate:wght@700&family=Cormorant+Garamond:ital,wght@1,400&family=IBM+Plex+Mono:wght@400;500&family=Gowun+Batang:wght@400;700&family=Nanum+Myeongjo:wght@400;700;800&family=Nanum+Gothic+Coding:wght@400;700&display=swap">
+  <link rel="preload" as="image" href="../../assets/pairs/sehyun-yunwoo/bg.webp">
+  <link rel="stylesheet" href="site.css">
+</head>
+<body data-world="idle" class="opening">
+
+  <!-- 꿈속을 카메라 뷰파인더로 들여다봐요: 늘 초점이 살짝 나가 있고, 흰 꽃잎과 빛망울이 떠다녀요
+       두 사람 중 누구에게 닿으면 그 사람에게 초점이 딱 맞아요 -->
+  <div class="world" aria-hidden="true">
+    <img class="still" src="../../assets/pairs/sehyun-yunwoo/bg.webp" alt="" width="1216" height="832">
+    <div class="haze"></div>
+    <div class="tint"></div>
+    <div class="bloom"></div>
+    <div class="shade"></div>
+    <canvas class="air" id="air"></canvas>
+    <div class="hud">
+      <p class="hud-tl"><i class="rec"></i>REC <span class="tc" id="tc">00:00:00:00</span></p>
+      <p class="hud-af" id="afText">AF · SEARCHING</p>
+      <p class="hud-tr">F1.4 · 1/250 · ISO 100</p>
+      <span class="af"><i></i><i></i><i></i><i></i></span>
+    </div>
+  </div>
+
+  <p class="sr-only">흰 장미가 핀 햇살 속 정원, 긴 은발에 파란 리본을 묶은 한세현이 지윤우의 허리를 끌어안고 몸을 젖히고, 금발의 윤우는 그 얼굴에 이마를 맞대며 웃어요</p>
+  <a class="face-hit hit-sehyun" href="sehyun.html" tabindex="-1" aria-hidden="true" data-for="wSehyun"></a>
+  <a class="face-hit hit-yunwoo" href="yunwoo.html" tabindex="-1" aria-hidden="true" data-for="wYunwoo"></a>
+
+  <main class="stage">
+    <h1 class="sr-only">꿈에 카메라를 가져올 걸 — 한세현 × 지윤우</h1>
+    <p class="lyric"><span class="sub" lang="en">should've brought a camera</span><span class="ko">꿈에 <em>카메라</em>를 가져올 걸</span></p>
+    <a class="name sehyun" href="sehyun.html" data-world="sehyun" id="wSehyun" aria-label="X — 한세현 캐릭터 보기"><span class="nm"><svg class="xg" viewBox="0 0 100 100" aria-hidden="true"><g transform="skewX(-14) translate(14 0)" fill="none" stroke="currentColor" stroke-width="7" stroke-linecap="round"><path d="M22 34C34 22 52 28 52 52S38 86 20 80"/><path d="M84 30C68 22 52 30 52 52S66 82 82 74"/><circle cx="20" cy="36" r="5.5" fill="currentColor" stroke="none"/><circle cx="83" cy="73" r="5.5" fill="currentColor" stroke="none"/></g></svg></span><small>한세현 · S급 가이드</small></a>
+    <a class="name yunwoo" href="yunwoo.html" data-world="yunwoo" id="wYunwoo" aria-label="Sieg — 지윤우 캐릭터 보기"><span class="nm">SIEG</span><small>지윤우 · S급 센티넬</small></a>
+  </main>
+
+  <!-- FEARLESS 공문: S급 센티넬–가이드 전담 페어 지정 통보 (내려오면 직인이 쿵) -->
+  <section class="notice-wrap" id="notice">
+    <div class="notice-grid">
+    <article class="notice" aria-labelledby="noticeTitle">
+      <header class="nt-head">
+        <p class="nt-org">FEARLESS</p>
+        <p class="nt-meta"><span>문서번호 FL-SG-0014</span><span>보존기간 영구</span><span class="nt-secret">대외비</span></p>
+      </header>
+
+      <h2 class="nt-title" id="noticeTitle">전담 페어 지정 통보</h2>
+
+      <dl class="nt-rows">
+        <div><dt>발신</dt><dd>FEARLESS 지부</dd></div>
+        <div><dt>제목</dt><dd>S급 센티넬–가이드 전담 페어 지정의 건</dd></div>
+      </dl>
+
+      <ol class="nt-body">
+        <li>귀하의 노고에 감사드립니다.</li>
+        <li>지부는 아래 인원의 가이딩 적합도 검사 결과에 따라, 두 사람을 <strong>공식 전담 페어</strong>로 지정하였음을 통보합니다.
+          <table class="nt-table">
+            <thead><tr><th scope="col">구분</th><th scope="col">코드네임</th><th scope="col">성명</th><th scope="col">등급</th></tr></thead>
+            <tbody>
+              <tr><td>센티넬</td><td class="nt-code">SIEG</td><td>지윤우</td><td>S</td></tr>
+              <tr><td>가이드</td><td class="nt-code" aria-label="X"><svg class="xg" viewBox="0 0 100 100" aria-hidden="true"><g transform="skewX(-14) translate(14 0)" fill="none" stroke="currentColor" stroke-width="7" stroke-linecap="round"><path d="M22 34C34 22 52 28 52 52S38 86 20 80"/><path d="M84 30C68 22 52 30 52 52S66 82 82 74"/><circle cx="20" cy="36" r="5.5" fill="currentColor" stroke="none"/><circle cx="83" cy="73" r="5.5" fill="currentColor" stroke="none"/></g></svg></td><td>한세현</td><td>S</td></tr>
+            </tbody>
+          </table>
+        </li>
+        <li>지정 사항
+          <ol class="nt-sub">
+            <li>전담 가이드는 해당 센티넬의 출격 전후 가이딩을 전담한다.</li>
+            <li>전담 가이드는 센티넬 SIEG의 현장 출동 시 즉시 동행할 수 있도록 대기한다.</li>
+            <li>페어의 해제는 지부의 승인 없이 할 수 없다.</li>
+          </ol>
+        </li>
+      </ol>
+      <p class="nt-end">끝.</p>
+
+      <footer class="nt-foot">
+        <p class="nt-sign">FEARLESS 지부장 K
+          <span class="nt-stamp" id="ntStamp" aria-label="직인: FEARLESS 승인">
+            <svg viewBox="0 0 120 120" aria-hidden="true">
+              <defs>
+                <filter id="ink" x="-10%" y="-10%" width="120%" height="120%">
+                  <feTurbulence type="fractalNoise" baseFrequency=".9" numOctaves="2" seed="14" result="n"/>
+                  <feDisplacementMap in="SourceGraphic" in2="n" scale="3.2"/>
+                </filter>
+              </defs>
+              <g filter="url(#ink)" fill="none" stroke="currentColor">
+                <rect x="8" y="8" width="104" height="104" rx="6" stroke-width="5"/>
+                <rect x="16" y="16" width="88" height="88" rx="3" stroke-width="1.6"/>
+                <text x="60" y="52" text-anchor="middle" fill="currentColor" stroke="none" font-size="19" font-weight="700" letter-spacing="1">FEAR</text>
+                <text x="60" y="73" text-anchor="middle" fill="currentColor" stroke="none" font-size="19" font-weight="700" letter-spacing="1">LESS</text>
+                <text x="60" y="94" text-anchor="middle" fill="currentColor" stroke="none" font-size="13" font-weight="700" letter-spacing="3">승 인</text>
+              </g>
+            </svg>
+          </span>
+        </p>
+      </footer>
+    </article>
+
+    <!-- 공문 옆: 함께한 날과 두 사람의 메시지 (내용은 chat.js에서 고쳐요) -->
+    <aside class="side">
+      <div class="dday" aria-live="polite">
+        <p class="dd-num" id="ddNum">D+0</p>
+        <p class="dd-since" id="ddSince"></p>
+      </div>
+      <div class="chat" id="chat" aria-label="두 사람의 메시지 기록">
+        <p class="chat-head" id="chatHead"></p>
+        <div class="chat-log" id="chatLog"></div>
+      </div>
+    </aside>
+    </div>
+  </section>
+
+
+  <!-- 캐릭터에게 가기 전, 찰칵 → 대사와 신원 확인 -->
+  <div class="scene" id="scene" tabindex="-1" role="dialog" aria-modal="true" aria-labelledby="sceneLine" hidden>
+    <div class="scene-light"></div>
+    <i class="scene-bar top"></i>
+    <i class="scene-bar bottom"></i>
+    <i class="flash"></i>
+    <div class="scene-body">
+      <p class="scene-line" id="sceneLine"></p>
+      <p class="scene-who" id="sceneWho"><span class="sign-bar"><i></i></span><span class="sign-text" id="signText"></span></p>
+    </div>
+    <p class="scene-skip">눌러서 넘기기</p>
+  </div>
+
+  <script src="chat.js"></script>
+  <script src="site.js"></script>
+  <!-- FL-OS 단말기: 오른쪽 아래 버튼 (내용은 flos-data.js에서 고쳐요) -->
+  <script src="flos-data.js"></script>
+  <script src="../../js/flos.js"></script>
+</body>
+</html>

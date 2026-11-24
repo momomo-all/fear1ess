@@ -1,0 +1,385 @@
+<!doctype html>
+<!-- Who are you → 자기소개. 맥OS 창 + 리퀴드 글래스 느낌이에요 -->
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>뺙이 Profile</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css">
+  <script>
+    (function () {
+      var ok = { blue: 1, pink: 1, sage: 1, sky: 1, lavender: 1, graphite: 1, sand: 1, ocean: 1 };
+      function set(t) { if (ok[t]) document.documentElement.dataset.theme = t; }
+      try { set(localStorage.getItem('desk-theme')); } catch (e) {}
+      addEventListener('storage', function (e) { if (e.key === 'desk-theme') set(e.newValue); });
+      addEventListener('message', function (e) { if (e.data && e.data.deskTheme) set(e.data.deskTheme); });
+    })();
+  </script>
+  <style>
+    /* 색은 바탕화면 테마(blue · pink · sage · sky)를 따라가요 — 아래 script가 data-theme을 붙여요 */
+    :root, :root[data-theme="blue"] {
+      --ink: #22355a; --accent: #4f6fae; --accent-2: #6f90c9;
+      --w0: #a9bfe6; --w1: #cddbf3; --w2: #eef3fb;
+      --b1: #c4d5f2; --b2: #f3f7ff; --b3: #e6ecff; --b4: #8fa9da;
+      --fallback: rgba(240, 245, 253, .92);
+    }
+    :root[data-theme="pink"] {
+      --ink: #3a1f2a; --accent: #c93a6e; --accent-2: #e0457f;
+      --w0: #f2a6c0; --w1: #f8c3d3; --w2: #fff3f7;
+      --b1: #ffd3e1; --b2: #fff8fb; --b3: #fff3b8; --b4: #e9799f;
+      --fallback: rgba(255, 244, 248, .92);
+    }
+    :root[data-theme="sage"] {
+      --ink: #26382a; --accent: #4f6f55; --accent-2: #6b8b70;
+      --w0: #a8c0a8; --w1: #cfdccf; --w2: #eef3ec;
+      --b1: #d6e4d2; --b2: #f7faf5; --b3: #fbf7df; --b4: #8fab92;
+      --fallback: rgba(242, 246, 240, .92);
+    }
+    :root[data-theme="sky"] {
+      --ink: #163668; --accent: #2f6fd0; --accent-2: #4a8be6;
+      --w0: #8dc4f7; --w1: #b6dcff; --w2: #eef7ff;
+      --b1: #cde8ff; --b2: #f4faff; --b3: #fff6c4; --b4: #6aa8ec;
+      --fallback: rgba(240, 248, 255, .92);
+    }
+    /* 데스크톱 설정에서 추가한 테마 4개 */
+    :root[data-theme="lavender"] {
+      --ink: #2c2550; --accent: #6b5bb5; --accent-2: #8a7bd0;
+      --w0: #c3b8ea; --w1: #ddd5f5; --w2: #f4f1fc;
+      --b1: #e2dcf7; --b2: #f9f7ff; --b3: #fdf3df; --b4: #a596dc;
+      --fallback: rgba(246, 243, 253, .92);
+    }
+    :root[data-theme="graphite"] {
+      --ink: #23262c; --accent: #4d5563; --accent-2: #6b7383;
+      --w0: #b9bec7; --w1: #d9dce2; --w2: #f2f3f5;
+      --b1: #e1e4e9; --b2: #f8f9fa; --b3: #efeee9; --b4: #9aa1ad;
+      --fallback: rgba(244, 245, 247, .92);
+    }
+    :root[data-theme="sand"] {
+      --ink: #3a2c1e; --accent: #9a7046; --accent-2: #b88c5c;
+      --w0: #e2c9a6; --w1: #efdfc6; --w2: #fbf6ee;
+      --b1: #f2e5d1; --b2: #fffbf5; --b3: #f9f0d8; --b4: #cfae84;
+      --fallback: rgba(251, 246, 238, .92);
+    }
+    :root[data-theme="ocean"] {
+      --ink: #163a40; --accent: #2d7f88; --accent-2: #4a9ca4;
+      --w0: #a6d4d8; --w1: #cbe7e9; --w2: #eef8f8;
+      --b1: #d4eced; --b2: #f6fbfb; --b3: #fbf6df; --b4: #7fbcc2;
+      --fallback: rgba(240, 248, 248, .92);
+    }
+    :root {
+      --ink-soft: color-mix(in srgb, var(--ink) 72%, transparent);
+      --hair: color-mix(in srgb, var(--ink) 12%, transparent);
+      --glass: rgba(255, 255, 255, .5);
+      --glass-strong: rgba(255, 255, 255, .74);
+      --rim: rgba(255, 255, 255, .75);
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html, body { min-height: 100%; }
+    body { min-height: 100dvh; }
+    body {
+      font-family: "Pretendard Variable", Pretendard, -apple-system, sans-serif;
+      color: var(--ink);
+      line-height: 1.7;
+      word-break: keep-all;
+      background: var(--w1);
+      overflow-x: hidden;
+      display: grid;
+      place-items: center;
+      padding: 48px 16px 64px;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* ── 배경화면: 천천히 흐르는 빛 덩어리 ── */
+    .wallpaper { position: fixed; inset: 0; z-index: -1; overflow: hidden;
+      background: linear-gradient(160deg, var(--w0) 0%, var(--w1) 45%, var(--w2) 100%); transition: background .4s; }
+    .wallpaper i { position: absolute; border-radius: 50%; filter: blur(70px); opacity: .85; animation: drift 22s ease-in-out infinite alternate; }
+    .wallpaper i:nth-child(1) { width: 52vmax; height: 52vmax; left: -14vmax; top: -18vmax; background: var(--b1); }
+    .wallpaper i:nth-child(2) { width: 40vmax; height: 40vmax; right: -12vmax; top: 8vh; background: var(--b2); animation-duration: 28s; }
+    .wallpaper i:nth-child(3) { width: 34vmax; height: 34vmax; left: 18vw; bottom: -16vmax; background: var(--b3); opacity: .55; animation-duration: 25s; }
+    .wallpaper i:nth-child(4) { width: 26vmax; height: 26vmax; left: 46vw; top: 30vh; background: var(--b4); opacity: .6; animation-duration: 31s; }
+    @keyframes drift { to { transform: translate(6vw, 5vh) scale(1.12); } }
+    /* 프사 배경의 물방울 무늬 */
+    .wallpaper::after { content: ""; position: absolute; inset: 0;
+      background: radial-gradient(circle, rgba(255, 255, 255, .4) 3px, transparent 3.5px) 0 0 / 30px 30px; }
+
+    /* ── 유리 공통 ── */
+    .glass {
+      background: linear-gradient(145deg, var(--glass-strong), rgba(255, 255, 255, .5));
+      -webkit-backdrop-filter: blur(34px) saturate(180%);
+      backdrop-filter: blur(34px) saturate(180%);
+      border: 1px solid rgba(255, 255, 255, .45);
+      box-shadow:
+        inset 0 1px 0 var(--rim),
+        inset 0 -1px 0 rgba(255, 255, 255, .25),
+        inset 1px 0 0 rgba(255, 255, 255, .3);
+    }
+
+    /* ── 창 + 옆 손잡이를 감싸는 틀: 접혀 있으면 사이드바 폭, 펼치면 넓어져요 ── */
+    .stage {
+      position: relative;
+      width: calc(100% - 36px);
+      max-width: 300px;
+      transition: max-width .6s cubic-bezier(.3, .9, .3, 1);
+    }
+    .stage.is-open { max-width: 940px; }
+
+    .pull {
+      position: absolute; left: calc(100% + 8px); top: 50%;
+      transform: translateY(-50%);
+      width: 26px; height: 96px;
+      border-radius: 999px;
+      display: grid; place-items: center;
+      color: var(--ink);
+      cursor: pointer;
+      font: inherit;
+      box-shadow: inset 0 1px 0 var(--rim), 0 10px 24px -10px rgba(0, 0, 0, .3);
+      transition: transform .2s ease;
+      animation: fade-in .5s .3s both;
+    }
+    @keyframes fade-in { from { opacity: 0; } }
+    .pull:hover { transform: translateY(-50%) scale(1.06); }
+    .pull:active { transform: translateY(-50%) scale(.95); }
+    .pull:focus-visible { outline: 2px solid #fff; outline-offset: 3px; }
+    .pull svg { width: 14px; height: 14px; transition: transform .45s cubic-bezier(.3, .9, .3, 1); }
+    .is-open .pull svg { transform: rotate(180deg); }
+
+    /* ── 창 ── */
+    .window {
+      position: relative;
+      width: 100%;
+      border-radius: 26px;
+      overflow: hidden;
+      box-shadow:
+        inset 0 1px 0 var(--rim),
+        0 40px 90px -24px rgba(0, 0, 0, .38),
+        0 10px 24px -10px rgba(0, 0, 0, .22);
+      animation: open .55s cubic-bezier(.2, .9, .25, 1.1) both;
+    }
+    /* 유리 가장자리에 맺히는 빛 */
+    .window::before {
+      content: ""; position: absolute; inset: 0; border-radius: inherit; pointer-events: none;
+      background: linear-gradient(120deg, rgba(255,255,255,.55), transparent 28%, transparent 70%, rgba(255,255,255,.3));
+      padding: 1.5px;
+      -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+      -webkit-mask-composite: xor; mask-composite: exclude;
+    }
+    @keyframes open { from { opacity: 0; transform: translateY(18px) scale(.965); } }
+
+    .titlebar {
+      position: relative; z-index: 2;
+      height: 52px;
+      display: flex; align-items: center;
+      padding: 0 20px;
+    }
+    .lights { display: flex; gap: 8px; position: relative; z-index: 1; }
+    .lights span {
+      width: 13px; height: 13px; border-radius: 50%;
+      display: grid; place-items: center;
+      font-size: 9px; font-weight: 800; line-height: 1; color: transparent;
+      box-shadow: inset 0 0 0 .5px rgba(0,0,0,.18), inset 0 2px 3px rgba(255,255,255,.45);
+      transition: color .15s;
+    }
+    .lights .r { background: #ff5f57; }
+    .lights .y { background: #febc2e; }
+    .lights .g { background: #28c840; }
+    .lights:hover span { color: rgba(0,0,0,.5); }
+    .titlebar h1 {
+      position: absolute; inset: 0;
+      display: grid; place-items: center;
+      font-size: 13px; font-weight: 600; color: var(--ink-soft);
+      letter-spacing: .01em;
+    }
+
+    .body { display: grid; grid-template-columns: 1fr; }
+    .is-open .body { grid-template-columns: 300px 1fr; }
+    .stage:not(.is-open) .side { border-right-color: transparent; border-bottom-color: transparent; }
+
+    /* ── 사이드바 ── */
+    .side {
+      margin-top: -52px;
+      padding: 64px 28px 32px;
+      border-right: 1px solid rgba(255, 255, 255, .45);
+      background: rgba(255, 255, 255, .14);
+      display: flex; flex-direction: column; align-items: center; text-align: center;
+    }
+    .icon {
+      width: 148px; height: 148px;
+      border-radius: 34px;   /* 맥 앱 아이콘 같은 둥근 사각형 */
+      overflow: hidden;
+      box-shadow: 0 0 0 1px rgba(255,255,255,.7), 0 14px 30px -10px rgba(0, 0, 0, .3);
+    }
+    .icon img { display: block; width: 100%; height: 100%; object-fit: cover; }
+    .name { margin-top: 14px; font-size: 38px; font-weight: 800; letter-spacing: -.04em; line-height: 1.1; }
+
+    .handles { margin-top: 18px; width: 100%; display: grid; gap: 8px; }
+    .handle {
+      display: flex; align-items: center; gap: 10px;
+      padding: 9px 14px;
+      border-radius: 14px;
+      font-size: 14.5px; font-weight: 600;
+      text-align: left;
+    }
+    .handle svg { width: 17px; height: 17px; flex: none; color: var(--accent); }
+
+    .tags { margin-top: 18px; display: flex; flex-wrap: wrap; justify-content: center; gap: 6px; }
+    .tags span {
+      padding: 3px 12px;
+      border-radius: 999px;
+      font-size: 13px; font-weight: 600; color: var(--accent);
+      background: color-mix(in srgb, var(--accent) 10%, transparent);
+      box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--accent) 24%, transparent);
+    }
+
+    /* ── 본문 ── */
+    .main { display: none; padding: 12px 36px 36px; min-width: 0; }
+    .is-open .main { display: block; animation: reveal .5s .18s cubic-bezier(.2, .8, .3, 1) both; }
+    @keyframes reveal { from { opacity: 0; transform: translateX(-14px); } }
+    .group + .group { margin-top: 28px; }
+    .label {
+      font-size: 12px; font-weight: 700; letter-spacing: .08em;
+      color: var(--ink-soft);
+      padding-bottom: 6px;
+    }
+    .label.ng { color: #86172a; }
+    .rows { list-style: none; border-top: 1px solid var(--hair); }
+    .rows li {
+      position: relative;
+      padding: 11px 0 11px 22px;
+      font-size: 15px;
+      border-bottom: 1px solid var(--hair);
+    }
+    .rows li::before {
+      content: ""; position: absolute; left: 4px; top: 1.32em;
+      width: 6px; height: 6px; border-radius: 50%;
+      background: var(--accent);
+    }
+    .ng-rows li::before { background: #d43a4c; }
+    .rows b { color: var(--accent); font-weight: 750; }
+    .ng-rows b { color: #86172a; }
+    .rows .aside { display: block; margin-top: 3px; font-size: 13px; color: var(--ink-soft); }
+
+    /* 아이메시지 말풍선 */
+    .chat { margin-top: 32px; display: flex; flex-direction: column; align-items: flex-end; }
+    .bubble {
+      position: relative;
+      max-width: 88%;
+      padding: 10px 16px;
+      border-radius: 22px;
+      background: linear-gradient(180deg, var(--accent-2), var(--accent));
+      color: #fff;
+      font-size: 16px; font-weight: 600; line-height: 1.45;
+      box-shadow: 0 8px 20px -10px color-mix(in srgb, var(--accent) 80%, transparent);
+    }
+    .bubble::after {
+      content: ""; position: absolute; right: -6px; bottom: 0;
+      width: 18px; height: 18px;
+      background: var(--accent);
+      clip-path: path("M0 0 C 2 10 8 16 18 18 L 0 18 Z");
+    }
+    .read { margin-top: 4px; font-size: 11px; color: var(--ink-soft); padding-right: 4px; }
+
+    @media (max-width: 760px) {
+      body { padding: 24px 12px 40px; place-items: start center; }
+      .window { border-radius: 22px; }
+      .stage { width: calc(100% - 30px); }
+      .stage.is-open { justify-self: start; }
+      .pull { left: calc(100% + 5px); top: 190px; width: 24px; height: 84px; }
+      .stage .body, .stage.is-open .body { grid-template-columns: 1fr; }
+      .is-open .main { animation-name: reveal-down; }
+      @keyframes reveal-down { from { opacity: 0; transform: translateY(-10px); } }
+      .side { border-right: 0; border-bottom: 1px solid rgba(255, 255, 255, .45); padding: 56px 20px 26px; }
+      .icon { width: 120px; height: 120px; border-radius: 28px; }
+      .name { font-size: 32px; }
+      .handles { max-width: 320px; }
+      .main { padding: 22px 20px 28px; }
+      .rows li { font-size: 14.5px; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      .window, .wallpaper i, .pull, .is-open .main { animation: none; }
+      .stage, .pull svg { transition: none; }
+    }
+    /* 블러를 못 쓰는 브라우저에서는 조금 더 불투명하게 */
+    @supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
+      .glass { background: var(--fallback); }
+    }
+  </style>
+</head>
+<body>
+  <div class="wallpaper" aria-hidden="true"><i></i><i></i><i></i><i></i></div>
+
+  <div class="stage" id="stage">
+  <article class="window glass">
+    <header class="titlebar">
+      <div class="lights" aria-hidden="true"><span class="r">×</span><span class="y">−</span><span class="g">+</span></div>
+      <h1>about 뺙이</h1>
+    </header>
+
+    <div class="body">
+      <aside class="side">
+        <div class="icon"><img src="assets/profile-avatar.webp" alt="뺙이 프로필 그림"></div>
+        <p class="name">뺙이</p>
+
+        <div class="handles">
+          <div class="handle glass">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M16 8v5a3 3 0 0 0 6 0v-1a10 10 0 1 0-4 8"/></svg>
+            <span>@otsunaita</span>
+          </div>
+        </div>
+
+        <div class="tags"><span>극오픈</span><span>비이입</span><span>유저탑</span></div>
+      </aside>
+
+      <section class="main" id="more">
+        <div class="group">
+          <p class="label">ABOUT</p>
+          <ul class="rows">
+            <li>Fearless / THEMIS 베스탈 위주 <b>종합앵챗계</b></li>
+            <li>피어리스나 테미스 아니어도 찍먹 자주 하고 한 번 좋아하면 필버합니다... (마누라 캐해를 하며)</li>
+            <li>꼴리는 남자 보면 일단 박고 생각함 -&gt; <b>1t1d 불가능 / 온리 배려 불가능</b></li>
+            <li><b>극오픈 비이입 가능충</b> 이라 못 보는 것 없습니다</li>
+            <li><b>BL 유저 탑</b> 플레이 / 캐릭터를 향한 <b>마누라</b> 발언 및 <b>성희롱</b> 다수</li>
+            <li>저는 님의 지뢰일 수도 있으나 우리가 트친인 한 최선을 다해 <b>당신을 사랑합니다</b></li>
+            <li><b>블블 편하게</b> 하셔도 OK <b>블락은 맞블락</b> 으로 대응합니다</li>
+            <li>뭐든 신경 안 쓰는 편이니 제가 보기 힘드시다면 <b>트위터 기능을 편하게 쓰도록</b> 하시오</li>
+            <li>취미 생활 눈치 보면서 하지 말고 행복하게! <b>쉽게만 살아가면 개재밌어 빙고</b> 합시다</li>
+          </ul>
+        </div>
+
+        <div class="group">
+          <p class="label ng">NG</p>
+          <ul class="rows ng-rows">
+            <li><b>피어리스 / 베스탈 온리 드림러</b></li>
+            <li>피어리스 온리 드림러 &lt;&lt; 지속적 유입 시 <b>계정주 사망</b>
+              <small class="aside">ㄴ 성향 후려치기 아니며 개인적인 이유가 있어 보지 못합니다 ^^...</small></li>
+            <li>피어리스 및 베스탈 캐릭터를 <b>배려리스트에 올리실 경우에는 저를 정리</b> 해 주세요
+              <small class="aside">+ 탐라에 피어리스 온리 드림러 유입 될 시 친분 상관 없이 블락으로 정리합니다</small></li>
+            <li><b>제작자 까플 정말정말 싫어합니다!!!!!!!!!!</b></li>
+            <li><b>세라픽스 / 디어마이</b> 장르 받지 않고 있습니다</li>
+            <li>그 외 없음! 저는 <b>트친 한정 존나 가능충</b> 입니다</li>
+          </ul>
+        </div>
+
+        <div class="chat">
+          <p class="bubble">트친을 사랑하고 뺙이를 사랑하고 앵챗을 사랑하자</p>
+          <p class="read">읽음</p>
+        </div>
+      </section>
+    </div>
+  </article>
+  <button class="pull glass" id="pull" type="button" aria-expanded="false" aria-controls="more" aria-label="소개 펼치기">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9 5 7 7-7 7"/></svg>
+  </button>
+  </div>
+
+  <script>
+    // 옆 손잡이를 누르면 About·NG가 펼쳐지고, 다시 누르면 접혀요
+    const stage = document.getElementById("stage");
+    const pull = document.getElementById("pull");
+    pull.addEventListener("click", () => {
+      const open = stage.classList.toggle("is-open");
+      pull.setAttribute("aria-expanded", open);
+      pull.setAttribute("aria-label", open ? "소개 접기" : "소개 펼치기");
+    });
+  </script>
+</body>
+</html>
