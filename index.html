@@ -1071,6 +1071,8 @@ async function ytLyrics(t) {
   let lines = own && own.length ? own : await fetchLrc(t);
   // lrcShift: 영상에 인트로가 있어서 가사가 일찍 넘어가면, 가사 시간을 통째로 그만큼(초) 미뤄요
   if (t.lrcShift && !(own && own.length)) lines = lines.map(l => typeof l.t === 'number' ? { ...l, t: l.t + t.lrcShift } : l);
+  // lrcAt: 특정 줄만 영상 시간(초)을 콕 집어 정해요. { 줄 번호: 초 }
+  if (t.lrcAt && !(own && own.length)) lines = lines.map((l, i) => i in t.lrcAt ? { ...l, t: t.lrcAt[i] } : l);
   if (tok !== lyrTok) return;          // 그사이 다른 곡으로 넘어갔으면 버려요
   // data/lyrics-ko.js에 번역이 있으면 원문이 같은 줄 아래에 붙여요
   const ko = (window.LYRICS_KO || {})[ytId(t.url)];
