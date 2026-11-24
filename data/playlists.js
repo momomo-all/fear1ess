@@ -66,6 +66,11 @@ window.PLAYLISTS = {
       { title: 'Go away', artist: 'TRPP', url: 'https://youtu.be/_ExMkEEh-RA' },
     ],
   },
+  'raphael-serena': {
+    tracks: [
+      { title: 'Young and Beautiful', artist: 'Lana Del Rey', url: 'https://youtu.be/Te11UaHOHMQ', lrcId: 7774503 },
+    ],
+  },
   'juho-jaehyung': {
     tracks: [
       { title: 'Closer (ft. Halsey)', artist: 'The Chainsmokers', url: 'https://youtu.be/cjiRUCcTWYE', line: '우린 영원히 그때 그대로일 거야' },
@@ -75,6 +80,12 @@ window.PLAYLISTS = {
   'uyeon-suho': {
     tracks: [
       { title: 'DAISIES', artist: 'Justin Bieber', url: 'https://youtu.be/msGuqelopMA', lrcId: 30348638 },
+    ],
+  },
+  'anhwa-yujun': {
+    tracks: [
+      { title: '今日の日はさようなら', artist: 'Megumi Hayashibara', url: 'https://youtu.be/COw1pRQrTOo', lrcId: 8379571 },
+      { title: '추억 속의 그대', artist: 'dossi', url: 'https://youtu.be/o3IZhn2O_aM' },
     ],
   },
   'taeo-banhee': {

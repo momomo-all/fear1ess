@@ -41,6 +41,8 @@ window.PAIRS = [
   { id: 'uju-hajin', title: '우주하진', tagline: '고양이 우주 정복 노트!', chars: ['온우주', '연하진'], color: '#24306b' },
   // 천우연(내 캐릭터) x 강수호(캐치) — 코드네임 페탈 · 캐치
   { id: 'uyeon-suho', title: '우연수호', tagline: '연주된 적 없는 에튀드', chars: ['천우연', '강수호'], codes: ['PETAL', '페탈', 'CATCH', '캐치'], color: '#e7a1a6' },
+  // 피안화(내 캐릭터, 작중 이름 안화) x 한유준(크러쉬)
+  { id: 'anhwa-yujun', title: '안화유준', tagline: '추억 속의 그대', chars: ['피안화', '한유준'], codes: ['CRUSH', '크러쉬', '안화'], color: '#a3b8c8' },
   { id: 'chanyang-sion', title: '찬양시온', tagline: '처음과 같이\n이제와 항상 영원히', chars: ['백찬양', '하시온'], codes: ['DIVINE', '디바인', 'BANG', '뱅'], color: '#c9a45c' },
 ];
 
