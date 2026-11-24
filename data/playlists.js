@@ -53,6 +53,12 @@ window.PLAYLISTS = {
       { title: '怪獣の花唄', artist: 'Vaundy', url: 'https://youtu.be/ENQANfv2ANQ', lrcId: 24720751 },
     ],
   },
+  'yunje-ijae': {
+    tracks: [
+      { title: 'Je te laisserai des mots', artist: 'Patrick Watson', url: 'https://youtu.be/XZfyyk0_Yqs', lrcId: 7592384 },
+      { title: 'Do It Again', artist: 'Sydney Ross Mitchell', url: 'https://youtu.be/oIPzreHewY4' },
+    ],
+  },
   'hwi-hyunwoo': {
     tracks: [
       { title: 'a Joke', artist: 'TRPP', url: 'https://youtu.be/qK_UwoNhH2E' },
@@ -73,8 +79,8 @@ window.PLAYLISTS = {
   },
   'taeo-banhee': {
     tracks: [
-      { title: 'Dandelions', artist: 'Ruth B.', url: 'https://youtu.be/W8a4sUabCUo' },
-      { title: 'My Love Mine All Mine', artist: 'Mitski', url: 'https://youtu.be/CwGbMYLjIpQ' },
+      { title: 'Dandelions', artist: 'Ruth B.', url: 'https://youtu.be/W8a4sUabCUo', lrcId: 7223798 },
+      { title: 'My Love Mine All Mine', artist: 'Mitski', url: 'https://youtu.be/CwGbMYLjIpQ', lrcId: 7366803 },
       { title: 'うたのけはい', artist: 'Ichiko Aoba', url: 'https://youtu.be/79OrYwtn1GQ', lrcId: 889825 },
     ],
   },
@@ -82,7 +88,7 @@ window.PLAYLISTS = {
     tracks: [
       { title: '너의 궤도', artist: 'dossi', url: 'https://youtu.be/3JeNVo6wxaw' },
       { title: 'ブルー', artist: 'indrop (feat. vallyutaite)', url: 'https://youtu.be/ZnwbiJR_488', line: '이렇게나 아름다운 하늘인데 나만이 이곳에 홀로' },
-      { title: '飛行船', artist: '優里', url: 'https://youtu.be/38xNKy9e-0A', lrcId: 16173399, lrcShift: 12.5 },
+      { title: '飛行船', artist: '優里', url: 'https://youtu.be/8EF-3BDP6bE', lrcId: 16173399 },
       { title: 'パレード', artist: 'ヨルシカ', url: 'https://youtu.be/RoBOoFgdlvU', lrcId: 9098176, lrcShift: -2.3, lrcSkip: [23], lrcAt: { 22: 258 } },
     ],
   },
