@@ -1057,7 +1057,12 @@ async function ytLyrics(t) {
   const ko = (window.LYRICS_KO || {})[ytId(t.url)];
   const fromLrc = lines.length > 0;
   if (ko && ko.length) {
-    if (fromLrc) {
+    if (fromLrc && typeof ko[0][0] === 'number') {
+      // [줄 번호, 번역] 방식: lrclib 가사의 그 줄(과 같은 글자로 반복되는 줄)에 번역을 붙여요
+      const key = s => (s || '').toLowerCase().replace(/[^\p{L}\p{N}]+/gu, '');
+      const map = new Map(ko.filter(([i]) => lines[i]).map(([i, k]) => [key(lines[i].jp), k]));
+      lines = lines.map(l => ({ ...l, ko: l.ko || map.get(key(l.jp)) || '' }));
+    } else if (fromLrc) {
       // 괄호 속 코러스는 빼고 비교 (단, 줄 전체가 괄호면 안쪽 글자로)
       const norm = s => { const b = (s || '').toLowerCase(), n = b.replace(/[(（].*?[)）]/g, '').replace(/[^\p{L}\p{N}]+/gu, ''); return n || b.replace(/[^\p{L}\p{N}]+/gu, ''); };
       const pairs = ko.map(([en, k]) => [norm(en), k]), map = new Map(pairs);
@@ -1068,7 +1073,14 @@ async function ytLyrics(t) {
   const timed = lines.every(l => typeof l.t === 'number');
   renderLyr(t, lines);
   $('#lyr').classList.toggle('static', !timed);
-  if (timed) lyrTimer = setInterval(() => { if (yt && yt.getCurrentTime) syncLyr(yt.getCurrentTime()); }, 250);
+  // 광고가 나오는 동안엔 플레이어가 광고 길이·시간을 알려줘요 → 영상이 마지막 가사보다 짧으면 광고로 보고 가사는 멈춰 둬요
+  const lastT = lines[lines.length - 1].t;
+  if (timed) lyrTimer = setInterval(() => {
+    if (!yt || !yt.getCurrentTime) return;
+    const dur = yt.getDuration ? yt.getDuration() : 0;
+    if (dur > 0 && dur < lastT) return;
+    syncLyr(yt.getCurrentTime());
+  }, 250);
 }
 aud.addEventListener('timeupdate', () => { if (lyrMode === 'audio') syncLyr(aud.currentTime); });
 function syncLyr(sec) {

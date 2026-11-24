@@ -22,7 +22,7 @@
 window.PLAYLISTS = {
   'sawol-jaehun': {
     tracks: [
-      { title: 'i think of you the most', artist: 'yung kai', url: 'https://youtu.be/RAvFybdrPpo' },
+      { title: 'i think of you the most', artist: 'yung kai', url: 'https://youtu.be/RAvFybdrPpo', lrcId: 38199818 },
       { title: 'Fantasy', artist: 'khai dreams', url: 'https://youtu.be/vysjRahYFz0' },
       { title: 'DAISIES', artist: 'Justin Bieber', url: 'https://youtu.be/msGuqelopMA' },
       { title: 'blue', artist: 'yung kai', url: 'https://youtu.be/98zHKN-xSHk' },
@@ -47,7 +47,6 @@ window.PLAYLISTS = {
     tracks: [
       { title: '言えない秘密', artist: 'Original Theme', src: 'assets/pairs/kangwoo-junhee/theme.mp3', lyrics: 'kangwoo-junhee' },
       { title: '幽霊', artist: 'odol', url: 'https://youtu.be/9vILjuCHGwA' },
-      { title: 'うたのけはい', artist: 'Ichiko Aoba', url: 'https://youtu.be/79OrYwtn1GQ', lrcId: 889825 },
       { title: '恋煩い', artist: 'Ryukku to Soine Gohan', url: 'https://youtu.be/knQvHmpq0jM', lrcArtist: 'リュックと添い寝ごはん' },
       { title: '怪獣の花唄', artist: 'Vaundy', url: 'https://youtu.be/ENQANfv2ANQ', lrcId: 24720751 },
     ],
@@ -69,6 +68,7 @@ window.PLAYLISTS = {
     tracks: [
       { title: 'Dandelions', artist: 'Ruth B.', url: 'https://youtu.be/W8a4sUabCUo' },
       { title: 'My Love Mine All Mine', artist: 'Mitski', url: 'https://youtu.be/CwGbMYLjIpQ' },
+      { title: 'うたのけはい', artist: 'Ichiko Aoba', url: 'https://youtu.be/79OrYwtn1GQ', lrcId: 889825 },
     ],
   },
   'doha-hanseong': {
