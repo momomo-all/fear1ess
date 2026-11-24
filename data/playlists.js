@@ -23,9 +23,8 @@ window.PLAYLISTS = {
   'sawol-jaehun': {
     tracks: [
       { title: 'i think of you the most', artist: 'yung kai', url: 'https://youtu.be/RAvFybdrPpo', lrcId: 38199818 },
-      { title: 'Fantasy', artist: 'khai dreams', url: 'https://youtu.be/vysjRahYFz0' },
-      { title: 'DAISIES', artist: 'Justin Bieber', url: 'https://youtu.be/msGuqelopMA' },
-      { title: 'blue', artist: 'yung kai', url: 'https://youtu.be/98zHKN-xSHk' },
+      { title: 'Fantasy', artist: 'khai dreams', url: 'https://youtu.be/vysjRahYFz0', lrcId: 2158310 },
+      { title: 'blue', artist: 'yung kai', url: 'https://youtu.be/98zHKN-xSHk', lrcId: 30984601 },
     ],
   },
   'sehyun-yunwoo': {
@@ -54,7 +53,7 @@ window.PLAYLISTS = {
   'hwi-hyunwoo': {
     tracks: [
       { title: 'a Joke', artist: 'TRPP', url: 'https://youtu.be/qK_UwoNhH2E' },
-      { title: 'Duvet', artist: 'Boa', url: 'https://youtu.be/adtntJCreYE' },
+      { title: 'Duvet', artist: 'Boa', url: 'https://youtu.be/adtntJCreYE', lrcId: 7964863 },
       { title: 'Go away', artist: 'TRPP', url: 'https://youtu.be/_ExMkEEh-RA' },
     ],
   },
@@ -62,6 +61,11 @@ window.PLAYLISTS = {
     tracks: [
       { title: 'Closer (ft. Halsey)', artist: 'The Chainsmokers', url: 'https://youtu.be/cjiRUCcTWYE', line: '우린 영원히 그때 그대로일 거야' },
       { title: 'Run It', artist: 'Midnight Kids', url: 'https://youtu.be/uYbT05fIdhY', lrcId: 35153640 },
+    ],
+  },
+  'uyeon-suho': {
+    tracks: [
+      { title: 'DAISIES', artist: 'Justin Bieber', url: 'https://youtu.be/msGuqelopMA', lrcId: 30348638 },
     ],
   },
   'taeo-banhee': {
