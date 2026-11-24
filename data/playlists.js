@@ -29,7 +29,7 @@ window.PLAYLISTS = {
   },
   'sehyun-yunwoo': {
     tracks: [
-      { title: 'LOVE YOU LESS', artist: 'Joji', url: 'https://youtu.be/fuz9LP4tP4g' },
+      { title: 'LOVE YOU LESS', artist: 'Joji', url: 'https://youtu.be/fuz9LP4tP4g', lrcId: 31960875 },
       { title: 'over', artist: 'quiet morning', url: 'https://youtu.be/-pNE7nG-nKA' },
       { title: '꿈에 카메라를 가져올걸', artist: '꿈에 카메라를 가져올걸', url: 'https://youtu.be/5oekhGIANSs' },
     ],
