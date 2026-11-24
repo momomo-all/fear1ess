@@ -88,6 +88,11 @@ window.PLAYLISTS = {
       { title: '추억 속의 그대', artist: 'dossi', url: 'https://youtu.be/o3IZhn2O_aM' },
     ],
   },
+  'chanyang-sion': {
+    tracks: [
+      { title: '美しい鰭', artist: 'Spitz', url: 'https://youtu.be/n2m9ebS3tEo', lrcId: 16571773 },
+    ],
+  },
   'taeo-banhee': {
     tracks: [
       { title: 'Dandelions', artist: 'Ruth B.', url: 'https://youtu.be/W8a4sUabCUo', lrcId: 7223798 },
