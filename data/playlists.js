@@ -87,8 +87,8 @@ window.PLAYLISTS = {
   'doha-hanseong': {
     tracks: [
       { title: '너의 궤도', artist: 'dossi', url: 'https://youtu.be/3JeNVo6wxaw' },
-      { title: 'ブルー', artist: 'indrop (feat. vallyutaite)', url: 'https://youtu.be/ZnwbiJR_488', line: '이렇게나 아름다운 하늘인데 나만이 이곳에 홀로' },
       { title: '飛行船', artist: '優里', url: 'https://youtu.be/8EF-3BDP6bE', lrcId: 16173399 },
+      { title: 'ブルー', artist: 'indrop (feat. vallyutaite)', url: 'https://youtu.be/ZnwbiJR_488', line: '이렇게나 아름다운 하늘인데 나만이 이곳에 홀로' },
       { title: 'パレード', artist: 'ヨルシカ', url: 'https://youtu.be/RoBOoFgdlvU', lrcId: 9098176, lrcShift: -2.3, lrcSkip: [23], lrcAt: { 22: 258 } },
     ],
   },
