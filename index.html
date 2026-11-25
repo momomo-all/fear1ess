@@ -446,8 +446,14 @@ body.dragging iframe { pointer-events: none; }
 .lyr.beside { right: 326px; }
 @media (max-width: 700px) { .lyr.beside { right: 16px; bottom: 296px; width: 300px; } .lyr.beside .lyr-body { height: 200px; padding: 70px 18px 100px; } }
 .lyr .pip-bar { grid-template-columns: minmax(0, 1fr) auto auto; gap: 2px; }
+/* 오른쪽 아래 모서리 손잡이: 끌어서 가사창 크기 바꾸기 (넓은 화면 + 마우스에서만) */
+.lyr-grip { position: absolute; right: 0; bottom: 0; width: 18px; height: 18px; cursor: nwse-resize; touch-action: none; opacity: .45; transition: opacity .2s; background: linear-gradient(135deg, transparent 0 52%, currentColor 52% 58%, transparent 58% 70%, currentColor 70% 76%, transparent 76%); }
+.lyr-grip:hover, body.resizing .lyr-grip { opacity: .9; }
+body.resizing, body.resizing * { user-select: none; -webkit-user-select: none; cursor: nwse-resize !important; }
+body.resizing iframe { pointer-events: none; }
+@media not all and (pointer: fine) and (min-width: 761px) { .lyr-grip { display: none; } }
 
-.lyr-body { height: 300px; margin: 0; padding: 120px 18px 150px; list-style: none; overflow-y: auto; scrollbar-width: none; -webkit-mask-image: linear-gradient(180deg, transparent 0, #000 22%, #000 74%, transparent 100%); mask-image: linear-gradient(180deg, transparent 0, #000 22%, #000 74%, transparent 100%); }
+.lyr-body { height: var(--lyr-h, 300px); margin: 0; padding: calc(var(--lyr-h, 300px) * .4) 18px calc(var(--lyr-h, 300px) * .5); list-style: none; overflow-y: auto; scrollbar-width: none; -webkit-mask-image: linear-gradient(180deg, transparent 0, #000 22%, #000 74%, transparent 100%); mask-image: linear-gradient(180deg, transparent 0, #000 22%, #000 74%, transparent 100%); }
 .lyr-body::-webkit-scrollbar { display: none; }
 .lyr-body li { padding: 7px 0; opacity: .34; cursor: pointer; transition: opacity .35s var(--ease), transform .35s var(--ease); transform-origin: 0 50%; }
 .lyr-body li:hover { opacity: .6; }
@@ -674,7 +680,7 @@ body.dragging iframe { pointer-events: none; }
 </section>
 
 <div class="pip" id="pip" hidden aria-label="재생 중"><div class="pip-bar"><span id="pipT"></span><button id="pipX" aria-label="재생 멈추기">×</button></div><div class="pip-v"><div id="pipYT"></div></div></div>
-<div class="pip lyr" id="lyr" hidden aria-label="가사"><div class="pip-bar"><span id="lyrT"></span><button id="lyrP" aria-label="일시 정지"><svg viewBox="0 0 12 12" width="10" height="10" fill="currentColor"><rect x="2.5" y="2" width="2.4" height="8" rx=".6"/><rect x="7.1" y="2" width="2.4" height="8" rx=".6"/></svg></button><button id="lyrX" aria-label="재생 멈추기">×</button></div><ol class="lyr-body" id="lyrB"></ol></div>
+<div class="pip lyr" id="lyr" hidden aria-label="가사"><div class="pip-bar"><span id="lyrT"></span><button id="lyrP" aria-label="일시 정지"><svg viewBox="0 0 12 12" width="10" height="10" fill="currentColor"><rect x="2.5" y="2" width="2.4" height="8" rx=".6"/><rect x="7.1" y="2" width="2.4" height="8" rx=".6"/></svg></button><button id="lyrX" aria-label="재생 멈추기">×</button></div><ol class="lyr-body" id="lyrB"></ol><i class="lyr-grip" id="lyrG" aria-hidden="true"></i></div>
 <div class="msgn" id="msgN" role="status"><span class="av" id="msgAv"></span><span><span class="hd"><span>메시지</span><span>지금</span></span><b id="msgFrom"></b><p id="msgTx"></p></span></div>
 <div class="banner" id="banner" role="status"><span class="ic"><svg class="" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 17.5V6.5l10-2.2v11"/><circle cx="6.8" cy="17.5" r="2.4"/><circle cx="16.8" cy="15.3" r="2.4"/></svg></span><span class="tx"><b id="bnT">뺙이</b><span id="bnM"></span></span></div>
 
@@ -1285,6 +1291,46 @@ $('#plNext').onclick = () => stepTrack(1);
     }
     if (el) start(e, el);
   }, true);
+})();
+// 가사창 크기 바꾸기: 오른쪽 아래 손잡이를 끌면 창만 커지고 작아져요 (글자 크기는 그대로, 더 많은 줄이 보여요)
+// 창은 화면 오른쪽 아래에 붙어 있어서, 커진 만큼 translate로 밀어 왼쪽 위 모서리를 제자리에 둬요
+// 정한 크기는 localStorage 'fl-lyr-size'에 기억해요
+(function lyrResize() {
+  const desk = matchMedia('(pointer: fine) and (min-width: 761px)');
+  const w = $('#lyr'), b = $('#lyrB'), KEY = 'fl-lyr-size';
+  const MIN_W = 260, MIN_H = 140;
+  const fit = (cw, ch) => [
+    Math.round(Math.min(Math.max(cw, MIN_W), innerWidth - 32)),
+    Math.round(Math.min(Math.max(ch, MIN_H), innerHeight - 160)),
+  ];
+  function apply(cw, ch) { w.style.width = cw + 'px'; w.style.setProperty('--lyr-h', ch + 'px'); }
+  function restore() {
+    if (!desk.matches) { w.style.width = ''; w.style.removeProperty('--lyr-h'); return; }
+    try { const s = JSON.parse(localStorage.getItem(KEY)); if (s && s.w && s.h) apply(...fit(s.w, s.h)); } catch (e) {}
+  }
+  restore();
+  desk.addEventListener('change', restore);
+  $('#lyrG').addEventListener('pointerdown', e => {
+    if (!desk.matches || e.button !== 0) return;
+    e.preventDefault(); e.stopPropagation();
+    const sx = e.clientX, sy = e.clientY, w0 = w.offsetWidth, h0 = b.offsetHeight;
+    const [tx, ty] = (w.style.translate || '').split(' ').map(v => parseFloat(v) || 0);
+    let cw = w0, ch = h0;
+    document.body.classList.add('resizing');
+    const mv = ev => {
+      [cw, ch] = fit(w0 + ev.clientX - sx, h0 + ev.clientY - sy);
+      apply(cw, ch);
+      w.style.translate = `${tx + cw - w0}px ${ty + ch - h0}px`;
+    };
+    const up = () => {
+      removeEventListener('pointermove', mv); removeEventListener('pointerup', up); removeEventListener('pointercancel', up);
+      document.body.classList.remove('resizing');
+      try { localStorage.setItem(KEY, JSON.stringify({ w: cw, h: ch })); } catch (e) {}
+      const li = b.querySelector('li.on');   // 지금 부르는 줄이 다시 가운데쯤 오게
+      if (li) b.scrollTo({ top: li.offsetTop - b.clientHeight * .4 });
+    };
+    addEventListener('pointermove', mv); addEventListener('pointerup', up); addEventListener('pointercancel', up);
+  });
 })();
 function stopAll() {
   if (yt && yt.stopVideo) yt.stopVideo();

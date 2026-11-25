@@ -40,14 +40,14 @@ window.PLAYLISTS = {
   },
   'becker-dohwan': {
     tracks: [
-      { title: 'Heart With Your Name On It', artist: 'New Medicine', url: 'https://youtu.be/5CMmddl5d8k', lrcId: 4190065, lrcFix: { 9: 'Hooking up and having fun', 13: 'When you wallow me off on Friday night', 21: 'Hooking up and having fun', 33: 'Hooking up and having fun' }, lrcSkip: [14] },
+      { title: 'Heart With Your Name On It', artist: 'New Medicine', url: 'https://youtu.be/5CMmddl5d8k', lrcId: 4190065, lrcFix: { 9: 'Hooking up and having fun', 13: 'When you wallow me off on Friday night', 21: 'Hooking up and having fun', 33: 'Hooking up and having fun' }, lrcSkip: [14], line: '내 심장에 네 이름이 박혀 있는 것 같아' },
     ],
   },
   'yuwon-jaehyun': {
     tracks: [
-      { title: "Kiki's Song", artist: 'Mree', url: 'https://youtu.be/hC3Sl6Un9L0', lrcId: 38297251 },
+      { title: "Kiki's Song", artist: 'Mree', url: 'https://youtu.be/hC3Sl6Un9L0', lrcId: 38297251, line: '마치 어느 여름날의 꿈속에서 흩날리던 나뭇잎처럼' },
       { title: '夢うつつ', artist: 'Lamp', url: 'https://youtu.be/AJdTBPuZkHU', lrcId: 16570704 },
-      { title: '月の丘', artist: '青葉市子', url: 'https://youtu.be/ske5X_BLr1I', lrcId: 37792390 },
+      { title: '月の丘', artist: '青葉市子', url: 'https://youtu.be/ske5X_BLr1I', lrcId: 37792390, line: '비가 눈물처럼 그 아이의 눈에\n영원을 거스르며 살아온 걸까' },
     ],
   },
   // 테마곡(mp3)은 사이트 안에서 바로 재생되고, data/lyrics.js에 가사가 있으면 가사창이 떠요
@@ -68,17 +68,17 @@ window.PLAYLISTS = {
   },
   'yunje-ijae': {
     tracks: [
-      { title: 'Je te laisserai des mots', artist: 'Patrick Watson', url: 'https://youtu.be/XZfyyk0_Yqs', lrcId: 7592384, line: '그대 발걸음이 지나간 자리 근처에서 겨울 시간의 틈새에 숨겨둔 채' },
+      { title: 'Je te laisserai des mots', artist: 'Patrick Watson', url: 'https://youtu.be/XZfyyk0_Yqs', lrcId: 7592384, line: '그대 발걸음이 지나간 자리 근처에서\n겨울 시간의 틈새에 숨겨둔 채' },
       { title: 'Do It Again', artist: 'Sydney Ross Mitchell', url: 'https://youtu.be/oIPzreHewY4', line: '금방 깨질 것처럼 조심스럽게 날 만져줘\n도자기처럼 혹은 날개가 부러진 새처럼' },
     ],
   },
   'hwi-hyunwoo': {
     tracks: [
-      { title: '챠우챠우', artist: '델리스파이스', url: 'https://youtu.be/wecpRs9p00E', lrcId: 38991356 },
+      { title: '챠우챠우', artist: '델리스파이스', url: 'https://youtu.be/wecpRs9p00E', lrcId: 38991356, line: '아무리 애를 쓰고 막아보려 하는데도' },
       { title: 'a Joke', artist: 'TRPP', url: 'https://youtu.be/qK_UwoNhH2E', line: '밖을 봐 우리가 없어 정말 재미없는 농담이지' },
       { title: 'Duvet', artist: 'Boa', url: 'https://youtu.be/adtntJCreYE', lrcId: 7964863, line: '넌 내가 널 상처 입힐 생각이 없다는 걸 알잖아' },
       { title: 'Go away', artist: 'TRPP', url: 'https://youtu.be/_ExMkEEh-RA', line: '용감하지 못한 울음은 참아내야 하네 이해할 수 없는 걸' },
-      { title: '시간을 달리네', artist: '한로로', url: 'https://youtu.be/zIA9Z_UxQL8' },
+      { title: '시간을 달리네', artist: '한로로', url: 'https://youtu.be/zIA9Z_UxQL8', line: '아무도 모를 추억 틈에 너와 내가 있어' },
     ],
   },
   'raphael-serena': {
