@@ -1317,9 +1317,11 @@ $('#plNext').onclick = () => stepTrack(1);
     const sx = e.clientX, sy = e.clientY, w0 = w.offsetWidth, h0 = b.offsetHeight;
     const [x0, y0] = (w.style.translate || '').split(' ').map(parseFloat), tx = x0 || 0, ty = y0 || 0;
     let cw = w0, ch = h0;
+    // 왼쪽 위 모서리는 그대로라, 화면 오른쪽 · 아래 끝까지만 늘어나요
+    const r = w.getBoundingClientRect(), maxW = innerWidth - r.left - 8, maxH = innerHeight - r.top - (r.height - h0) - 8;
     document.body.classList.add('resizing');
     const mv = ev => {
-      [cw, ch] = fit(w0 + ev.clientX - sx, h0 + ev.clientY - sy);
+      [cw, ch] = fit(Math.min(w0 + ev.clientX - sx, maxW), Math.min(h0 + ev.clientY - sy, maxH));
       apply(cw, ch);
       w.style.translate = `${tx + cw - w0}px ${ty + ch - h0}px`;
     };
