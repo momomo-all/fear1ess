@@ -33,8 +33,14 @@ window.PLAYLISTS = {
   'sehyun-yunwoo': {
     tracks: [
       { title: 'LOVE YOU LESS', artist: 'Joji', url: 'https://youtu.be/fuz9LP4tP4g', lrcId: 31960875, line: '내가 덜 사랑하면 넌 날 더 사랑할까?' },
+      { title: 'Stitches', artist: 'Shawn Mendes', url: 'https://youtu.be/PQOdz2O4BfI', lrcId: 3714117 },
       { title: 'over', artist: 'quiet morning', url: 'https://youtu.be/-pNE7nG-nKA', line: '하지만 넌 나의 밤을 채우는 존재야' },
       { title: '꿈에 카메라를 가져올걸', artist: '꿈에 카메라를 가져올걸', url: 'https://youtu.be/5oekhGIANSs' },
+    ],
+  },
+  'becker-dohwan': {
+    tracks: [
+      { title: 'Heart With Your Name On It', artist: 'New Medicine', url: 'https://youtu.be/5CMmddl5d8k', lrcId: 4190065 },
     ],
   },
   // 테마곡(mp3)은 사이트 안에서 바로 재생되고, data/lyrics.js에 가사가 있으면 가사창이 떠요
@@ -42,13 +48,13 @@ window.PLAYLISTS = {
     tracks: [
       { title: '君の夏に 触れさせて', artist: 'Original Theme', src: 'assets/pairs/yungang-gyuna/theme.mp3', lyrics: 'yungang-gyuna', line: '나의 여름에 닿아줘 다시 한 번' },
       { title: 'W / X / Y', artist: 'Tani Yuuki', url: 'https://youtu.be/FgAMCLzLE9c', line: '네가 건네준 태양이 달에 가려지지 않게' },
-      { title: 'Somebody To You', artist: 'The Vamps', url: 'https://youtu.be/A4MevL6dvUw', lrcId: 18569107, line: '내가 되고 싶은 건 하나 뿐이야 너에게 소중한 누군가' },
+      { title: 'Somebody To You', artist: 'The Vamps', url: 'https://youtu.be/A4MevL6dvUw', lrcId: 18569107, line: '내가 되고 싶은 건 하나 뿐이야\n너에게 소중한 누군가' },
     ],
   },
   'kangwoo-junhee': {
     tracks: [
       { title: '言えない秘密', artist: 'Original Theme', src: 'assets/pairs/kangwoo-junhee/theme.mp3', lyrics: 'kangwoo-junhee', line: '서로의 남은 반쪽이 될 수 있다면' },
-      { title: '幽霊', artist: 'odol', url: 'https://youtu.be/9vILjuCHGwA', line: '멀고도 가깝게 느껴지는 건 내 탓일까 나답지 않게 나답지 않을 만큼 긴장해서' },
+      { title: '幽霊', artist: 'odol', url: 'https://youtu.be/9vILjuCHGwA', line: '멀고도 가깝게 느껴지는 건 내 탓일까\n나답지 않게 나답지 않을 만큼 긴장해서' },
       { title: '恋煩い', artist: 'Ryukku to Soine Gohan', url: 'https://youtu.be/knQvHmpq0jM', lrcArtist: 'リュックと添い寝ごはん', line: '눈에 보일 정도의 사랑인데도 닿을 수 없어' },
       { title: '怪獣の花唄', artist: 'Vaundy', url: 'https://youtu.be/ENQANfv2ANQ', lrcId: 24720751, line: '어디에 가버린 거야 언제나 찾고 있다고' },
     ],
@@ -56,14 +62,16 @@ window.PLAYLISTS = {
   'yunje-ijae': {
     tracks: [
       { title: 'Je te laisserai des mots', artist: 'Patrick Watson', url: 'https://youtu.be/XZfyyk0_Yqs', lrcId: 7592384, line: '그대 발걸음이 지나간 자리 근처에서 겨울 시간의 틈새에 숨겨둔 채' },
-      { title: 'Do It Again', artist: 'Sydney Ross Mitchell', url: 'https://youtu.be/oIPzreHewY4', line: '금방 깨질 것처럼 조심스럽게 날 만져줘 도자기처럼 혹은 날개가 부러진 새처럼' },
+      { title: 'Do It Again', artist: 'Sydney Ross Mitchell', url: 'https://youtu.be/oIPzreHewY4', line: '금방 깨질 것처럼 조심스럽게 날 만져줘\n도자기처럼 혹은 날개가 부러진 새처럼' },
     ],
   },
   'hwi-hyunwoo': {
     tracks: [
+      { title: '챠우챠우', artist: '델리스파이스', url: 'https://youtu.be/wecpRs9p00E', lrcId: 38991356 },
       { title: 'a Joke', artist: 'TRPP', url: 'https://youtu.be/qK_UwoNhH2E', line: '밖을 봐 우리가 없어 정말 재미없는 농담이지' },
       { title: 'Duvet', artist: 'Boa', url: 'https://youtu.be/adtntJCreYE', lrcId: 7964863, line: '넌 내가 널 상처 입힐 생각이 없다는 걸 알잖아' },
       { title: 'Go away', artist: 'TRPP', url: 'https://youtu.be/_ExMkEEh-RA', line: '용감하지 못한 울음은 참아내야 하네 이해할 수 없는 걸' },
+      { title: '시간을 달리네', artist: '한로로', url: 'https://youtu.be/zIA9Z_UxQL8' },
     ],
   },
   'raphael-serena': {
@@ -86,6 +94,7 @@ window.PLAYLISTS = {
     tracks: [
       { title: '今日の日はさようなら', artist: 'Megumi Hayashibara', url: 'https://youtu.be/COw1pRQrTOo', lrcId: 8379571, line: '오늘은 이제 안녕' },
       { title: '추억 속의 그대', artist: 'dossi', url: 'https://youtu.be/o3IZhn2O_aM', line: '그대가 다시 올 순 없어도 지나간 추억만은 영원히' },
+      { title: 'Wave', artist: '찬민', url: 'https://youtu.be/rMAwOI81kB8', lrcId: 13876628 },
     ],
   },
   'chanyang-sion': {
@@ -97,12 +106,12 @@ window.PLAYLISTS = {
     tracks: [
       { title: 'Dandelions', artist: 'Ruth B.', url: 'https://youtu.be/W8a4sUabCUo', lrcId: 7223798, line: '네 눈 속에서 영원을 봐' },
       { title: 'My Love Mine All Mine', artist: 'Mitski', url: 'https://youtu.be/CwGbMYLjIpQ', lrcId: 7366803, line: '제가 떠날 차례가 되면 남겨질 그녀를 위해 계속 빛나주실래요?' },
-      { title: 'うたのけはい', artist: 'Ichiko Aoba', url: 'https://youtu.be/79OrYwtn1GQ', lrcId: 889825, line: '어제 본 무지갯빛 풍경보다 지금 떨어지는 온기에 닿아 있고 싶어' },
+      { title: 'うたのけはい', artist: 'Ichiko Aoba', url: 'https://youtu.be/79OrYwtn1GQ', lrcId: 889825, line: '어제 본 무지갯빛 풍경보다\n지금 떨어지는 온기에 닿아 있고 싶어' },
     ],
   },
   'doha-hanseong': {
     tracks: [
-      { title: '너의 궤도', artist: 'dossi', url: 'https://youtu.be/3JeNVo6wxaw', line: '난 이런 게 조금씩 어려워 아 만약에 우리가 지금 만날 수 있다면' },
+      { title: '너의 궤도', artist: 'dossi', url: 'https://youtu.be/3JeNVo6wxaw', line: '난 이런 게 조금씩 어려워\n아 만약에 우리가 지금 만날 수 있다면' },
       { title: '飛行船', artist: '優里', url: 'https://youtu.be/8EF-3BDP6bE', lrcId: 16173399, line: '떠안은 전부를 내던지더라도 저 넓은 푸름에' },
       { title: 'ブルー', artist: 'indrop (feat. vallyutaite)', url: 'https://youtu.be/ZnwbiJR_488', line: '이렇게나 아름다운 하늘인데 나만이 이곳에 홀로' },
       { title: 'パレード', artist: 'ヨルシカ', url: 'https://youtu.be/RoBOoFgdlvU', lrcId: 9098176, lrcShift: -2.3, lrcSkip: [23], lrcAt: { 22: 258 }, line: '아주 잠깐만이어도 좋아 혼자만의 퍼레이드를' },
