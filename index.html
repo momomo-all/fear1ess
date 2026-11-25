@@ -150,6 +150,22 @@ button { font: inherit; color: inherit; background: none; border: 0; cursor: poi
 .menubar .tray { display: flex; align-items: center; gap: 16px; }
 .menubar svg { width: 16px; height: 16px; display: block; }
 #mbClock { font-variant-numeric: tabular-nums; }
+/* 소리 조절: 메뉴바 스피커 → 아래로 작은 슬라이더 (진짜 Mac 제어 센터처럼) */
+.mb-vol { position: relative; display: flex; }
+#mbVol { display: grid; place-items: center; width: 26px; height: 22px; margin: 0 -5px; border-radius: 5px; color: inherit; }
+#mbVol:hover, #mbVol[aria-expanded="true"] { background: rgba(255, 255, 255, .16); }
+#mbVol .mx { display: none; }
+#mbVol[data-lv="0"] .w1, #mbVol[data-lv="0"] .w2, #mbVol[data-lv="1"] .w2 { display: none; }
+#mbVol[data-lv="0"] .mx { display: block; }
+.vol-pop { position: absolute; top: 28px; right: -10px; display: grid; gap: 10px; width: 232px; padding: 12px 14px 14px; border-radius: 14px; background: var(--glass); -webkit-backdrop-filter: blur(40px) saturate(1.8); backdrop-filter: blur(40px) saturate(1.8); box-shadow: inset 0 0 0 .5px var(--glass-line), var(--shadow); animation: volIn .18s var(--ease); }
+.vol-pop[hidden] { display: none; }
+@keyframes volIn { from { opacity: 0; transform: translateY(-4px); } }
+.vol-k { font-size: 13px; font-weight: 700; }
+#volR { -webkit-appearance: none; appearance: none; width: 100%; height: 22px; margin: 0; border-radius: 999px; cursor: pointer; background: linear-gradient(90deg, rgba(255, 255, 255, .92) var(--p, 100%), rgba(255, 255, 255, .2) var(--p, 100%)); }
+#volR::-webkit-slider-thumb { -webkit-appearance: none; width: 22px; height: 22px; border-radius: 50%; background: #fff; box-shadow: 0 1px 4px rgba(0, 0, 0, .35); }
+#volR::-moz-range-thumb { width: 22px; height: 22px; border: 0; border-radius: 50%; background: #fff; box-shadow: 0 1px 4px rgba(0, 0, 0, .35); }
+#volR:focus-visible { outline: 2px solid rgba(255, 255, 255, .7); outline-offset: 2px; }
+@media (prefers-reduced-motion: reduce) { .vol-pop { animation: none; } }
 
 /* ════════ 위젯 (하나의 스타일로 통일) ════════ */
 .widgets { position: absolute; right: 24px; top: 48px; display: grid; gap: 16px; }
@@ -548,6 +564,13 @@ body.dragging iframe { pointer-events: none; }
     <span class="tray">
       <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" aria-hidden="true"><path d="M2 6.5a9 9 0 0 1 12 0M4.3 9a5.5 5.5 0 0 1 7.4 0M6.6 11.4a2 2 0 0 1 2.8 0"/></svg>
       <svg viewBox="0 0 22 16" fill="none" stroke="currentColor" stroke-width="1.2" aria-hidden="true"><rect x="1" y="4" width="17" height="8" rx="2.5"/><rect x="2.8" y="5.8" width="11" height="4.4" rx="1" fill="currentColor" stroke="none"/><path d="M19.5 7v2" stroke-linecap="round"/></svg>
+      <span class="mb-vol">
+        <button id="mbVol" aria-label="소리 조절" aria-expanded="false"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2.5 6h2.2L8 3.2v9.6L4.7 10H2.5Z" fill="currentColor"/><path class="w1" d="M10.3 6.3a2.4 2.4 0 0 1 0 3.4"/><path class="w2" d="M12.1 4.6a4.8 4.8 0 0 1 0 6.8"/><path class="mx" d="m10.4 6.2 3.6 3.6m0-3.6-3.6 3.6"/></svg></button>
+        <span class="vol-pop" id="volPop" hidden>
+          <span class="vol-k">소리</span>
+          <input type="range" id="volR" min="0" max="100" step="1" aria-label="소리 크기">
+        </span>
+      </span>
       <span id="mbClock"></span>
     </span>
   </header>
@@ -988,6 +1011,25 @@ function loadYT() {
 // 테마곡 mp3: 사이트 안에서 바로 재생 + 가사창 (data/lyrics.js의 시간에 맞춰 지금 줄이 밝아짐)
 const ICON_PAUSE = '<svg viewBox="0 0 12 12" width="10" height="10" fill="currentColor"><rect x="2.5" y="2" width="2.4" height="8" rx=".6"/><rect x="7.1" y="2" width="2.4" height="8" rx=".6"/></svg>', ICON_PLAY = '<svg viewBox="0 0 12 12" width="10" height="10" fill="currentColor"><path d="M3.5 2.2v7.6L9.8 6z"/></svg>';
 const aud = new Audio(); aud.preload = 'none';
+
+// 소리 크기: 메뉴바 🔊 슬라이더. 브라우저에 기억해 두고 mp3 · 유튜브 둘 다에 똑같이 적용해요
+// (다른 창 · 페이지에서 바꿔도 storage 이벤트로 따라가요. 아이폰은 기기 버튼으로만 소리가 바뀌어요)
+const VOL_KEY = 'fl-vol';
+const readVol = () => { const v = parseInt(localStorage.getItem(VOL_KEY), 10); return Number.isFinite(v) ? Math.max(0, Math.min(100, v)) : 100; };
+let vol = readVol();
+function applyVol() {
+  aud.volume = vol / 100;
+  if (yt && yt.setVolume) { yt.setVolume(vol); if (vol === 0) yt.mute(); else yt.unMute(); }
+  $('#mbVol').dataset.lv = vol === 0 ? 0 : vol < 50 ? 1 : 2;
+  $('#volR').value = vol; $('#volR').style.setProperty('--p', vol + '%');
+}
+$('#volR').addEventListener('input', e => { vol = +e.target.value; try { localStorage.setItem(VOL_KEY, vol); } catch (er) {} applyVol(); });
+addEventListener('storage', e => { if (e.key === VOL_KEY) { vol = readVol(); applyVol(); } });
+function volOpen(on) { $('#volPop').hidden = !on; $('#mbVol').setAttribute('aria-expanded', on); }
+$('#mbVol').onclick = e => { e.stopPropagation(); volOpen($('#volPop').hidden); };
+document.addEventListener('pointerdown', e => { if (!$('#volPop').hidden && !e.target.closest('.mb-vol')) volOpen(false); });
+addEventListener('keydown', e => { if (e.key === 'Escape') volOpen(false); });
+applyVol();
 // lyrMode: 'audio'(테마곡 mp3) · 'yt'(유튜브 곡, 가사는 LRCLIB에서 불러옴)
 let lyrLines = [], lyrIdx = -1, lyrMode = null, lyrTok = 0, lyrTimer = 0;
 function stopMp3() { aud.pause(); $('#lyr').hidden = true; lyrMode = null; lyrTok++; clearInterval(lyrTimer); }
@@ -1073,6 +1115,8 @@ async function ytLyrics(t) {
   if (t.lrcShift && !(own && own.length)) lines = lines.map(l => typeof l.t === 'number' ? { ...l, t: l.t + t.lrcShift } : l);
   // lrcAt: 특정 줄만 영상 시간(초)을 콕 집어 정해요. { 줄 번호: 초 }
   if (t.lrcAt && !(own && own.length)) lines = lines.map((l, i) => i in t.lrcAt ? { ...l, t: t.lrcAt[i] } : l);
+  // lrcFix: lrclib 가사 글자가 틀렸을 때 그 줄 글자만 고쳐 써요. { 줄 번호: '고친 원문' }
+  if (t.lrcFix && !(own && own.length)) lines = lines.map((l, i) => i in t.lrcFix ? { ...l, jp: t.lrcFix[i] } : l);
   if (tok !== lyrTok) return;          // 그사이 다른 곡으로 넘어갔으면 버려요
   // data/lyrics-ko.js에 번역이 있으면 원문이 같은 줄 아래에 붙여요
   const ko = (window.LYRICS_KO || {})[ytId(t.url)];
@@ -1159,7 +1203,7 @@ async function playAudio(p, k) {
     host: 'https://www.youtube-nocookie.com', videoId: id,
     playerVars: { autoplay: 1, playsinline: 1, rel: 0, modestbranding: 1, origin: location.origin },
     events: {
-      onReady: e => e.target.playVideo(),
+      onReady: e => { applyVol(); e.target.playVideo(); },
       onError: () => banner(t.title, '이 곡은 여기서 재생이 막혀 있어요'),
       onStateChange: e => {
         if (lyrMode === 'yt' && (e.data === YT.PlayerState.PLAYING || e.data === YT.PlayerState.PAUSED)) $('#lyrP').innerHTML = e.data === YT.PlayerState.PLAYING ? ICON_PAUSE : ICON_PLAY;

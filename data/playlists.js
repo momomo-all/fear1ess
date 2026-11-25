@@ -40,7 +40,7 @@ window.PLAYLISTS = {
   },
   'becker-dohwan': {
     tracks: [
-      { title: 'Heart With Your Name On It', artist: 'New Medicine', url: 'https://youtu.be/5CMmddl5d8k', lrcId: 4190065 },
+      { title: 'Heart With Your Name On It', artist: 'New Medicine', url: 'https://youtu.be/5CMmddl5d8k', lrcId: 4190065, lrcFix: { 9: 'Hooking up and having fun', 13: 'When you wallow me off on Friday night', 21: 'Hooking up and having fun', 33: 'Hooking up and having fun' }, lrcSkip: [14] },
     ],
   },
   // 테마곡(mp3)은 사이트 안에서 바로 재생되고, data/lyrics.js에 가사가 있으면 가사창이 떠요

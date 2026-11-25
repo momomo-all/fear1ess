@@ -311,6 +311,10 @@
   const player = $('#player');
   const audio = new Audio();
   audio.preload = 'none';
+  // 소리 크기: 바탕화면 메뉴바 🔊에서 정한 값(localStorage 'fl-vol')을 똑같이 따라가요
+  const plVol = () => { const v = parseInt(localStorage.getItem('fl-vol'), 10); return Number.isFinite(v) ? Math.max(0, Math.min(100, v)) : 100; };
+  const applyVol = () => { const v = plVol(); audio.volume = v / 100; if (yt && yt.setVolume) { yt.setVolume(v); if (v === 0) yt.mute(); else yt.unMute(); } };
+  addEventListener('storage', (e) => { if (e.key === 'fl-vol') applyVol(); });
   let plPair = null;
   let plIdx = -1;
   const mmss = (s) => (Number.isFinite(s) ? `${String(Math.floor(s / 60)).padStart(2, '0')}:${String(Math.floor(s % 60)).padStart(2, '0')}` : '--:--');
@@ -442,7 +446,7 @@
       events: {
         // 퍼가기가 막힌 영상이거나(101 · 150) 사이트 주소를 못 받으면(153) 유튜브로 보내요
         onError: () => { if (mode === 'yt') blocked(); },
-        onReady: (e) => e.target.playVideo(),
+        onReady: (e) => { applyVol(); e.target.playVideo(); },
         onStateChange: (e) => {
           if (mode !== 'yt') return;
           if (e.data === YT.PlayerState.PLAYING) { setPlaying(true); clearInterval(ytTimer); ytTimer = setInterval(ytTick, 500); }
@@ -494,6 +498,7 @@
       mode = 'audio';
       $('#plVideo').hidden = true;
       audio.src = t.src;
+      applyVol();
       audio.play().catch(() => {});
     } else if (id) {
       audio.pause();
