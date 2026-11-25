@@ -451,6 +451,7 @@ body.dragging iframe { pointer-events: none; }
 .lyr-grip:hover, body.resizing .lyr-grip { opacity: .9; }
 body.resizing, body.resizing * { user-select: none; -webkit-user-select: none; cursor: nwse-resize !important; }
 body.resizing iframe { pointer-events: none; }
+body.resizing .lyr, body.resizing .lyr-body { transition: none; }
 @media not all and (pointer: fine) and (min-width: 761px) { .lyr-grip { display: none; } }
 
 .lyr-body { height: var(--lyr-h, 300px); margin: 0; padding: calc(var(--lyr-h, 300px) * .4) 18px calc(var(--lyr-h, 300px) * .5); list-style: none; overflow-y: auto; scrollbar-width: none; -webkit-mask-image: linear-gradient(180deg, transparent 0, #000 22%, #000 74%, transparent 100%); mask-image: linear-gradient(180deg, transparent 0, #000 22%, #000 74%, transparent 100%); }
@@ -1314,7 +1315,7 @@ $('#plNext').onclick = () => stepTrack(1);
     if (!desk.matches || e.button !== 0) return;
     e.preventDefault(); e.stopPropagation();
     const sx = e.clientX, sy = e.clientY, w0 = w.offsetWidth, h0 = b.offsetHeight;
-    const [tx, ty] = (w.style.translate || '').split(' ').map(v => parseFloat(v) || 0);
+    const [x0, y0] = (w.style.translate || '').split(' ').map(parseFloat), tx = x0 || 0, ty = y0 || 0;
     let cw = w0, ch = h0;
     document.body.classList.add('resizing');
     const mv = ev => {
