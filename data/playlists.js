@@ -46,6 +46,7 @@ window.PLAYLISTS = {
   'yuwon-jaehyun': {
     tracks: [
       { title: "Kiki's Song", artist: 'Mree', url: 'https://youtu.be/hC3Sl6Un9L0', lrcId: 38297251 },
+      { title: '夢うつつ', artist: 'Lamp', url: 'https://youtu.be/AJdTBPuZkHU', lrcId: 16570704 },
       { title: '月の丘', artist: '青葉市子', url: 'https://youtu.be/ske5X_BLr1I', lrcId: 37792390 },
     ],
   },
@@ -107,6 +108,7 @@ window.PLAYLISTS = {
       { title: 'Wave', artist: '찬민', url: 'https://youtu.be/rMAwOI81kB8', lrcId: 13876628 },
       { title: '美しい鰭', artist: 'Spitz', url: 'https://youtu.be/n2m9ebS3tEo', lrcId: 16571773 },
       { title: 'skeletons', artist: 'keshi', url: 'https://youtu.be/Pz-kASAP8aM', lrcId: 3602063 },
+      { title: '絶縁', artist: 'Trooper Salute', url: 'https://youtu.be/uFbiNCSR5V4' },
     ],
   },
   'taeo-banhee': {
