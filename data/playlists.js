@@ -107,7 +107,6 @@ window.PLAYLISTS = {
     tracks: [
       { title: 'Wave', artist: '찬민', url: 'https://youtu.be/rMAwOI81kB8', lrcId: 13876628 },
       { title: '美しい鰭', artist: 'Spitz', url: 'https://youtu.be/n2m9ebS3tEo', lrcId: 16571773 },
-      { title: 'skeletons', artist: 'keshi', url: 'https://youtu.be/Pz-kASAP8aM', lrcId: 3602063 },
       { title: '絶縁', artist: 'Trooper Salute', url: 'https://youtu.be/uFbiNCSR5V4' },
     ],
   },
@@ -124,6 +123,11 @@ window.PLAYLISTS = {
       { title: '飛行船', artist: '優里', url: 'https://youtu.be/8EF-3BDP6bE', lrcId: 16173399, line: '떠안은 전부를 내던지더라도 저 넓은 푸름에' },
       { title: 'ブルー', artist: 'indrop (feat. vallyutaite)', url: 'https://youtu.be/ZnwbiJR_488', line: '이렇게나 아름다운 하늘인데 나만이 이곳에 홀로' },
       { title: 'パレード', artist: 'ヨルシカ', url: 'https://youtu.be/RoBOoFgdlvU', lrcId: 9098176, lrcShift: -2.3, lrcSkip: [23], lrcAt: { 22: 258 }, line: '아주 잠깐만이어도 좋아 혼자만의 퍼레이드를' },
+    ],
+  },
+  'jaeo-yeonwoo': {
+    tracks: [
+      { title: 'skeletons', artist: 'keshi', url: 'https://youtu.be/Pz-kASAP8aM', lrcId: 3602063 },
     ],
   },
 };
