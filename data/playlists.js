@@ -48,6 +48,7 @@ window.PLAYLISTS = {
       { title: "Kiki's Song", artist: 'Mree', url: 'https://youtu.be/hC3Sl6Un9L0', lrcId: 38297251, line: '마치 어느 여름날의 꿈속에서 흩날리던 나뭇잎처럼' },
       { title: '夢うつつ', artist: 'Lamp', url: 'https://youtu.be/AJdTBPuZkHU', lrcId: 16570704 },
       { title: '月の丘', artist: '青葉市子', url: 'https://youtu.be/ske5X_BLr1I', lrcId: 37792390, line: '비가 눈물처럼 그 아이의 눈에\n영원을 거스르며 살아온 걸까' },
+      { title: 'flowers', artist: 'In Love With A Ghost (feat. nori)', url: 'https://youtu.be/Ql_dEdMEjl4' },
     ],
   },
   // 테마곡(mp3)은 사이트 안에서 바로 재생되고, data/lyrics.js에 가사가 있으면 가사창이 떠요
@@ -108,6 +109,7 @@ window.PLAYLISTS = {
       { title: 'Wave', artist: '찬민', url: 'https://youtu.be/rMAwOI81kB8', lrcId: 13876628, line: '나 눈을 감으면 내 심장을 이 바다에 묻어줘요' },
       { title: '美しい鰭', artist: 'Spitz', url: 'https://youtu.be/n2m9ebS3tEo', lrcId: 16571773, line: '흐르는 대로 흘러가진다면\n저항해 볼까 아름다운 지느러미로' },
       { title: '絶縁', artist: 'Trooper Salute', url: 'https://youtu.be/uFbiNCSR5V4', line: '숨이 끊어지자 피복을 몸에 걸치고\n은빛 꿈을 꾸었어 절연이야' },
+      { title: '魚の街、果ての夢', artist: '夢水ないた', url: 'https://youtu.be/A8W7pJV9NrE', line: '이상한 일이지 너를 생각하면\n조금 더 망가져도 좋다고 생각하게 되는 것은\n\n우리는 이토록 유독해서\n서로에게 스며들어 가네' },
     ],
   },
   'taeo-banhee': {
