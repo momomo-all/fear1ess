@@ -100,11 +100,11 @@ window.PLAYLISTS = {
     tracks: [
       { title: '今日の日はさようなら', artist: 'Megumi Hayashibara', url: 'https://youtu.be/COw1pRQrTOo', lrcId: 8379571, line: '오늘은 이제 안녕' },
       { title: '추억 속의 그대', artist: 'dossi', url: 'https://youtu.be/o3IZhn2O_aM', line: '그대가 다시 올 순 없어도 지나간 추억만은 영원히' },
-      { title: 'Wave', artist: '찬민', url: 'https://youtu.be/rMAwOI81kB8', lrcId: 13876628 },
     ],
   },
   'chanyang-sion': {
     tracks: [
+      { title: 'Wave', artist: '찬민', url: 'https://youtu.be/rMAwOI81kB8', lrcId: 13876628 },
       { title: '美しい鰭', artist: 'Spitz', url: 'https://youtu.be/n2m9ebS3tEo', lrcId: 16571773 },
       { title: 'skeletons', artist: 'keshi', url: 'https://youtu.be/Pz-kASAP8aM', lrcId: 3602063 },
     ],
