@@ -105,9 +105,9 @@ window.PLAYLISTS = {
   },
   'chanyang-sion': {
     tracks: [
-      { title: 'Wave', artist: '찬민', url: 'https://youtu.be/rMAwOI81kB8', lrcId: 13876628 },
-      { title: '美しい鰭', artist: 'Spitz', url: 'https://youtu.be/n2m9ebS3tEo', lrcId: 16571773 },
-      { title: '絶縁', artist: 'Trooper Salute', url: 'https://youtu.be/uFbiNCSR5V4' },
+      { title: 'Wave', artist: '찬민', url: 'https://youtu.be/rMAwOI81kB8', lrcId: 13876628, line: '나 눈을 감으면 내 심장을 이 바다에 묻어줘요' },
+      { title: '美しい鰭', artist: 'Spitz', url: 'https://youtu.be/n2m9ebS3tEo', lrcId: 16571773, line: '흐르는 대로 흘러가진다면\n저항해 볼까 아름다운 지느러미로' },
+      { title: '絶縁', artist: 'Trooper Salute', url: 'https://youtu.be/uFbiNCSR5V4', line: '숨이 끊어지자 피복을 몸에 걸치고\n은빛 꿈을 꾸었어 절연이야' },
     ],
   },
   'taeo-banhee': {
