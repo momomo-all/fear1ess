@@ -698,6 +698,8 @@ const ELSE = ALL.filter(p => p.group === 'else' && !/^else-dummy/.test(p.id));
 const $ = s => document.querySelector(s), $$ = s => document.querySelectorAll(s);
 const pad2 = n => String(n).padStart(2, '0');
 const img = p => p.cover ? `url("${p.cover}") ${p.coverPos || '50% 50%'} / cover, ${p.color}` : p.color;
+// 음악 앱 표지: 플레이리스트 표지(plCover)가 있으면 그걸, 없으면 페어 표지
+const plImg = p => p.plCover ? img({ ...p, cover: p.plCover, coverPos: p.plCoverPos }) : img(p);
 const name = p => (p.tagline || p.title);
 const flat = s => s.replace(/\n/g, ' ');
 const esc = s => String(s).replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' })[c]);
@@ -738,8 +740,8 @@ const ready = FL.filter(p => p.site);
 let today = ready[Math.floor(Math.random() * ready.length)] || FL[0];
 if (today) {
   $('#wgNp').style.setProperty('--c', today.color);
-  $('#wgBg').style.background = img(today);
-  $('#wgCv').style.background = img(today);
+  $('#wgBg').style.background = plImg(today);
+  $('#wgCv').style.background = plImg(today);
   $('#wgT').textContent = name(today);
   $('#wgC').textContent = today.chars.join(' × ');
   $('#wgNp').onclick = () => { openWin($('#wgNp')); album(FL.indexOf(today)); };
@@ -865,7 +867,7 @@ addEventListener('keydown', e => { if (e.key === 'Escape') closeFull(); });
 let cur = today ? FL.indexOf(today) : 0;
 function now(p) {
   $('#win').style.setProperty('--c', p.color);
-  $('#pnCv').style.background = img(p);
+  $('#pnCv').style.background = plImg(p);
   $('#pnT').textContent = flat(name(p));
   $('#pnC').textContent = p.chars.join(' × ');
 }
@@ -874,7 +876,7 @@ function now(p) {
 function card(p) {
   const i = FL.indexOf(p);
   return `<button class="alb ${p.site ? '' : 'soon'}" data-i="${i}" style="--c:${p.color}">
-    <span class="cv" style='background:${img(p)}'>${p.cover ? '' : `<span class="gen"><small>No.${pad2(i + 1)}</small>${esc(p.title)}</span>`}<span class="play">▶</span></span>
+    <span class="cv" style='background:${plImg(p)}'>${p.cover ? '' : `<span class="gen"><small>No.${pad2(i + 1)}</small>${esc(p.title)}</span>`}<span class="play">▶</span></span>
     <b>${esc(flat(name(p)))}</b><span>${esc(p.chars.join(' × '))}</span></button>`;
 }
 function grid(mode, q = '') {
@@ -915,7 +917,7 @@ function playTrack(k) {
   const p = FL[cur], s = ((PL[p.id] || {}).tracks || [])[k];
   if (!s) return banner(p.title, '아직 노래가 없어요');
   playing = { id: p.id, k };
-  $('#pnCv').style.background = img(p);
+  $('#pnCv').style.background = plImg(p);
   $('#pnT').textContent = s.title;
   $('#pnC').textContent = `${s.artist || ''} — ${p.chars.join(' × ')}`;
   $$('.tracks li').forEach((li, i) => li.classList.toggle('playing', i === k));
@@ -936,7 +938,7 @@ function album(i) {
   $('#view').innerHTML = `
     <button class="back">‹ Fearless</button>
     <div class="ah">
-      <div class="rec" id="rec"><span class="disc"><span class="lab" style='background:${img(p)}'></span></span><span class="sl" style='background:${img(p)}'></span></div>
+      <div class="rec" id="rec"><span class="disc"><span class="lab" style='background:${plImg(p)}'></span></span><span class="sl" style='background:${plImg(p)}'></span></div>
       <div class="ai">
         <p class="k">Fearless · No.${pad2(cur + 1)}</p>
         <h2>${esc(name(p))}</h2>
@@ -976,8 +978,8 @@ function updNow() {
   const k = playing ? playing.k : 0;
   const s = ((PL[p.id] || {}).tracks || [])[k];
   $('#wgNp').style.setProperty('--c', p.color);
-  $('#wgBg').style.background = img(p);
-  $('#wgCv').style.background = img(p);
+  $('#wgBg').style.background = plImg(p);
+  $('#wgCv').style.background = plImg(p);
   $('#wgK').innerHTML = playing ? '<span class="eq"><i></i><i></i><i></i></span>지금 재생 중' : '오늘의 레코드';
   $('#wgT').textContent = playing ? s.title : name(p);
   $('#wgC').textContent = playing ? `${s.artist ? s.artist + ' · ' : ''}${p.chars.join(' × ')}` : p.chars.join(' × ');
