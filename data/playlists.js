@@ -46,7 +46,6 @@ window.PLAYLISTS = {
   'yuwon-jaehyun': {
     tracks: [
       { title: "Kiki's Song", artist: 'Mree', url: 'https://youtu.be/hC3Sl6Un9L0', lrcId: 38297251, line: '마치 어느 여름날의 꿈속에서 흩날리던 나뭇잎처럼' },
-      { title: '夢うつつ', artist: 'Lamp', url: 'https://youtu.be/AJdTBPuZkHU', lrcId: 16570704 },
       { title: '月の丘', artist: '青葉市子', url: 'https://youtu.be/ske5X_BLr1I', lrcId: 37792390, line: '비가 눈물처럼 그 아이의 눈에\n영원을 거스르며 살아온 걸까' },
       { title: 'flowers', artist: 'In Love With A Ghost (feat. nori)', url: 'https://youtu.be/Ql_dEdMEjl4' },
     ],
@@ -110,6 +109,7 @@ window.PLAYLISTS = {
       { title: '美しい鰭', artist: 'Spitz', url: 'https://youtu.be/n2m9ebS3tEo', lrcId: 16571773, line: '흐르는 대로 흘러가진다면\n저항해 볼까 아름다운 지느러미로' },
       { title: '絶縁', artist: 'Trooper Salute', url: 'https://youtu.be/uFbiNCSR5V4', line: '숨이 끊어지자 피복을 몸에 걸치고\n은빛 꿈을 꾸었어 절연이야' },
       { title: '魚の街、果ての夢', artist: '夢水ないた', url: 'https://youtu.be/A8W7pJV9NrE' },
+      { title: 'call on me', artist: 'Josef Salvat', url: 'https://youtu.be/VXMiWzZNv_Y', lrcId: 6114660 },
     ],
   },
   'taeo-banhee': {
