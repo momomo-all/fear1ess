@@ -526,6 +526,23 @@ body.resizing .lyr, body.resizing .lyr-body { transition: none; }
   .ah { grid-template-columns: 1fr; } .rec { width: 200px; height: 200px; margin-right: 0; }
   .banner { left: 12px; right: 12px; width: auto; }
 }
+
+/* ── 곡별 그림 (개인곡 / 페어곡) ── */
+.xf { position: absolute; inset: 0; border-radius: inherit; opacity: 0; transition: opacity .6s var(--ease); pointer-events: none; }
+.xf.in { opacity: 1; }
+.pl-now .cv { position: relative; overflow: hidden; }
+.ah { position: relative; isolation: isolate; }
+.ah .glow { position: absolute; inset: -40px -20px -24px -20px; z-index: -1; opacity: .3; filter: blur(42px) saturate(1.15); pointer-events: none;
+  -webkit-mask-image: radial-gradient(ellipse 70% 80% at 25% 50%, #000 30%, transparent 75%); mask-image: radial-gradient(ellipse 70% 80% at 25% 50%, #000 30%, transparent 75%); }
+.avs { display: inline-flex; flex: none; margin-right: 7px; }
+.avs i { width: 16px; height: 16px; border-radius: 50%; background: var(--app-2) center / cover; box-shadow: 0 0 0 1.5px var(--app); }
+.avs i + i { margin-left: -5px; }
+.tracks .tt small { display: flex; align-items: center; min-width: 0; }
+.ai .wtag { min-height: 24px; margin-top: 12px; display: flex; align-items: center; font-size: 11px; font-weight: 700; letter-spacing: .1em; color: var(--app-sub); opacity: 0; transition: opacity .45s var(--ease); }
+.ai .wtag.on { opacity: 1; }
+.ai .wtag .avs i { width: 24px; height: 24px; box-shadow: 0 0 0 2px var(--app); }
+.ai .wtag .avs i + i { margin-left: -8px; }
+.ai .wtag b { color: var(--c); filter: brightness(1.3); font-weight: 700; margin-right: 6px; }
 </style></style>
 </head>
 <body>
@@ -700,6 +717,57 @@ const pad2 = n => String(n).padStart(2, '0');
 const img = p => p.cover ? `url("${p.cover}") ${p.coverPos || '50% 50%'} / cover, ${p.color}` : p.color;
 // 음악 앱 표지: 플레이리스트 표지(plCover)가 있으면 그걸, 없으면 페어 표지
 const plImg = p => p.plCover ? img({ ...p, cover: p.plCover, coverPos: p.plCoverPos }) : img(p);
+
+// ── 곡마다 누구 곡인지 (개인곡 = 그 캐릭터 이름 / 페어곡 = 'pair') ──
+const ART = {
+  'yungang-gyuna': {
+    who: ['서윤강', 'pair', 'pair'],
+    pair: 'assets/pairs/yungang-gyuna/playlist.webp',
+    solo: { '서윤강': 'assets/pairs/yungang-gyuna/solo-yungang.webp', '김규나': 'assets/pairs/yungang-gyuna/solo-gyuna.webp' },
+    av: { '서윤강': 'assets/pairs/yungang-gyuna/yungang-avatar.webp', '김규나': 'assets/pairs/yungang-gyuna/gyuna-avatar.webp' },
+  },
+  'chanyang-sion': {
+    who: ['백찬양', '백찬양', '백찬양', '하시온', '빌런 하시온'],
+    pair: 'assets/pairs/chanyang-sion/playlist.webp',
+    solo: { '백찬양': 'assets/pairs/chanyang-sion/solo-chanyang.webp', '하시온': 'assets/pairs/chanyang-sion/solo-sion.webp', '빌런 하시온': 'assets/pairs/chanyang-sion/solo-sion-villain.webp' },
+    av: { '백찬양': 'assets/pairs/chanyang-sion/chanyang-avatar.webp', '하시온': 'assets/pairs/chanyang-sion/sion-avatar.webp', '빌런 하시온': 'assets/pairs/chanyang-sion/sion-avatar.webp' },
+  },
+  'sawol-jaehun': {
+    who: ['이사월', '서재훈', 'pair'],
+    pair: 'assets/pairs/sawol-jaehun/playlist.webp',
+    solo: { '이사월': 'assets/pairs/sawol-jaehun/solo-sawol.webp', '서재훈': 'assets/pairs/sawol-jaehun/solo-jaehun.webp' },
+    av: { '이사월': 'assets/pairs/sawol-jaehun/sawol-avatar.webp', '서재훈': 'assets/pairs/sawol-jaehun/jaehun-avatar.webp' },
+  },
+  'kangwoo-junhee': {
+    who: ['pair', '백강우', '우준희', 'pair'],
+    pair: 'assets/pairs/kangwoo-junhee/playlist.webp',
+    solo: { '백강우': 'assets/pairs/kangwoo-junhee/solo-kangwoo.webp', '우준희': 'assets/pairs/kangwoo-junhee/solo-junhee.webp' },
+    av: { '백강우': 'assets/pairs/kangwoo-junhee/kangwoo-avatar.webp', '우준희': 'assets/pairs/kangwoo-junhee/junhee-avatar.webp' },
+  },
+  'yunje-ijae': {
+    who: ['강윤제', '신이재'],
+    pair: 'assets/pairs/yunje-ijae/playlist.webp',
+    solo: { '강윤제': 'assets/pairs/yunje-ijae/solo-yunje.webp', '신이재': 'assets/pairs/yunje-ijae/solo-ijae.webp' },
+    av: { '강윤제': 'assets/pairs/yunje-ijae/yunje-avatar.webp', '신이재': 'assets/pairs/yunje-ijae/ijae-avatar.webp' },
+  },
+};
+const whoOf = (p, k) => { const a = ART[p.id]; if (!a || k == null) return null; const w = a.who[k]; return w && w !== 'pair' ? w : 'pair'; };
+const trackImg = (p, k) => { const a = ART[p.id], w = whoOf(p, k); if (!w) return plImg(p); const src = w === 'pair' ? a.pair : a.solo[w]; return src ? `url("${src}") 50% 50% / cover, ${p.color}` : plImg(p); };
+const avs = (p, k) => { const a = ART[p.id], w = whoOf(p, k); if (!w) return ''; const list = w === 'pair' ? p.chars : [w]; return `<span class="avs">${list.map(c => `<i style='background-image:url("${a.av[c]}")'></i>`).join('')}</span>`; };
+function fade(el, bg) {
+  if (!el || el.dataset.bg === bg) return; el.dataset.bg = bg;
+  const L = document.createElement('i'); L.className = 'xf'; L.style.background = bg; el.appendChild(L);
+  requestAnimationFrame(() => requestAnimationFrame(() => L.classList.add('in')));
+  setTimeout(() => { el.style.background = bg; L.remove(); }, 650);
+}
+function showWho(p, k) {
+  const bg = k == null ? plImg(p) : trackImg(p, k);
+  fade($('#view .rec .sl'), bg); fade($('#view .rec .lab'), bg); fade($('#aGlow'), bg);
+  const t = $('#wTag'); if (!t) return;
+  const w = whoOf(p, k);
+  t.classList.toggle('on', !!w);
+  if (w) t.innerHTML = avs(p, k) + (w === 'pair' ? `<b>PAIR</b>${esc(p.chars.join(' × '))}` : `<b>SOLO</b>${esc(w)}`);
+}
 const name = p => (p.tagline || p.title);
 const flat = s => s.replace(/\n/g, ' ');
 const esc = s => String(s).replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' })[c]);
@@ -917,7 +985,8 @@ function playTrack(k) {
   const p = FL[cur], s = ((PL[p.id] || {}).tracks || [])[k];
   if (!s) return banner(p.title, '아직 노래가 없어요');
   playing = { id: p.id, k };
-  $('#pnCv').style.background = plImg(p);
+  fade($('#pnCv'), trackImg(p, k));
+  showWho(p, k);
   $('#pnT').textContent = s.title;
   $('#pnC').textContent = `${s.artist || ''} — ${p.chars.join(' × ')}`;
   $$('.tracks li').forEach((li, i) => li.classList.toggle('playing', i === k));
@@ -935,20 +1004,23 @@ function album(i) {
   // 다른 레코드: 지금 페어 바로 다음 장부터 한 바퀴 (페어마다 먼저 보이는 레코드가 달라요)
   const others = FL.slice(cur + 1).concat(FL.slice(0, cur));
   const pl = PL[p.id] || {}, songs = pl.tracks || [];
+  const pk = playing && playing.id === p.id ? playing.k : null, artNow = pk == null ? plImg(p) : trackImg(p, pk);
   $('#view').innerHTML = `
     <button class="back">‹ Fearless</button>
     <div class="ah">
-      <div class="rec" id="rec"><span class="disc"><span class="lab" style='background:${plImg(p)}'></span></span><span class="sl" style='background:${plImg(p)}'></span></div>
+      <span class="glow" id="aGlow" style='background:${artNow}'></span>
+      <div class="rec" id="rec"><span class="disc"><span class="lab" style='background:${artNow}'></span></span><span class="sl" style='background:${artNow}'></span></div>
       <div class="ai">
         <p class="k">Fearless · No.${pad2(cur + 1)}</p>
         <h2>${esc(name(p))}</h2>
         <p class="who">${esc(p.chars.join(' × '))}</p>
+        <p class="wtag" id="wTag"></p>
         <div class="acts"><button class="pbtn play1">▶ 재생</button><button class="pbtn ghost prev">‹ 이전</button><button class="pbtn ghost next">다음 ›</button></div>
       </div>
     </div>
     <div class="sec-h"><h3>페어 플레이리스트</h3>${pl.link ? `<a href="${esc(pl.link)}" target="_blank" rel="noopener">전체 듣기 ↗</a>` : ''}</div>
     <ol class="tracks">${songs.length ? songs.map((s, k) => `
-      <li class="${playing && playing.id === p.id && playing.k === k ? 'playing' : ''}${s.line ? ' has-line' : ''}"><button data-track="${k}"><span class="n">${k + 1}</span><span class="tt"><b>${esc(s.title)}</b><small>${esc(s.artist || '')}</small></span>${s.line ? `<q class="ln">${esc(s.line)}</q>` : '<span></span>'}</button>${s.url ? `<a class="yt" href="${esc(s.url)}" target="_blank" rel="noopener" aria-label="${esc(s.title)} 새 탭에서 듣기">↗</a>` : ''}</li>`).join('') : '<li class="empty">아직 노래가 없어요 ( ˘•ω•˘ )</li>'}
+      <li class="${playing && playing.id === p.id && playing.k === k ? 'playing' : ''}${s.line ? ' has-line' : ''}"><button data-track="${k}"><span class="n">${k + 1}</span><span class="tt"><b>${esc(s.title)}</b><small>${avs(p, k)}${esc(s.artist || '')}</small></span>${s.line ? `<q class="ln">${esc(s.line)}</q>` : '<span></span>'}</button>${s.url ? `<a class="yt" href="${esc(s.url)}" target="_blank" rel="noopener" aria-label="${esc(s.title)} 새 탭에서 듣기">↗</a>` : ''}</li>`).join('') : '<li class="empty">아직 노래가 없어요 ( ˘•ω•˘ )</li>'}
     </ol>
     <div class="more"><div class="more-h"><h3>다른 레코드</h3><span class="rws"><button class="rw" data-d="-1" aria-label="이전 레코드들">‹</button><button class="rw" data-d="1" aria-label="다음 레코드들">›</button></span></div><div class="row">${others.map(card).join('')}</div></div>`;
   const row = $('#view .row');
@@ -961,6 +1033,7 @@ function album(i) {
   }, { passive: false });
   $('#view').scrollTop = 0;
   if (!playing) now(p);
+  if (pk != null) showWho(p, pk);
   requestAnimationFrame(() => setTimeout(() => $('#rec') && $('#rec').classList.add('out'), 80));
 }
 
@@ -978,8 +1051,8 @@ function updNow() {
   const k = playing ? playing.k : 0;
   const s = ((PL[p.id] || {}).tracks || [])[k];
   $('#wgNp').style.setProperty('--c', p.color);
-  $('#wgBg').style.background = plImg(p);
-  $('#wgCv').style.background = plImg(p);
+  $('#wgBg').style.background = playing ? trackImg(p, k) : plImg(p);
+  $('#wgCv').style.background = playing ? trackImg(p, k) : plImg(p);
   $('#wgK').innerHTML = playing ? '<span class="eq"><i></i><i></i><i></i></span>지금 재생 중' : '오늘의 레코드';
   $('#wgT').textContent = playing ? s.title : name(p);
   $('#wgC').textContent = playing ? `${s.artist ? s.artist + ' · ' : ''}${p.chars.join(' × ')}` : p.chars.join(' × ');
@@ -1343,6 +1416,7 @@ function stopAll() {
   $('#pip').hidden = true; playing = null;
   $('#pip').style.translate = $('#lyr').style.translate = '';
   $$('.tracks li').forEach(li => li.classList.remove('playing'));
+  if ($('#wTag')) showWho(FL[cur], null);
   updNow();
 };
 
